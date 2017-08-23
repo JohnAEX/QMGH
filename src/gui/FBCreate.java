@@ -30,14 +30,20 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import javax.swing.JScrollPane;
 
+/**
+ * @author Jonathan Grenda
+ *
+ */
 public class FBCreate extends JFrame {
 
-
+	
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
@@ -102,12 +108,9 @@ public class FBCreate extends JFrame {
 		
 		JLabel lblExpose = new JLabel("Expose:");
 		lblExpose.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		
-		JTextArea textArea = new JTextArea();
-		textArea.setLineWrap(true);
-		textArea.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		border = BorderFactory.createLineBorder(Color.BLACK);
-		textArea.setBorder(BorderFactory.createCompoundBorder(border,BorderFactory.createEmptyBorder(1, 1, 1, 1)));
+		
+		JScrollPane scrollPane_3 = new JScrollPane();
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -118,8 +121,8 @@ public class FBCreate extends JFrame {
 						.addComponent(lblTitel))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(textField, GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
-						.addComponent(textArea, GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE))
+						.addComponent(textField, GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
+						.addComponent(scrollPane_3, GroupLayout.PREFERRED_SIZE, 375, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap())
 		);
 		gl_panel.setVerticalGroup(
@@ -130,11 +133,17 @@ public class FBCreate extends JFrame {
 						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblTitel))
 					.addGap(33)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblExpose)
-						.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 255, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(77, Short.MAX_VALUE))
+						.addComponent(scrollPane_3, GroupLayout.PREFERRED_SIZE, 301, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(31, Short.MAX_VALUE))
 		);
+		
+		JTextArea textArea = new JTextArea();
+		scrollPane_3.setViewportView(textArea);
+		textArea.setLineWrap(true);
+		textArea.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		textArea.setBorder(BorderFactory.createCompoundBorder(border,BorderFactory.createEmptyBorder(1, 1, 1, 1)));
 		panel.setLayout(gl_panel);
 		
 		JPanel frage1Panel = new JPanel();
@@ -187,12 +196,7 @@ public class FBCreate extends JFrame {
 		
 		JLabel lblTitel_1 = new JLabel("Titel:");
 		lblTitel_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		
-		JTextArea jaNeinTitle = new JTextArea();
-		jaNeinTitle.setLineWrap(true);
-		jaNeinTitle.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		border = BorderFactory.createLineBorder(Color.BLACK);
-		jaNeinTitle.setBorder(BorderFactory.createCompoundBorder(border,BorderFactory.createEmptyBorder(1, 1, 1, 1)));
 		
 		
 		
@@ -202,41 +206,48 @@ public class FBCreate extends JFrame {
 		JLabel lblJanein = new JLabel("Ja/Nein");
 		lblJanein.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
-		GroupLayout gl_jaNeinPanel = new GroupLayout(jaNeinPanel);
-		gl_jaNeinPanel.setHorizontalGroup(
-			gl_jaNeinPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_jaNeinPanel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_jaNeinPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_jaNeinPanel.createSequentialGroup()
-							.addComponent(lblTitel_1)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(jaNeinTitle, GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE))
-						.addGroup(gl_jaNeinPanel.createSequentialGroup()
-							.addComponent(lblAntwortmglichkeiten)
-							.addGap(18)
-							.addComponent(lblJanein)))
-					.addContainerGap())
-		);
-		gl_jaNeinPanel.setVerticalGroup(
-			gl_jaNeinPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_jaNeinPanel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_jaNeinPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblTitel_1)
-						.addComponent(jaNeinTitle, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(gl_jaNeinPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblAntwortmglichkeiten)
-						.addComponent(lblJanein))
-					.addContainerGap(125, Short.MAX_VALUE))
-		);
+		JScrollPane scrollPane = new JScrollPane();
 		DefaultListModel<String> model = new DefaultListModel<String>();
 		
 		JList<String> listAnswers = new JList<String>(model);
 		listAnswers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		GroupLayout gl_jaNeinPanel = new GroupLayout(jaNeinPanel);
+		gl_jaNeinPanel.setHorizontalGroup(
+			gl_jaNeinPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_jaNeinPanel.createSequentialGroup()
+					.addGap(15)
+					.addGroup(gl_jaNeinPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_jaNeinPanel.createSequentialGroup()
+							.addComponent(lblTitel_1)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 354, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_jaNeinPanel.createSequentialGroup()
+							.addComponent(lblAntwortmglichkeiten)
+							.addGap(18)
+							.addComponent(lblJanein)))
+					.addGap(226))
+		);
+		gl_jaNeinPanel.setVerticalGroup(
+			gl_jaNeinPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_jaNeinPanel.createSequentialGroup()
+					.addGroup(gl_jaNeinPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_jaNeinPanel.createSequentialGroup()
+							.addGap(18)
+							.addComponent(lblTitel_1))
+						.addGroup(gl_jaNeinPanel.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE)))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_jaNeinPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblAntwortmglichkeiten)
+						.addComponent(lblJanein)))
+		);
 		
-		
+		JTextArea jaNeinTitle = new JTextArea();
+		scrollPane.setViewportView(jaNeinTitle);
+		jaNeinTitle.setLineWrap(true);
+		jaNeinTitle.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		jaNeinTitle.setBorder(BorderFactory.createCompoundBorder(border,BorderFactory.createEmptyBorder(1, 1, 1, 1)));
 		jaNeinPanel.setLayout(gl_jaNeinPanel);
 		
 		JPanel singleChoicePanel = new JPanel();
@@ -245,10 +256,6 @@ public class FBCreate extends JFrame {
 		
 		JLabel label = new JLabel("Titel:");
 		label.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		
-		JTextArea singleTitle = new JTextArea();
-		singleTitle.setLineWrap(true);
-		singleTitle.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		JLabel label_1 = new JLabel("Antwortm\u00F6glichkeiten:");
 		label_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -290,6 +297,8 @@ public class FBCreate extends JFrame {
 			}
 		});
 		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		
 		
 		GroupLayout gl_singleChoicePanel = new GroupLayout(singleChoicePanel);
 		gl_singleChoicePanel.setHorizontalGroup(
@@ -302,39 +311,45 @@ public class FBCreate extends JFrame {
 								.addGroup(gl_singleChoicePanel.createSequentialGroup()
 									.addComponent(label, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(singleTitle, GroupLayout.PREFERRED_SIZE, 355, GroupLayout.PREFERRED_SIZE))
+									.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 357, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_singleChoicePanel.createSequentialGroup()
 									.addGroup(gl_singleChoicePanel.createParallelGroup(Alignment.LEADING)
-										.addComponent(singleChoiceAnswerField, GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
-										.addComponent(listAnswers, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+										.addComponent(listAnswers, GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+										.addComponent(singleChoiceAnswerField, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE))
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addGroup(gl_singleChoicePanel.createParallelGroup(Alignment.LEADING)
-										.addComponent(btnHinzufgen, GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
-										.addComponent(btnEntfernen, GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE))))
+									.addGroup(gl_singleChoicePanel.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(btnEntfernen, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(btnHinzufgen, GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE))
+									.addPreferredGap(ComponentPlacement.RELATED, 208, Short.MAX_VALUE)))
 							.addGap(24))
 						.addGroup(gl_singleChoicePanel.createSequentialGroup()
 							.addComponent(label_1, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(231, Short.MAX_VALUE))))
+							.addContainerGap(441, Short.MAX_VALUE))))
 		);
 		gl_singleChoicePanel.setVerticalGroup(
 			gl_singleChoicePanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_singleChoicePanel.createSequentialGroup()
 					.addGap(18)
-					.addGroup(gl_singleChoicePanel.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_singleChoicePanel.createParallelGroup(Alignment.LEADING)
 						.addComponent(label, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addComponent(singleTitle, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE))
+						.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(label_1, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_singleChoicePanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnHinzufgen)
-						.addComponent(singleChoiceAnswerField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(singleChoiceAnswerField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnHinzufgen))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_singleChoicePanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(listAnswers, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnEntfernen))
 					.addGap(95))
 		);
+		
+		JTextArea singleTitle = new JTextArea();
+		scrollPane_1.setViewportView(singleTitle);
+		singleTitle.setLineWrap(true);
+		singleTitle.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		singleChoicePanel.setLayout(gl_singleChoicePanel);
 		
 		JPanel multipleChoicePanel = new JPanel();
@@ -346,12 +361,6 @@ public class FBCreate extends JFrame {
 		label_2.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		label_2.setBounds(15, 18, 47, 25);
 		multipleChoicePanel.add(label_2);
-		
-		JTextArea multiTitle = new JTextArea();
-		multiTitle.setLineWrap(true);
-		multiTitle.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		multiTitle.setBounds(68, 16, 355, 121);
-		multipleChoicePanel.add(multiTitle);
 		
 		DefaultListModel model2 = new DefaultListModel();
 		JButton button = new JButton("Hinzuf\u00FCgen");
@@ -367,7 +376,7 @@ public class FBCreate extends JFrame {
 		});
 		button.setBounds(216, 180, 207, 29);
 		multipleChoicePanel.add(button);
-		JList list = new JList(model2);
+		JList<String> list = new JList<String>(model2);
 		JButton button_1 = new JButton("Entfernen");
 		button_1.addMouseListener(new MouseAdapter() {
 			@Override
@@ -397,6 +406,15 @@ public class FBCreate extends JFrame {
 		label_3.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		label_3.setBounds(15, 146, 201, 25);
 		multipleChoicePanel.add(label_3);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBounds(68, 18, 355, 121);
+		multipleChoicePanel.add(scrollPane_2);
+		
+		JTextArea multiTitle = new JTextArea();
+		scrollPane_2.setViewportView(multiTitle);
+		multiTitle.setLineWrap(true);
+		multiTitle.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		frage1Panel.setLayout(gl_frage1Panel);
 		
 		
@@ -510,13 +528,20 @@ public class FBCreate extends JFrame {
 		lblFgenSieEine.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		JLabel lbl_count = new JLabel("*5*");
 		JButton btnNeueFrage = new JButton("Neue Frage");
+		btnNeueFrage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		btnNeueFrage.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				
+				if((!jaNeinTitle.getText().equals("") && comboBox.getSelectedIndex() == 0) || (!singleTitle.getText().equals("") && comboBox.getSelectedIndex() == 1 && !model.isEmpty()) || (!multiTitle.getText().equals("") && comboBox.getSelectedIndex() == 2 && !model2.isEmpty())){
+				
 				answerCount = 0;
 				answerCount2 = 0;
 				//handle new Q
-				if(questionCount<10){
+				if(questionCount<9){
 					if(questionCount == 8){
 						btnNeueFrage.setEnabled(false);
 						//btnFragebogenAbspeichern.setEnabled(true);
@@ -542,7 +567,6 @@ public class FBCreate extends JFrame {
 					fragenList.add(new Frage(singleTitle.getText(), 1, antworten));	
 					
 					}else{
-						System.err.println("Warning List supposedly empty");
 					}
 				}else if(comboBox.getSelectedIndex() == 2){
 					//Multiple-Choice
@@ -554,7 +578,6 @@ public class FBCreate extends JFrame {
 						fragenList.add(new Frage(multiTitle.getText(), 2, antworten));	
 						
 					}else{
-						System.err.println("Warning List supposedly empty#2");
 					}
 				}else{
 					//Error
@@ -577,8 +600,15 @@ public class FBCreate extends JFrame {
 			
 			lbl_count.setText("" + (questionCount + 1));
 			tabbedPane.setTitleAt(1, "Frage " + (questionCount + 1));
-			//frage1Panel.
-			}}
+			
+			}}else{
+				//Pop-up -> empty question
+				JFrame framePop = new JFrame();
+				JOptionPane.showMessageDialog(framePop, "Sie haben versucht eine Frage mit leerem Inhalt zu erstellen!","Warnung",JOptionPane.WARNING_MESSAGE);
+			}
+			
+		}
+			
 		});
 		btnNeueFrage.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		

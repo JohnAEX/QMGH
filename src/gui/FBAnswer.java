@@ -41,6 +41,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
+import javax.swing.JScrollPane;
 
 public class FBAnswer extends JFrame {
 
@@ -90,6 +91,8 @@ public class FBAnswer extends JFrame {
 		JPanel introPanel = new JPanel();
 		introPanel.setBackground(Color.WHITE);
 		tabbedPane.addTab("Beschreibung", null, introPanel, null);
+		
+		JLabel lblFrageMulti = new JLabel("<html>" + "" + "</html>");
 		
 		JLabel lbl_1 = new JLabel("Expose:");
 		lbl_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -184,12 +187,7 @@ public class FBAnswer extends JFrame {
 		
 		JLabel lbl_3 = new JLabel("Frage:");
 		lbl_3.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		
-		JLabel lblFrage = new JLabel("<html>" + "" + "</html>");
-		lblFrage.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblFrage.setVerticalAlignment(SwingConstants.TOP);
 		border = BorderFactory.createLineBorder(Color.BLACK);
-		lblFrage.setBorder(BorderFactory.createCompoundBorder(border,BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		
 		
 		JLabel lblAntwort = new JLabel("Antwort:");
@@ -210,6 +208,8 @@ public class FBAnswer extends JFrame {
 		JButton btnNext = new JButton("N\u00E4chste Frage");
 
 		btnNext.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		
+		JScrollPane scrollPane = new JScrollPane();
 		GroupLayout gl_jaNeinPanel = new GroupLayout(jaNeinPanel);
 		gl_jaNeinPanel.setHorizontalGroup(
 			gl_jaNeinPanel.createParallelGroup(Alignment.LEADING)
@@ -219,7 +219,7 @@ public class FBAnswer extends JFrame {
 							.addGap(15)
 							.addComponent(lbl_3, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
 							.addGap(15)
-							.addComponent(lblFrage, GroupLayout.PREFERRED_SIZE, 333, GroupLayout.PREFERRED_SIZE))
+							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 334, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_jaNeinPanel.createSequentialGroup()
 							.addContainerGap()
 							.addGroup(gl_jaNeinPanel.createParallelGroup(Alignment.TRAILING)
@@ -231,7 +231,7 @@ public class FBAnswer extends JFrame {
 						.addGroup(gl_jaNeinPanel.createSequentialGroup()
 							.addContainerGap()
 							.addComponent(btnNext, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(31, Short.MAX_VALUE))
+					.addContainerGap(177, Short.MAX_VALUE))
 		);
 		gl_jaNeinPanel.setVerticalGroup(
 			gl_jaNeinPanel.createParallelGroup(Alignment.LEADING)
@@ -239,8 +239,8 @@ public class FBAnswer extends JFrame {
 					.addGap(16)
 					.addGroup(gl_jaNeinPanel.createParallelGroup(Alignment.LEADING)
 						.addComponent(lbl_3)
-						.addComponent(lblFrage, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
+						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 242, GroupLayout.PREFERRED_SIZE))
+					.addGap(17)
 					.addGroup(gl_jaNeinPanel.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblAntwort)
 						.addComponent(rdbtnJa))
@@ -250,6 +250,13 @@ public class FBAnswer extends JFrame {
 					.addComponent(btnNext)
 					.addContainerGap(336, Short.MAX_VALUE))
 		);
+		
+		JLabel lblFrage = new JLabel("<html>" + "" + "</html>");
+		lblFrage.setBackground(Color.WHITE);
+		scrollPane.setViewportView(lblFrage);
+		lblFrage.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblFrage.setVerticalAlignment(SwingConstants.TOP);
+		lblFrage.setBorder(BorderFactory.createCompoundBorder(border,BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		jaNeinPanel.setLayout(gl_jaNeinPanel);
 		
 		JPanel singlePanel = new JPanel();
@@ -258,12 +265,7 @@ public class FBAnswer extends JFrame {
 		
 		JLabel label_2 = new JLabel("Frage:");
 		label_2.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		
-		JLabel lblFrageSingle = new JLabel("<html>" + "" + "</html>");
-		lblFrageSingle.setVerticalAlignment(SwingConstants.TOP);
-		lblFrageSingle.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		border = BorderFactory.createLineBorder(Color.BLACK);
-		lblFrageSingle.setBorder(BorderFactory.createCompoundBorder(border,BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		
 		JLabel lblAntwort_1 = new JLabel("Antwort:");
 		lblAntwort_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -274,6 +276,8 @@ public class FBAnswer extends JFrame {
 		JButton btnNext2 = new JButton("N\u00E4chste Frage");
 		
 		btnNext2.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
 		GroupLayout gl_singlePanel = new GroupLayout(singlePanel);
 		gl_singlePanel.setHorizontalGroup(
 			gl_singlePanel.createParallelGroup(Alignment.LEADING)
@@ -286,10 +290,10 @@ public class FBAnswer extends JFrame {
 								.addComponent(lblAntwort_1)
 								.addComponent(label_2))
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(gl_singlePanel.createParallelGroup(Alignment.LEADING, false)
+							.addGroup(gl_singlePanel.createParallelGroup(Alignment.LEADING)
 								.addComponent(comboBox, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(lblFrageSingle, GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE))))
-					.addContainerGap(23, Short.MAX_VALUE))
+								.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 334, GroupLayout.PREFERRED_SIZE))))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		gl_singlePanel.setVerticalGroup(
 			gl_singlePanel.createParallelGroup(Alignment.LEADING)
@@ -297,15 +301,21 @@ public class FBAnswer extends JFrame {
 					.addContainerGap()
 					.addGroup(gl_singlePanel.createParallelGroup(Alignment.LEADING)
 						.addComponent(label_2)
-						.addComponent(lblFrageSingle, GroupLayout.PREFERRED_SIZE, 235, GroupLayout.PREFERRED_SIZE))
+						.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 236, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_singlePanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblAntwort_1)
 						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(73)
 					.addComponent(btnNext2)
-					.addContainerGap(176, Short.MAX_VALUE))
+					.addContainerGap(339, Short.MAX_VALUE))
 		);
+		
+		JLabel lblFrageSingle = new JLabel("<html>" + "" + "</html>");
+		scrollPane_1.setViewportView(lblFrageSingle);
+		lblFrageSingle.setVerticalAlignment(SwingConstants.TOP);
+		lblFrageSingle.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblFrageSingle.setBorder(BorderFactory.createCompoundBorder(border,BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		singlePanel.setLayout(gl_singlePanel);
 		
 		JPanel multiPanel = new JPanel();
@@ -314,12 +324,7 @@ public class FBAnswer extends JFrame {
 		
 		JLabel label_4 = new JLabel("Frage:");
 		label_4.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		
-		JLabel lblFrageMulti = new JLabel("<html>" + "" + "</html>");
-		lblFrageMulti.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblFrageMulti.setVerticalAlignment(SwingConstants.TOP);
 		border = BorderFactory.createLineBorder(Color.BLACK);
-		lblFrageMulti.setBorder(BorderFactory.createCompoundBorder(border,BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		
 		JLabel lblAntwort_2 = new JLabel("Antwort:");
 		lblAntwort_2.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -948,7 +953,6 @@ public class FBAnswer extends JFrame {
 					}
 					
 				}else{
-					System.out.println("This was the last Question, thank you for participating");
 					tabbedPane.setSelectedIndex(2);
 				}
 			//Next question
@@ -958,6 +962,8 @@ public class FBAnswer extends JFrame {
 			}
 		});
 		btnNext3.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
 		
 		
 		
@@ -972,7 +978,7 @@ public class FBAnswer extends JFrame {
 						.addGroup(gl_multiPanel.createSequentialGroup()
 							.addComponent(label_4)
 							.addGap(15)
-							.addComponent(lblFrageMulti, GroupLayout.PREFERRED_SIZE, 333, GroupLayout.PREFERRED_SIZE))
+							.addComponent(scrollPane_2, GroupLayout.PREFERRED_SIZE, 333, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_multiPanel.createSequentialGroup()
 							.addComponent(lblAntwort_2)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
@@ -982,15 +988,15 @@ public class FBAnswer extends JFrame {
 								.addComponent(multiAnswer3)
 								.addComponent(multiAnswer4)
 								.addComponent(multiAnswer5))))
-					.addContainerGap(43, Short.MAX_VALUE))
+					.addContainerGap(251, Short.MAX_VALUE))
 		);
 		gl_multiPanel.setVerticalGroup(
 			gl_multiPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_multiPanel.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_multiPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblFrageMulti, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
-						.addComponent(label_4))
+						.addComponent(label_4)
+						.addComponent(scrollPane_2, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_multiPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblAntwort_2)
@@ -1005,8 +1011,14 @@ public class FBAnswer extends JFrame {
 					.addComponent(multiAnswer5)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnNext3)
-					.addContainerGap(171, Short.MAX_VALUE))
+					.addContainerGap(339, Short.MAX_VALUE))
 		);
+		
+		
+		scrollPane_2.setViewportView(lblFrageMulti);
+		lblFrageMulti.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblFrageMulti.setVerticalAlignment(SwingConstants.TOP);
+		lblFrageMulti.setBorder(BorderFactory.createCompoundBorder(border,BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		multiPanel.setLayout(gl_multiPanel);
 		
 		JPanel panel = new JPanel();
