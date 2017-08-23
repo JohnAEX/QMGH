@@ -9,6 +9,7 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import guiModules.FBALoaderModul;
 import guiModules.FBDistributionModul;
 import guiModules.FBLoaderModul;
 import guiModules.FBRemovalModul;
@@ -32,6 +33,11 @@ import java.util.Iterator;
 
 import javax.swing.JCheckBox;
 import javax.swing.JScrollPane;
+import javax.swing.event.ListSelectionListener;
+
+import auswertung.Fragebogenauswertung;
+
+import javax.swing.event.ListSelectionEvent;
 
 public class FBManage extends JFrame {
 
@@ -75,6 +81,9 @@ public class FBManage extends JFrame {
 		Border border = BorderFactory.createLineBorder(Color.BLACK);
 		border = BorderFactory.createLineBorder(Color.BLACK);
 		
+		DefaultListModel<String> model2 = new DefaultListModel<String>();
+		JList<String> auswertungsList = new JList<String>(model2);
+		
 		//Display All FBS
 		Creator currentUser = (Creator) Menu.getUser();
 		ArrayList<Fragebogen> fbList = FBLoaderModul.loadFB(currentUser);
@@ -93,16 +102,10 @@ public class FBManage extends JFrame {
 		title = BorderFactory.createTitledBorder(blackline, "Verteilung");
 		title.setTitleJustification(TitledBorder.CENTER);
 		
-		//btnVerteilen.setBorder(title);
-		
-		JButton btnAuswerten = new JButton("Auswerten");
-		btnAuswerten.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		btnAuswerten.setToolTipText("Auswertung nur verf\u00FCgbar wenn mind. ein Benutzer den Fragebogen ausgef\u00FCllt hat");
-		btnAuswerten.setEnabled(false);
-		
 		JPanel verteilenPanel = new JPanel();
 		verteilenPanel.setBorder(title);
 		JList<String> list = new JList<String>(model);
+
 		JButton btnLschen = new JButton("L\u00F6schen");
 		btnLschen.addMouseListener(new MouseAdapter() {
 			@Override
@@ -121,7 +124,7 @@ public class FBManage extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		
 		JButton btnAbbrechen = new JButton("Abbrechen");
-		btnAbbrechen.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnAbbrechen.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnAbbrechen.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -137,28 +140,26 @@ public class FBManage extends JFrame {
 					.addGap(4)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 302, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(btnAbbrechen, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btnAuswerten, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btnLschen, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(verteilenPanel, GroupLayout.PREFERRED_SIZE, 120, Short.MAX_VALUE))
-					.addContainerGap(28, Short.MAX_VALUE))
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
+							.addComponent(btnLschen, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(verteilenPanel, GroupLayout.PREFERRED_SIZE, 120, Short.MAX_VALUE))
+						.addComponent(btnAbbrechen, GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE))
+					.addContainerGap())
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(verteilenPanel, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnLschen)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnAuswerten)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnAbbrechen))
-						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 389, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap()
+					.addComponent(verteilenPanel, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnLschen)
+					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(btnAbbrechen)
 					.addGap(681))
+				.addGroup(gl_panel.createSequentialGroup()
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 408, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(668, Short.MAX_VALUE))
 		);
 		
 		scrollPane.setViewportView(list);
@@ -224,5 +225,88 @@ public class FBManage extends JFrame {
 		);
 		verteilenPanel.setLayout(gl_verteilenPanel);
 		panel.setLayout(gl_panel);
+		
+		JPanel Auswertungen = new JPanel();
+		Auswertungen.setBackground(Color.WHITE);
+		tabbedPane.addTab("Auswertungen", null, Auswertungen, null);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		
+		JButton btnAnzeigen = new JButton("Anzeigen");
+		btnAnzeigen.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				//Auswertung anzeigen
+				if(auswertungsList.getSelectedIndex()!= -1 && btnAnzeigen.isEnabled()){
+					int selected = auswertungsList.getSelectedIndex();
+					ArrayList<Fragebogenauswertung> fbAs = FBALoaderModul.loadFBA((Creator) Menu.getUser());
+					Fragebogenauswertung selectedAuswertung = fbAs.get(selected);
+					ArrayList<ArrayList<Integer>> allAnswers = selectedAuswertung.getAllAntworten();
+					
+					Iterator<ArrayList<Integer>> outerIt = allAnswers.iterator();
+					int cc = 1;
+					while(outerIt.hasNext()){
+						ArrayList<Integer> now = (ArrayList<Integer>) outerIt.next();
+						System.out.println("Frage: " + cc);
+						Iterator<Integer> innerIt = now.iterator();
+						while(innerIt.hasNext()){
+							int abc = (int) innerIt.next();
+							System.out.println("\t>Inner: " + abc);
+						}
+						cc++;
+					}
+					
+				}
+				
+			}
+		});
+		btnAnzeigen.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		
+		JButton btnAbbrechen_1 = new JButton("Abbrechen");
+		btnAbbrechen_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				//Return to menu
+				Menu.launchMenu();
+				setVisible(false);
+			}
+		});
+		btnAbbrechen_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		GroupLayout gl_Auswertungen = new GroupLayout(Auswertungen);
+		gl_Auswertungen.setHorizontalGroup(
+			gl_Auswertungen.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_Auswertungen.createSequentialGroup()
+					.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 286, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_Auswertungen.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnAbbrechen_1, GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+						.addComponent(btnAnzeigen, GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE))
+					.addContainerGap())
+		);
+		gl_Auswertungen.setVerticalGroup(
+			gl_Auswertungen.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_Auswertungen.createSequentialGroup()
+					.addGroup(gl_Auswertungen.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_Auswertungen.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(btnAnzeigen)
+							.addGap(315)
+							.addComponent(btnAbbrechen_1))
+						.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 408, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(668, Short.MAX_VALUE))
+		);
+		
+		
+		auswertungsList.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		ArrayList<Fragebogenauswertung> fbAs = FBALoaderModul.loadFBA((Creator) Menu.getUser());
+		Iterator<Fragebogenauswertung> fbAsIt = fbAs.iterator();
+		while(fbAsIt.hasNext()){
+			Fragebogenauswertung fbAShell = fbAsIt.next();
+			model2.addElement(fbAShell.getSourceFragebogen().getTitel());
+		}
+		
+		
+		scrollPane_1.setViewportView(auswertungsList);
+		Auswertungen.setLayout(gl_Auswertungen);
 	}
 }
