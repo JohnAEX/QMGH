@@ -61,7 +61,7 @@ public class User implements Serializable{
 	 * @return true if the password matches with the system data
 	 */
 	public boolean isProperPasswort(String loginName, String passwort){
-		System.out.println("Name: " + this.loginName + " Claim: " + loginName + " PSW: " + this.passwort + " Claim: " + passwort);
+		//System.out.println("Name: " + this.loginName + " Claim: " + loginName + " PSW: " + this.passwort + " Claim: " + passwort);
 		return (this.loginName.equals(loginName) && this.passwort.equals(passwort));
 	}
 	

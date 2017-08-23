@@ -68,7 +68,7 @@ public class MainWindow {
 	private void initialize() {
 		//Load Gesamtsystem:
 		Gesamtsystem currentSys = PersistenzModul.loadGesamtsystem("C:\\OOP - Projekt", "QuestionMarkFile");
-		ArrayList<Creator> abc = currentSys.getAllCreators();
+		//ArrayList<Creator> abc = currentSys.getAllCreators();
 
 		frmQuestionmark = new JFrame();
 		frmQuestionmark.setResizable(false);
@@ -161,6 +161,8 @@ public class MainWindow {
 					if(currentUser!=null){
 						Menu.launchSolverMenu(currentUser, currentSys);
 						frmQuestionmark.setVisible(false);
+					}else{
+						lblTest.setText("Login fehlerhaft!");
 					}
 					
 				}else if(textField.getText().startsWith("c")){
@@ -169,6 +171,8 @@ public class MainWindow {
 					if(currentUser!=null){
 						Menu.launchCreatorMenu(currentUser, currentSys);
 						frmQuestionmark.setVisible(false);
+					}else{
+						lblTest.setText("Login fehlerhaft!");
 					}
 					
 				}else{

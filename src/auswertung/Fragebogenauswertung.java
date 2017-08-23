@@ -17,6 +17,10 @@ import auswertung.Fragebogenauswertung;
  */
 public class Fragebogenauswertung implements Serializable{
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
 	 * {@link umfrage.Fragebogen Fragebogen} representing and assisting the structure of answers
 	 */
 	private Fragebogen sourceFragebogen;
@@ -27,6 +31,7 @@ public class Fragebogenauswertung implements Serializable{
 	 */
 	private ArrayList<ArrayList<Integer>> allAntworten;
 	
+	private int anzahlAntworten;
 	/**
 	 * <b><i>Fragebogenauswertung</i></b><br>
 	 * &nbsp;&nbsp;&nbsp;<CODE>public Fragebogenauswertung(Fragebogen sourceFragebogen)</CODE>
@@ -37,6 +42,7 @@ public class Fragebogenauswertung implements Serializable{
 	public Fragebogenauswertung(Fragebogen sourceFragebogen){
 		this.sourceFragebogen = (Fragebogen) sourceFragebogen.clone();
 		this.allAntworten = new ArrayList<ArrayList<Integer>>();
+		this.anzahlAntworten = 0;
 		
 		//Bringt thias.allAntworten auf die richtige Größe
 		Iterator<Frage> sourceFragenIt = sourceFragebogen.getFragen().iterator();
@@ -77,6 +83,7 @@ public class Fragebogenauswertung implements Serializable{
 		Iterator<ArrayList<Integer>> targetAntwortenIt = this.allAntworten.iterator();
 		Iterator<ArrayList<Integer>> submittedAntwortenIt = submittedAntworten.iterator();
 		ArrayList<Integer> targetFrageShell;
+		this.anzahlAntworten++;
 		
 		Iterator<Integer> submittedAntwortmoeglichkeitenIt;
 		Integer antwortmoeglichkeitIndex;
@@ -91,9 +98,11 @@ public class Fragebogenauswertung implements Serializable{
 				//Platzhalter für die zu inkrementierende Antwortmoeglichkeit
 				antwortmoeglichkeitIndex = submittedAntwortmoeglichkeitenIt.next();
 				//Inkrementierung
-				targetFrageShell.set(antwortmoeglichkeitIndex, targetFrageShell.get(antwortmoeglichkeitIndex) + 1);
+				targetFrageShell.set(antwortmoeglichkeitIndex-1, targetFrageShell.get(antwortmoeglichkeitIndex-1)+1); //Last Argument was +1
+				
 			}
 		}
+		
 	}
 }
 

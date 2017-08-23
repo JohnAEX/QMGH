@@ -160,18 +160,20 @@ public class Menu extends JFrame {
 		label_3.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		JButton btnFragebogenAusfllen = new JButton("Fragebogen ausf\u00FCllen");
-		btnFragebogenAusfllen.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		btnFragebogenAusfllen.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				FBChoice.mainRun();
-				setVisible(false);
+		
+		//Decide UI Btn Ausfüllen
+		if(userIsCreator){
+			btnFragebogenAusfllen.setEnabled(false);
+		}else{
+			btnFragebogenAusfllen.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					FBChoice.mainRun();
+					setVisible(false);
 				
-			}
-		});
+				}
+			});
+		}
 		btnFragebogenAusfllen.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		JLabel label_4 = new JLabel("4.");
