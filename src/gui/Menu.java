@@ -9,8 +9,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
 import javax.swing.border.LineBorder;
 
 import guiModules.PersistenzModul;
@@ -18,26 +16,30 @@ import upper.containertier.Gesamtsystem;
 import user.Creator;
 import user.Solver;
 import user.User;
-import verwaltung.Kurs;
-
-import java.awt.Insets;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.Window.Type;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
-
+/**
+ * @author Jonathan Grenda
+ *
+ */
 public class Menu extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private static boolean userIsCreator = true;
 	private static User currentUser;
 	private static Gesamtsystem currentGesSys;
-	private static Kurs userKurs;
+	private String pfad = "C:\\OOP - Projekt";
+	private String dateiname = "QuestionMarkFile";
 
 	/**
 	 * Launch the application.
@@ -112,12 +114,13 @@ public class Menu extends JFrame {
 		JLabel lblNewLabel = new JLabel("<ID>");
 		lblNewLabel.setForeground(Color.BLUE);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel.setText(currentUser.getVorname());
+		lblNewLabel.setText(currentUser.getVorname() + " " + currentUser.getNachname());
 		
 		JLabel label_1 = new JLabel("1.");
 		label_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		JButton btnFragebogenErstellen = new JButton("Fragebogen erstellen");
+		btnFragebogenErstellen.setToolTipText("Zum Erstellen eines Fragebogens dr\u00FCcken. Nur verf\u00FCgbar f\u00FCr Creator!");
 		if(!userIsCreator){
 			btnFragebogenErstellen.setEnabled(false);
 		}else{
@@ -139,6 +142,7 @@ public class Menu extends JFrame {
 		label_2.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		JButton btnFragebogenVerwalten = new JButton("Fragebogen verwalten");
+		btnFragebogenVerwalten.setToolTipText("Zum Verwalten von Frageb\u00F6gen dr\u00FCcken. Nur verf\u00FCgbar f\u00FCr Creator!");
 		if(!userIsCreator){
 			btnFragebogenVerwalten.setEnabled(false);
 		}else{
@@ -160,6 +164,7 @@ public class Menu extends JFrame {
 		label_3.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		JButton btnFragebogenAusfllen = new JButton("Fragebogen ausf\u00FCllen");
+		btnFragebogenAusfllen.setToolTipText("Zum Auf\u00FCllen eines Fragebogens dr\u00FCcken. Nur verf\u00FCgbar f\u00FCr Solver!");
 		
 		//Decide UI Btn Ausfüllen
 		if(userIsCreator){
@@ -180,23 +185,17 @@ public class Menu extends JFrame {
 		label_4.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		JButton btnProgrammBeenden = new JButton("Programm beenden");
+		btnProgrammBeenden.setToolTipText("Zum Beenden und Speichern des Programms dr\u00FCcken");
 		btnProgrammBeenden.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				//Close Programm
 				//Save First:
-				PersistenzModul.saveGesamtsystem("C:\\OOP - Projekt", "QuestionMarkFile", currentGesSys);
+				PersistenzModul.saveGesamtsystem(pfad, dateiname, currentGesSys);
 				System.exit(0);
 			}
 		});
 		btnProgrammBeenden.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		
-		JLabel lblKurs = new JLabel("Kurs:");
-		lblKurs.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		
-		JLabel label = new JLabel("<Kurs>");
-		label.setForeground(Color.BLUE);
-		label.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
@@ -226,12 +225,7 @@ public class Menu extends JFrame {
 							.addGap(90)
 							.addComponent(label_4)
 							.addGap(22)
-							.addComponent(btnProgrammBeenden, GroupLayout.PREFERRED_SIZE, 231, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel_1.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblKurs)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(label)))
+							.addComponent(btnProgrammBeenden, GroupLayout.PREFERRED_SIZE, 231, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap(124, Short.MAX_VALUE))
 		);
 		gl_panel_1.setVerticalGroup(
@@ -240,11 +234,7 @@ public class Menu extends JFrame {
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel)
 						.addComponent(lblUserid))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblKurs)
-						.addComponent(label))
-					.addGap(66)
+					.addGap(100)
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel_1.createSequentialGroup()
 							.addGap(4)

@@ -8,8 +8,10 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
+import auswertung.Fragebogenauswertung;
 import guiModules.FBSSubmissionModul;
 import umfrage.Frage;
+import umfrage.Fragebogen;
 import umfrage.FragebogenWithAntwortmoeglichkeit;
 import user.Solver;
 
@@ -41,19 +43,22 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
-
+/**
+ * @author Jonathan Grenda
+ *
+ */
 public class FBEvaluate extends JFrame {
 
 	/**
-	 * DIESE KLASSE HAT BISHER NOCH KEINE FUNKTION
-	 * SIE IST EINE BEREINIGTE KOPIE DER FBANSWER KLASSE
-	 * SOBALD AUSWERTUNGS VERFÜGBAR SIND WIRD DIESES KOMMENTAR ENTFERNT
 	 * 
 	 */
+	private static final long serialVersionUID = 1L;
+
 	
 	
 	private JPanel contentPane;
-	private static FragebogenWithAntwortmoeglichkeit currentFB;
+	private static Fragebogen currentFB;
+	private static Fragebogenauswertung currentAuswertung;
 	static ArrayList<Frage> fragenList = new ArrayList<Frage>();
 	static ArrayList<Integer> antwortenSolver = new ArrayList<Integer>();
 	Iterator<Frage> fragenIt = fragenList.iterator();
@@ -61,11 +66,11 @@ public class FBEvaluate extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void mainRun() {
+	public static void mainRunEvaluate() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FBAnswer frame = new FBAnswer();
+					FBEvaluate frame = new FBEvaluate();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -73,9 +78,10 @@ public class FBEvaluate extends JFrame {
 			}
 		});
 	}
-	public static void evaluateFB(FragebogenWithAntwortmoeglichkeit choosenFB){
-		currentFB = choosenFB;
-		mainRun();
+	public static void evaluateFB(Fragebogenauswertung choosenAus){
+		currentAuswertung = choosenAus;
+		currentFB = choosenAus.getSourceFragebogen();
+		mainRunEvaluate();
 		fragenList = currentFB.getFragen();
 	}
 	/**
@@ -332,6 +338,10 @@ public class FBEvaluate extends JFrame {
 		//System.out.println(currentFB);
 		//System.out.println(currentFB.getFragen());
 		
+		//Gloable Antowrten Liste - von Solver abgegeben
+		ArrayList<ArrayList<Integer>> allAnswers = currentAuswertung.getAllAntworten();
+		Iterator<ArrayList<Integer>> allAnswersIt = allAnswers.iterator();
+		
 			
 		fragenList = currentFB.getFragen();
 		String fragenDescr = "";
@@ -339,25 +349,37 @@ public class FBEvaluate extends JFrame {
 		ArrayList<String> antwortenList = new ArrayList<String>();
 		//System.out.println(fragenList);
 		if(!fragenList.isEmpty()){
+			ArrayList<Integer> innerNumbers = allAnswersIt.next();
+			Iterator<Integer> innerNumbersIt = innerNumbers.iterator();
 			//System.out.println("Fragenlist nicht leer");
 			Frage currentFrage = fragenList.get(fragenZahl);
 			fragenID = currentFrage.getFragetyp();
 			fragenDescr = currentFrage.getFragebeschreibung();
 			antwortenList = currentFrage.getAntwortmoeglichkeiten();
-			System.out.println("FragenID: " + fragenID);
+			
 			if(fragenID == 0){
 				//JA/NEIN
 				CardLayout cl = (CardLayout)(currentQuestion.getLayout());
 			    cl.show(currentQuestion, "jaNeinChoice");
+			    int erste = innerNumbersIt.next();
+			    int alle = currentAuswertung.getAnzahlAntworten();
+			    rdbtnJa.setText("Ja [" + erste + " / " + alle + "]");
+			    int zweite = innerNumbersIt.next();
+			    rdbtnNein.setText("Nein [" + zweite + " / " + alle + "]");
 			    lblFrage.setText("<html>" + fragenDescr + "</html>");
 			   
 			}else if(fragenID == 1){
 				//Single-Choice
+				
+
 				CardLayout cl = (CardLayout)(currentQuestion.getLayout());
 			    cl.show(currentQuestion, "singleChoice");
 			    lblFrageSingle.setText("<html>" + fragenDescr + "</html>");
-			    for(int i = antwortenList.size();i>0;i--){
-			    	comboBox.addItem(antwortenList.get(i-1));
+			    int alle = currentAuswertung.getAnzahlAntworten();
+			    for(int i = 0; i < antwortenList.size();i++){
+			    	if(innerNumbersIt.hasNext()){
+			    		comboBox.addItem(antwortenList.get(i) + " [" + innerNumbersIt.next() + " / " + alle + "]");
+			    	}
 			    }
 			    
 			}else if(fragenID == 2){
@@ -366,14 +388,15 @@ public class FBEvaluate extends JFrame {
 			    cl.show(currentQuestion, "multiChoice");
 			    lblFrageMulti.setText("<html>" + fragenDescr + "</html>");
 			    //System.out.println("-><- " + antwortenList.size());
-			    
+			    int alle = currentAuswertung.getAnzahlAntworten();
 			    if(antwortenList.size()==1){
+			    	int erste = innerNumbersIt.next();
 			    	
-			    	multiAnswer1.setText(antwortenList.get(0));
-			    	multiAnswer2.setEnabled(false);
-			    	multiAnswer3.setEnabled(false);
-			    	multiAnswer4.setEnabled(false);
-			    	multiAnswer5.setEnabled(false);
+			    	multiAnswer1.setText(antwortenList.get(0) + " [" + erste + " / " + alle + "]");
+			    	multiAnswer2.setVisible(false);
+			    	multiAnswer3.setVisible(false);
+			    	multiAnswer4.setVisible(false);
+			    	multiAnswer5.setVisible(false);
 			    	
 			    	multiAnswer2.setText("-");
 			    	multiAnswer3.setText("-");
@@ -388,11 +411,15 @@ public class FBEvaluate extends JFrame {
 			    	
 			    }else if(antwortenList.size()==2){
 			    	
-			    	multiAnswer1.setText(antwortenList.get(0));
-			    	multiAnswer2.setText(antwortenList.get(1));
-			    	multiAnswer3.setEnabled(false);
-			    	multiAnswer4.setEnabled(false);
-			    	multiAnswer5.setEnabled(false);
+			    	int erste = innerNumbersIt.next();
+			    	int zweite = innerNumbersIt.next();
+			    	multiAnswer1.setText(antwortenList.get(0)+ " [" + erste + " / " + alle + "]");
+			    	multiAnswer1.setVisible(true);
+			    	multiAnswer2.setText(antwortenList.get(1)+ " [" + zweite + " / " + alle + "]");
+			    	multiAnswer2.setVisible(true);
+			    	multiAnswer3.setVisible(false);
+			    	multiAnswer4.setVisible(false);
+			    	multiAnswer5.setVisible(false);
 			    	
 			    	multiAnswer3.setText("-");
 			    	multiAnswer4.setText("-");
@@ -406,11 +433,17 @@ public class FBEvaluate extends JFrame {
 			    	
 			    }else if(antwortenList.size()==3){
 			    	
-			    	multiAnswer1.setText(antwortenList.get(0));
-			    	multiAnswer2.setText(antwortenList.get(1));
-			    	multiAnswer3.setText(antwortenList.get(2));
-			    	multiAnswer4.setEnabled(false);
-			    	multiAnswer5.setEnabled(false);
+			    	int erste = innerNumbersIt.next();
+			    	int zweite = innerNumbersIt.next();
+			    	int dritte = innerNumbersIt.next();
+			    	multiAnswer1.setText(antwortenList.get(0)+ " [" + erste + " / " + alle + "]");
+			    	multiAnswer1.setVisible(true);
+			    	multiAnswer2.setText(antwortenList.get(1)+ " [" + zweite + " / " + alle + "]");
+			    	multiAnswer2.setVisible(true);
+			    	multiAnswer3.setText(antwortenList.get(2)+ " [" + dritte + " / " + alle + "]");
+			    	multiAnswer3.setVisible(true);
+			    	multiAnswer4.setVisible(false);
+			    	multiAnswer5.setVisible(false);
 			    	
 			    	multiAnswer4.setText("-");
 			    	multiAnswer5.setText("-");
@@ -423,11 +456,20 @@ public class FBEvaluate extends JFrame {
 			    	
 			    }else if(antwortenList.size()==4){
 			    	
-			    	multiAnswer1.setText(antwortenList.get(0));
-			    	multiAnswer2.setText(antwortenList.get(1));
-			    	multiAnswer3.setText(antwortenList.get(2));
-			    	multiAnswer4.setText(antwortenList.get(3));
-			    	multiAnswer5.setEnabled(false);
+			    	int erste = innerNumbersIt.next();
+			    	int zweite = innerNumbersIt.next();
+			    	int dritte = innerNumbersIt.next();
+			    	int vierte = innerNumbersIt.next();
+			    	multiAnswer1.setText(antwortenList.get(0)+ " [" + erste + " / " + alle + "]");
+			    	multiAnswer1.setEnabled(true);
+			    	multiAnswer2.setText(antwortenList.get(1)+ " [" + zweite + " / " + alle + "]");
+			    	multiAnswer2.setVisible(true);
+			    	multiAnswer3.setText(antwortenList.get(2)+ " [" + dritte + " / " + alle + "]");
+			    	multiAnswer3.setVisible(true);
+			    	multiAnswer4.setText(antwortenList.get(3)+ " [" + vierte + " / " + alle + "]");
+			    	multiAnswer4.setVisible(true);
+			    	multiAnswer5.setVisible(false);
+			    	
 			    	
 			    	multiAnswer5.setText("-");
 			    	
@@ -439,11 +481,21 @@ public class FBEvaluate extends JFrame {
 			    	
 			    }else if(antwortenList.size()==5){
 			    	
-			    	multiAnswer1.setText(antwortenList.get(0));
-			    	multiAnswer2.setText(antwortenList.get(1));
-			    	multiAnswer3.setText(antwortenList.get(2));
-			    	multiAnswer4.setText(antwortenList.get(3));
-			    	multiAnswer5.setText(antwortenList.get(4));
+			    	int erste = innerNumbersIt.next();
+			    	int zweite = innerNumbersIt.next();
+			    	int dritte = innerNumbersIt.next();
+			    	int vierte = innerNumbersIt.next();
+			    	int fünfte = innerNumbersIt.next();
+			    	multiAnswer1.setText(antwortenList.get(0)+ " [" + erste + " / " + alle + "]");
+			    	multiAnswer1.setVisible(true);
+			    	multiAnswer2.setText(antwortenList.get(1)+ " [" + zweite + " / " + alle + "]");
+			    	multiAnswer2.setVisible(true);
+			    	multiAnswer3.setText(antwortenList.get(2)+ " [" + dritte + " / " + alle + "]");
+			    	multiAnswer3.setVisible(true);
+			    	multiAnswer4.setText(antwortenList.get(3)+ " [" + vierte + " / " + alle + "]");
+			    	multiAnswer4.setVisible(true);
+			    	multiAnswer5.setText(antwortenList.get(4)+ " [" + fünfte + " / " + alle + "]");
+			    	multiAnswer5.setVisible(true);
 			    	
 			    	multiAnswer1.setSelected(false);
 			    	multiAnswer2.setSelected(false);
@@ -452,6 +504,7 @@ public class FBEvaluate extends JFrame {
 			    	multiAnswer5.setSelected(false);
 			    	
 			    }else{
+			    //Practically Impossible to reach
 			    	
 			    }
 			    
@@ -472,7 +525,7 @@ public class FBEvaluate extends JFrame {
 				
 				
 				if(fragenList.size()>fragenZahl+1){
-					System.out.println("Next question detected!");
+					
 					fragenZahl++;
 					tabbedPane.setTitleAt(tabbedPane.getSelectedIndex(), "Frage " + (fragenZahl+1));
 					
@@ -482,25 +535,37 @@ public class FBEvaluate extends JFrame {
 					ArrayList<String> antwortenList = new ArrayList<String>();
 					//System.out.println(fragenList);
 					if(!fragenList.isEmpty()){
+						ArrayList<Integer> innerNumbers = allAnswersIt.next();
+						Iterator<Integer> innerNumbersIt = innerNumbers.iterator();
 						//System.out.println("Fragenlist nicht leer");
 						Frage currentFrage = fragenList.get(fragenZahl);
 						fragenID = currentFrage.getFragetyp();
 						fragenDescr = currentFrage.getFragebeschreibung();
 						antwortenList = currentFrage.getAntwortmoeglichkeiten();
-						System.out.println("FragenID: " + fragenID);
+						
 						if(fragenID == 0){
 							//JA/NEIN
 							CardLayout cl = (CardLayout)(currentQuestion.getLayout());
 						    cl.show(currentQuestion, "jaNeinChoice");
+						    int erste = innerNumbersIt.next();
+						    int alle = currentAuswertung.getAnzahlAntworten();
+						    rdbtnJa.setText("Ja [" + erste + " / " + alle + "]");
+						    int zweite = innerNumbersIt.next();
+						    rdbtnNein.setText("Nein [" + zweite + " / " + alle + "]");
 						    lblFrage.setText("<html>" + fragenDescr + "</html>");
 						   
 						}else if(fragenID == 1){
 							//Single-Choice
+							
+
 							CardLayout cl = (CardLayout)(currentQuestion.getLayout());
 						    cl.show(currentQuestion, "singleChoice");
 						    lblFrageSingle.setText("<html>" + fragenDescr + "</html>");
-						    for(int i = antwortenList.size();i>0;i--){
-						    	comboBox.addItem(antwortenList.get(i-1));
+						    int alle = currentAuswertung.getAnzahlAntworten();
+						    for(int i = 0; i < antwortenList.size();i++){
+						    	if(innerNumbersIt.hasNext()){
+						    		comboBox.addItem(antwortenList.get(i) + " [" + innerNumbersIt.next() + " / " + alle + "]");
+						    	}
 						    }
 						    
 						}else if(fragenID == 2){
@@ -509,14 +574,15 @@ public class FBEvaluate extends JFrame {
 						    cl.show(currentQuestion, "multiChoice");
 						    lblFrageMulti.setText("<html>" + fragenDescr + "</html>");
 						    //System.out.println("-><- " + antwortenList.size());
-						    
+						    int alle = currentAuswertung.getAnzahlAntworten();
 						    if(antwortenList.size()==1){
+						    	int erste = innerNumbersIt.next();
 						    	
-						    	multiAnswer1.setText(antwortenList.get(0));
-						    	multiAnswer2.setEnabled(false);
-						    	multiAnswer3.setEnabled(false);
-						    	multiAnswer4.setEnabled(false);
-						    	multiAnswer5.setEnabled(false);
+						    	multiAnswer1.setText(antwortenList.get(0) + " [" + erste + " / " + alle + "]");
+						    	multiAnswer2.setVisible(false);
+						    	multiAnswer3.setVisible(false);
+						    	multiAnswer4.setVisible(false);
+						    	multiAnswer5.setVisible(false);
 						    	
 						    	multiAnswer2.setText("-");
 						    	multiAnswer3.setText("-");
@@ -531,11 +597,15 @@ public class FBEvaluate extends JFrame {
 						    	
 						    }else if(antwortenList.size()==2){
 						    	
-						    	multiAnswer1.setText(antwortenList.get(0));
-						    	multiAnswer2.setText(antwortenList.get(1));
-						    	multiAnswer3.setEnabled(false);
-						    	multiAnswer4.setEnabled(false);
-						    	multiAnswer5.setEnabled(false);
+						    	int erste = innerNumbersIt.next();
+						    	int zweite = innerNumbersIt.next();
+						    	multiAnswer1.setText(antwortenList.get(0)+ " [" + erste + " / " + alle + "]");
+						    	multiAnswer1.setVisible(true);
+						    	multiAnswer2.setText(antwortenList.get(1)+ " [" + zweite + " / " + alle + "]");
+						    	multiAnswer2.setVisible(true);
+						    	multiAnswer3.setVisible(false);
+						    	multiAnswer4.setVisible(false);
+						    	multiAnswer5.setVisible(false);
 						    	
 						    	multiAnswer3.setText("-");
 						    	multiAnswer4.setText("-");
@@ -549,11 +619,17 @@ public class FBEvaluate extends JFrame {
 						    	
 						    }else if(antwortenList.size()==3){
 						    	
-						    	multiAnswer1.setText(antwortenList.get(0));
-						    	multiAnswer2.setText(antwortenList.get(1));
-						    	multiAnswer3.setText(antwortenList.get(2));
-						    	multiAnswer4.setEnabled(false);
-						    	multiAnswer5.setEnabled(false);
+						    	int erste = innerNumbersIt.next();
+						    	int zweite = innerNumbersIt.next();
+						    	int dritte = innerNumbersIt.next();
+						    	multiAnswer1.setText(antwortenList.get(0)+ " [" + erste + " / " + alle + "]");
+						    	multiAnswer1.setVisible(true);
+						    	multiAnswer2.setText(antwortenList.get(1)+ " [" + zweite + " / " + alle + "]");
+						    	multiAnswer2.setVisible(true);
+						    	multiAnswer3.setText(antwortenList.get(2)+ " [" + dritte + " / " + alle + "]");
+						    	multiAnswer3.setVisible(true);
+						    	multiAnswer4.setVisible(false);
+						    	multiAnswer5.setVisible(false);
 						    	
 						    	multiAnswer4.setText("-");
 						    	multiAnswer5.setText("-");
@@ -566,11 +642,20 @@ public class FBEvaluate extends JFrame {
 						    	
 						    }else if(antwortenList.size()==4){
 						    	
-						    	multiAnswer1.setText(antwortenList.get(0));
-						    	multiAnswer2.setText(antwortenList.get(1));
-						    	multiAnswer3.setText(antwortenList.get(2));
-						    	multiAnswer4.setText(antwortenList.get(3));
-						    	multiAnswer5.setEnabled(false);
+						    	int erste = innerNumbersIt.next();
+						    	int zweite = innerNumbersIt.next();
+						    	int dritte = innerNumbersIt.next();
+						    	int vierte = innerNumbersIt.next();
+						    	multiAnswer1.setText(antwortenList.get(0)+ " [" + erste + " / " + alle + "]");
+						    	multiAnswer1.setEnabled(true);
+						    	multiAnswer2.setText(antwortenList.get(1)+ " [" + zweite + " / " + alle + "]");
+						    	multiAnswer2.setVisible(true);
+						    	multiAnswer3.setText(antwortenList.get(2)+ " [" + dritte + " / " + alle + "]");
+						    	multiAnswer3.setVisible(true);
+						    	multiAnswer4.setText(antwortenList.get(3)+ " [" + vierte + " / " + alle + "]");
+						    	multiAnswer4.setVisible(true);
+						    	multiAnswer5.setVisible(false);
+						    	
 						    	
 						    	multiAnswer5.setText("-");
 						    	
@@ -582,11 +667,21 @@ public class FBEvaluate extends JFrame {
 						    	
 						    }else if(antwortenList.size()==5){
 						    	
-						    	multiAnswer1.setText(antwortenList.get(0));
-						    	multiAnswer2.setText(antwortenList.get(1));
-						    	multiAnswer3.setText(antwortenList.get(2));
-						    	multiAnswer4.setText(antwortenList.get(3));
-						    	multiAnswer5.setText(antwortenList.get(4));
+						    	int erste = innerNumbersIt.next();
+						    	int zweite = innerNumbersIt.next();
+						    	int dritte = innerNumbersIt.next();
+						    	int vierte = innerNumbersIt.next();
+						    	int fünfte = innerNumbersIt.next();
+						    	multiAnswer1.setText(antwortenList.get(0)+ " [" + erste + " / " + alle + "]");
+						    	multiAnswer1.setVisible(true);
+						    	multiAnswer2.setText(antwortenList.get(1)+ " [" + zweite + " / " + alle + "]");
+						    	multiAnswer2.setVisible(true);
+						    	multiAnswer3.setText(antwortenList.get(2)+ " [" + dritte + " / " + alle + "]");
+						    	multiAnswer3.setVisible(true);
+						    	multiAnswer4.setText(antwortenList.get(3)+ " [" + vierte + " / " + alle + "]");
+						    	multiAnswer4.setVisible(true);
+						    	multiAnswer5.setText(antwortenList.get(4)+ " [" + fünfte + " / " + alle + "]");
+						    	multiAnswer5.setVisible(true);
 						    	
 						    	multiAnswer1.setSelected(false);
 						    	multiAnswer2.setSelected(false);
@@ -595,6 +690,7 @@ public class FBEvaluate extends JFrame {
 						    	multiAnswer5.setSelected(false);
 						    	
 						    }else{
+						    //Practically Impossible to reach
 						    	
 						    }
 						    
@@ -605,7 +701,8 @@ public class FBEvaluate extends JFrame {
 						}
 					}
 				}else{
-					System.out.println("This was the last Question, thank you for participating");
+					//done
+					tabbedPane.setSelectedIndex(2);
 				}
 			}
 		});
@@ -619,7 +716,7 @@ public class FBEvaluate extends JFrame {
 				rdbtnJa.setSelected(false);
 				rdbtnNein.setSelected(false);
 				if(fragenList.size()>fragenZahl+1){
-					System.out.println("Next question detected!");
+					
 					fragenZahl++;
 					tabbedPane.setTitleAt(tabbedPane.getSelectedIndex(), "Frage " + (fragenZahl+1));
 					
@@ -629,25 +726,37 @@ public class FBEvaluate extends JFrame {
 					ArrayList<String> antwortenList = new ArrayList<String>();
 					//System.out.println(fragenList);
 					if(!fragenList.isEmpty()){
+						ArrayList<Integer> innerNumbers = allAnswersIt.next();
+						Iterator<Integer> innerNumbersIt = innerNumbers.iterator();
 						//System.out.println("Fragenlist nicht leer");
 						Frage currentFrage = fragenList.get(fragenZahl);
 						fragenID = currentFrage.getFragetyp();
 						fragenDescr = currentFrage.getFragebeschreibung();
 						antwortenList = currentFrage.getAntwortmoeglichkeiten();
-						System.out.println("FragenID: " + fragenID);
+						
 						if(fragenID == 0){
 							//JA/NEIN
 							CardLayout cl = (CardLayout)(currentQuestion.getLayout());
 						    cl.show(currentQuestion, "jaNeinChoice");
+						    int erste = innerNumbersIt.next();
+						    int alle = currentAuswertung.getAnzahlAntworten();
+						    rdbtnJa.setText("Ja [" + erste + " / " + alle + "]");
+						    int zweite = innerNumbersIt.next();
+						    rdbtnNein.setText("Nein [" + zweite + " / " + alle + "]");
 						    lblFrage.setText("<html>" + fragenDescr + "</html>");
 						   
 						}else if(fragenID == 1){
 							//Single-Choice
+							
+
 							CardLayout cl = (CardLayout)(currentQuestion.getLayout());
 						    cl.show(currentQuestion, "singleChoice");
 						    lblFrageSingle.setText("<html>" + fragenDescr + "</html>");
-						    for(int i = antwortenList.size();i>0;i--){
-						    	comboBox.addItem(antwortenList.get(i-1));
+						    int alle = currentAuswertung.getAnzahlAntworten();
+						    for(int i = 0; i < antwortenList.size();i++){
+						    	if(innerNumbersIt.hasNext()){
+						    		comboBox.addItem(antwortenList.get(i) + " [" + innerNumbersIt.next() + " / " + alle + "]");
+						    	}
 						    }
 						    
 						}else if(fragenID == 2){
@@ -656,14 +765,15 @@ public class FBEvaluate extends JFrame {
 						    cl.show(currentQuestion, "multiChoice");
 						    lblFrageMulti.setText("<html>" + fragenDescr + "</html>");
 						    //System.out.println("-><- " + antwortenList.size());
-						    
+						    int alle = currentAuswertung.getAnzahlAntworten();
 						    if(antwortenList.size()==1){
+						    	int erste = innerNumbersIt.next();
 						    	
-						    	multiAnswer1.setText(antwortenList.get(0));
-						    	multiAnswer2.setEnabled(false);
-						    	multiAnswer3.setEnabled(false);
-						    	multiAnswer4.setEnabled(false);
-						    	multiAnswer5.setEnabled(false);
+						    	multiAnswer1.setText(antwortenList.get(0) + " [" + erste + " / " + alle + "]");
+						    	multiAnswer2.setVisible(false);
+						    	multiAnswer3.setVisible(false);
+						    	multiAnswer4.setVisible(false);
+						    	multiAnswer5.setVisible(false);
 						    	
 						    	multiAnswer2.setText("-");
 						    	multiAnswer3.setText("-");
@@ -678,11 +788,15 @@ public class FBEvaluate extends JFrame {
 						    	
 						    }else if(antwortenList.size()==2){
 						    	
-						    	multiAnswer1.setText(antwortenList.get(0));
-						    	multiAnswer2.setText(antwortenList.get(1));
-						    	multiAnswer3.setEnabled(false);
-						    	multiAnswer4.setEnabled(false);
-						    	multiAnswer5.setEnabled(false);
+						    	int erste = innerNumbersIt.next();
+						    	int zweite = innerNumbersIt.next();
+						    	multiAnswer1.setText(antwortenList.get(0)+ " [" + erste + " / " + alle + "]");
+						    	multiAnswer1.setVisible(true);
+						    	multiAnswer2.setText(antwortenList.get(1)+ " [" + zweite + " / " + alle + "]");
+						    	multiAnswer2.setVisible(true);
+						    	multiAnswer3.setVisible(false);
+						    	multiAnswer4.setVisible(false);
+						    	multiAnswer5.setVisible(false);
 						    	
 						    	multiAnswer3.setText("-");
 						    	multiAnswer4.setText("-");
@@ -696,11 +810,17 @@ public class FBEvaluate extends JFrame {
 						    	
 						    }else if(antwortenList.size()==3){
 						    	
-						    	multiAnswer1.setText(antwortenList.get(0));
-						    	multiAnswer2.setText(antwortenList.get(1));
-						    	multiAnswer3.setText(antwortenList.get(2));
-						    	multiAnswer4.setEnabled(false);
-						    	multiAnswer5.setEnabled(false);
+						    	int erste = innerNumbersIt.next();
+						    	int zweite = innerNumbersIt.next();
+						    	int dritte = innerNumbersIt.next();
+						    	multiAnswer1.setText(antwortenList.get(0)+ " [" + erste + " / " + alle + "]");
+						    	multiAnswer1.setVisible(true);
+						    	multiAnswer2.setText(antwortenList.get(1)+ " [" + zweite + " / " + alle + "]");
+						    	multiAnswer2.setVisible(true);
+						    	multiAnswer3.setText(antwortenList.get(2)+ " [" + dritte + " / " + alle + "]");
+						    	multiAnswer3.setVisible(true);
+						    	multiAnswer4.setVisible(false);
+						    	multiAnswer5.setVisible(false);
 						    	
 						    	multiAnswer4.setText("-");
 						    	multiAnswer5.setText("-");
@@ -713,11 +833,20 @@ public class FBEvaluate extends JFrame {
 						    	
 						    }else if(antwortenList.size()==4){
 						    	
-						    	multiAnswer1.setText(antwortenList.get(0));
-						    	multiAnswer2.setText(antwortenList.get(1));
-						    	multiAnswer3.setText(antwortenList.get(2));
-						    	multiAnswer4.setText(antwortenList.get(3));
-						    	multiAnswer5.setEnabled(false);
+						    	int erste = innerNumbersIt.next();
+						    	int zweite = innerNumbersIt.next();
+						    	int dritte = innerNumbersIt.next();
+						    	int vierte = innerNumbersIt.next();
+						    	multiAnswer1.setText(antwortenList.get(0)+ " [" + erste + " / " + alle + "]");
+						    	multiAnswer1.setEnabled(true);
+						    	multiAnswer2.setText(antwortenList.get(1)+ " [" + zweite + " / " + alle + "]");
+						    	multiAnswer2.setVisible(true);
+						    	multiAnswer3.setText(antwortenList.get(2)+ " [" + dritte + " / " + alle + "]");
+						    	multiAnswer3.setVisible(true);
+						    	multiAnswer4.setText(antwortenList.get(3)+ " [" + vierte + " / " + alle + "]");
+						    	multiAnswer4.setVisible(true);
+						    	multiAnswer5.setVisible(false);
+						    	
 						    	
 						    	multiAnswer5.setText("-");
 						    	
@@ -729,11 +858,21 @@ public class FBEvaluate extends JFrame {
 						    	
 						    }else if(antwortenList.size()==5){
 						    	
-						    	multiAnswer1.setText(antwortenList.get(0));
-						    	multiAnswer2.setText(antwortenList.get(1));
-						    	multiAnswer3.setText(antwortenList.get(2));
-						    	multiAnswer4.setText(antwortenList.get(3));
-						    	multiAnswer5.setText(antwortenList.get(4));
+						    	int erste = innerNumbersIt.next();
+						    	int zweite = innerNumbersIt.next();
+						    	int dritte = innerNumbersIt.next();
+						    	int vierte = innerNumbersIt.next();
+						    	int fünfte = innerNumbersIt.next();
+						    	multiAnswer1.setText(antwortenList.get(0)+ " [" + erste + " / " + alle + "]");
+						    	multiAnswer1.setVisible(true);
+						    	multiAnswer2.setText(antwortenList.get(1)+ " [" + zweite + " / " + alle + "]");
+						    	multiAnswer2.setVisible(true);
+						    	multiAnswer3.setText(antwortenList.get(2)+ " [" + dritte + " / " + alle + "]");
+						    	multiAnswer3.setVisible(true);
+						    	multiAnswer4.setText(antwortenList.get(3)+ " [" + vierte + " / " + alle + "]");
+						    	multiAnswer4.setVisible(true);
+						    	multiAnswer5.setText(antwortenList.get(4)+ " [" + fünfte + " / " + alle + "]");
+						    	multiAnswer5.setVisible(true);
 						    	
 						    	multiAnswer1.setSelected(false);
 						    	multiAnswer2.setSelected(false);
@@ -742,6 +881,7 @@ public class FBEvaluate extends JFrame {
 						    	multiAnswer5.setSelected(false);
 						    	
 						    }else{
+						    //Practically Impossible to reach
 						    	
 						    }
 						    
@@ -752,7 +892,8 @@ public class FBEvaluate extends JFrame {
 						}
 					}
 				}else{
-					System.out.println("This was the last Question, thank you for participating");
+					//Done
+					tabbedPane.setSelectedIndex(2);
 				}
 				
 				
@@ -765,7 +906,7 @@ public class FBEvaluate extends JFrame {
 			public void mouseClicked(MouseEvent arg0) {
 				
 				if(fragenList.size()>fragenZahl+1){
-					System.out.println("Next question detected! - change coming");
+					
 					fragenZahl++;
 					tabbedPane.setTitleAt(tabbedPane.getSelectedIndex(), "Frage " + (fragenZahl+1));
 					fragenList = currentFB.getFragen();
@@ -774,25 +915,37 @@ public class FBEvaluate extends JFrame {
 					ArrayList<String> antwortenList = new ArrayList<String>();
 					//System.out.println(fragenList);
 					if(!fragenList.isEmpty()){
+						ArrayList<Integer> innerNumbers = allAnswersIt.next();
+						Iterator<Integer> innerNumbersIt = innerNumbers.iterator();
 						//System.out.println("Fragenlist nicht leer");
 						Frage currentFrage = fragenList.get(fragenZahl);
 						fragenID = currentFrage.getFragetyp();
 						fragenDescr = currentFrage.getFragebeschreibung();
 						antwortenList = currentFrage.getAntwortmoeglichkeiten();
-						System.out.println("FragenID: " + fragenID);
+						
 						if(fragenID == 0){
 							//JA/NEIN
 							CardLayout cl = (CardLayout)(currentQuestion.getLayout());
 						    cl.show(currentQuestion, "jaNeinChoice");
+						    int erste = innerNumbersIt.next();
+						    int alle = currentAuswertung.getAnzahlAntworten();
+						    rdbtnJa.setText("Ja [" + erste + " / " + alle + "]");
+						    int zweite = innerNumbersIt.next();
+						    rdbtnNein.setText("Nein [" + zweite + " / " + alle + "]");
 						    lblFrage.setText("<html>" + fragenDescr + "</html>");
 						   
 						}else if(fragenID == 1){
 							//Single-Choice
+							
+
 							CardLayout cl = (CardLayout)(currentQuestion.getLayout());
 						    cl.show(currentQuestion, "singleChoice");
 						    lblFrageSingle.setText("<html>" + fragenDescr + "</html>");
+						    int alle = currentAuswertung.getAnzahlAntworten();
 						    for(int i = 0; i < antwortenList.size();i++){
-						    	comboBox.addItem(antwortenList.get(i));
+						    	if(innerNumbersIt.hasNext()){
+						    		comboBox.addItem(antwortenList.get(i) + " [" + innerNumbersIt.next() + " / " + alle + "]");
+						    	}
 						    }
 						    
 						}else if(fragenID == 2){
@@ -801,14 +954,15 @@ public class FBEvaluate extends JFrame {
 						    cl.show(currentQuestion, "multiChoice");
 						    lblFrageMulti.setText("<html>" + fragenDescr + "</html>");
 						    //System.out.println("-><- " + antwortenList.size());
-						    
+						    int alle = currentAuswertung.getAnzahlAntworten();
 						    if(antwortenList.size()==1){
+						    	int erste = innerNumbersIt.next();
 						    	
-						    	multiAnswer1.setText(antwortenList.get(0));
-						    	multiAnswer2.setEnabled(false);
-						    	multiAnswer3.setEnabled(false);
-						    	multiAnswer4.setEnabled(false);
-						    	multiAnswer5.setEnabled(false);
+						    	multiAnswer1.setText(antwortenList.get(0) + " [" + erste + " / " + alle + "]");
+						    	multiAnswer2.setVisible(false);
+						    	multiAnswer3.setVisible(false);
+						    	multiAnswer4.setVisible(false);
+						    	multiAnswer5.setVisible(false);
 						    	
 						    	multiAnswer2.setText("-");
 						    	multiAnswer3.setText("-");
@@ -823,11 +977,15 @@ public class FBEvaluate extends JFrame {
 						    	
 						    }else if(antwortenList.size()==2){
 						    	
-						    	multiAnswer1.setText(antwortenList.get(0));
-						    	multiAnswer2.setText(antwortenList.get(1));
-						    	multiAnswer3.setEnabled(false);
-						    	multiAnswer4.setEnabled(false);
-						    	multiAnswer5.setEnabled(false);
+						    	int erste = innerNumbersIt.next();
+						    	int zweite = innerNumbersIt.next();
+						    	multiAnswer1.setText(antwortenList.get(0)+ " [" + erste + " / " + alle + "]");
+						    	multiAnswer1.setVisible(true);
+						    	multiAnswer2.setText(antwortenList.get(1)+ " [" + zweite + " / " + alle + "]");
+						    	multiAnswer2.setVisible(true);
+						    	multiAnswer3.setVisible(false);
+						    	multiAnswer4.setVisible(false);
+						    	multiAnswer5.setVisible(false);
 						    	
 						    	multiAnswer3.setText("-");
 						    	multiAnswer4.setText("-");
@@ -841,11 +999,17 @@ public class FBEvaluate extends JFrame {
 						    	
 						    }else if(antwortenList.size()==3){
 						    	
-						    	multiAnswer1.setText(antwortenList.get(0));
-						    	multiAnswer2.setText(antwortenList.get(1));
-						    	multiAnswer3.setText(antwortenList.get(2));
-						    	multiAnswer4.setEnabled(false);
-						    	multiAnswer5.setEnabled(false);
+						    	int erste = innerNumbersIt.next();
+						    	int zweite = innerNumbersIt.next();
+						    	int dritte = innerNumbersIt.next();
+						    	multiAnswer1.setText(antwortenList.get(0)+ " [" + erste + " / " + alle + "]");
+						    	multiAnswer1.setVisible(true);
+						    	multiAnswer2.setText(antwortenList.get(1)+ " [" + zweite + " / " + alle + "]");
+						    	multiAnswer2.setVisible(true);
+						    	multiAnswer3.setText(antwortenList.get(2)+ " [" + dritte + " / " + alle + "]");
+						    	multiAnswer3.setVisible(true);
+						    	multiAnswer4.setVisible(false);
+						    	multiAnswer5.setVisible(false);
 						    	
 						    	multiAnswer4.setText("-");
 						    	multiAnswer5.setText("-");
@@ -858,11 +1022,20 @@ public class FBEvaluate extends JFrame {
 						    	
 						    }else if(antwortenList.size()==4){
 						    	
-						    	multiAnswer1.setText(antwortenList.get(0));
-						    	multiAnswer2.setText(antwortenList.get(1));
-						    	multiAnswer3.setText(antwortenList.get(2));
-						    	multiAnswer4.setText(antwortenList.get(3));
-						    	multiAnswer5.setEnabled(false);
+						    	int erste = innerNumbersIt.next();
+						    	int zweite = innerNumbersIt.next();
+						    	int dritte = innerNumbersIt.next();
+						    	int vierte = innerNumbersIt.next();
+						    	multiAnswer1.setText(antwortenList.get(0)+ " [" + erste + " / " + alle + "]");
+						    	multiAnswer1.setEnabled(true);
+						    	multiAnswer2.setText(antwortenList.get(1)+ " [" + zweite + " / " + alle + "]");
+						    	multiAnswer2.setVisible(true);
+						    	multiAnswer3.setText(antwortenList.get(2)+ " [" + dritte + " / " + alle + "]");
+						    	multiAnswer3.setVisible(true);
+						    	multiAnswer4.setText(antwortenList.get(3)+ " [" + vierte + " / " + alle + "]");
+						    	multiAnswer4.setVisible(true);
+						    	multiAnswer5.setVisible(false);
+						    	
 						    	
 						    	multiAnswer5.setText("-");
 						    	
@@ -874,11 +1047,21 @@ public class FBEvaluate extends JFrame {
 						    	
 						    }else if(antwortenList.size()==5){
 						    	
-						    	multiAnswer1.setText(antwortenList.get(0));
-						    	multiAnswer2.setText(antwortenList.get(1));
-						    	multiAnswer3.setText(antwortenList.get(2));
-						    	multiAnswer4.setText(antwortenList.get(3));
-						    	multiAnswer5.setText(antwortenList.get(4));
+						    	int erste = innerNumbersIt.next();
+						    	int zweite = innerNumbersIt.next();
+						    	int dritte = innerNumbersIt.next();
+						    	int vierte = innerNumbersIt.next();
+						    	int fünfte = innerNumbersIt.next();
+						    	multiAnswer1.setText(antwortenList.get(0)+ " [" + erste + " / " + alle + "]");
+						    	multiAnswer1.setVisible(true);
+						    	multiAnswer2.setText(antwortenList.get(1)+ " [" + zweite + " / " + alle + "]");
+						    	multiAnswer2.setVisible(true);
+						    	multiAnswer3.setText(antwortenList.get(2)+ " [" + dritte + " / " + alle + "]");
+						    	multiAnswer3.setVisible(true);
+						    	multiAnswer4.setText(antwortenList.get(3)+ " [" + vierte + " / " + alle + "]");
+						    	multiAnswer4.setVisible(true);
+						    	multiAnswer5.setText(antwortenList.get(4)+ " [" + fünfte + " / " + alle + "]");
+						    	multiAnswer5.setVisible(true);
 						    	
 						    	multiAnswer1.setSelected(false);
 						    	multiAnswer2.setSelected(false);
@@ -887,6 +1070,7 @@ public class FBEvaluate extends JFrame {
 						    	multiAnswer5.setSelected(false);
 						    	
 						    }else{
+						    //Practically Impossible to reach
 						    	
 						    }
 						    
@@ -898,10 +1082,10 @@ public class FBEvaluate extends JFrame {
 					}
 					
 				}else{
-					System.out.println("This was the last Question, thank you for participating");
+					//Done
+					tabbedPane.setSelectedIndex(2);
 				}
-			//Next question
-			//Get selected indexes -> int? - 01234	
+
 					
 					
 			}
@@ -959,14 +1143,14 @@ public class FBEvaluate extends JFrame {
 		multiPanel.setLayout(gl_multiPanel);
 		
 		JPanel panel = new JPanel();
-		tabbedPane.addTab("FB abgeben", null, panel, null);
+		tabbedPane.addTab("Schließen", null, panel, null);
 		
-		JButton btnFragebogenAbgeben = new JButton("Fragebogen abgeben");
+		JButton btnFragebogenAbgeben = new JButton("Zurück zum Menu");
 		btnFragebogenAbgeben.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				//FBSSubmissionModul.submitFBS((Solver) Menu.getUser(), currentFB, antwortenSolver);
-				
+				Menu.launchMenu();
+				setVisible(false);
 			}
 		});
 		btnFragebogenAbgeben.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -979,8 +1163,8 @@ public class FBEvaluate extends JFrame {
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(btnFragebogenAbgeben, GroupLayout.PREFERRED_SIZE, 375, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(182, Short.MAX_VALUE))
+					.addComponent(btnFragebogenAbgeben, GroupLayout.PREFERRED_SIZE, 393, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(164, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
 	}

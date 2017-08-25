@@ -95,7 +95,7 @@ public class Creator extends User{
 	 * @param distributedFragebogen - <CODE>Fragebogen</CODE> to be distributed to the <CODE>Kurs</CODE> object.
 	 */
 	public void distributeFragebogenTo(Kurs receivingKurs, Fragebogen distributedFragebogen){
-		Fragebogenauswertung ownedFragebogenauswertung = new Fragebogenauswertung(distributedFragebogen);
+		Fragebogenauswertung ownedFragebogenauswertung = new Fragebogenauswertung(distributedFragebogen, receivingKurs);
 		this.ownedFragebogenauswertungen.add(ownedFragebogenauswertung);
 		receivingKurs.relayFragebogenToAllSolvers(ownedFragebogenauswertung);
 	}

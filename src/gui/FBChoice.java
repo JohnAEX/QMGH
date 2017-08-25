@@ -30,7 +30,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.awt.Font;
 import javax.swing.JLabel;
-
+/**
+ * @author Jonathan Grenda
+ *
+ */
 public class FBChoice extends JFrame {
 
 	private JPanel contentPane;
@@ -55,6 +58,7 @@ public class FBChoice extends JFrame {
 	 * Create the frame.
 	 */
 	public FBChoice() {
+		setResizable(false);
 		setTitle("QuestionMark");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 500, 500);

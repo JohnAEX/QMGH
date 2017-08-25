@@ -23,6 +23,8 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -38,7 +40,12 @@ import javax.swing.event.ListSelectionListener;
 import auswertung.Fragebogenauswertung;
 
 import javax.swing.event.ListSelectionEvent;
-
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+/**
+ * @author Jonathan Grenda
+ *
+ */
 public class FBManage extends JFrame {
 
 	private JPanel contentPane;
@@ -63,6 +70,7 @@ public class FBManage extends JFrame {
 	 * Create the frame.
 	 */
 	public FBManage() {
+		setResizable(false);
 		setTitle("QuestionMark");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 500, 500);
@@ -83,6 +91,7 @@ public class FBManage extends JFrame {
 		
 		DefaultListModel<String> model2 = new DefaultListModel<String>();
 		JList<String> auswertungsList = new JList<String>(model2);
+		auswertungsList.setToolTipText("Liste aller Auswertungen.");
 		
 		//Display All FBS
 		Creator currentUser = (Creator) Menu.getUser();
@@ -105,8 +114,10 @@ public class FBManage extends JFrame {
 		JPanel verteilenPanel = new JPanel();
 		verteilenPanel.setBorder(title);
 		JList<String> list = new JList<String>(model);
+		list.setToolTipText("Liste von erstellten Frageb\u00F6gen");
 
 		JButton btnLschen = new JButton("L\u00F6schen");
+		btnLschen.setToolTipText("Dr\u00FCcken Sie diesen Knopf um einen ausgew\u00E4hlten Fragebogen zu l\u00F6schen.");
 		btnLschen.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -123,7 +134,8 @@ public class FBManage extends JFrame {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		
-		JButton btnAbbrechen = new JButton("Abbrechen");
+		JButton btnAbbrechen = new JButton("Zurück");
+		btnAbbrechen.setToolTipText("Zur\u00FCck zum Menu");
 		btnAbbrechen.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnAbbrechen.addMouseListener(new MouseAdapter() {
 			@Override
@@ -173,6 +185,7 @@ public class FBManage extends JFrame {
 		chckbxKursB.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		JButton btnVerteilen = new JButton("Verteilen");
+		btnVerteilen.setToolTipText("Dr\u00FCcken Sie den Knopf um den ausgew\u00E4hlten Fragebogen an die gew\u00E4hlten Kurse zu verteilen.");
 		btnVerteilen.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -182,12 +195,20 @@ public class FBManage extends JFrame {
 					if(chckbxKursA.isSelected()){
 						int choice = list.getSelectedIndex();
 						Fragebogen selected = fbList.get(choice);
-						FBDistributionModul.distributeFB(Menu.getSystem(), true, selected, (Creator) Menu.getUser());
+						boolean success = FBDistributionModul.distributeFB(Menu.getSystem(), true, selected, (Creator) Menu.getUser());
+						if(success){
+							JFrame framePop = new JFrame();
+							JOptionPane.showMessageDialog(framePop, "Der Fragebogen wurde erfolgreich an Kurs A verteilt","Glückwunsch",JOptionPane.INFORMATION_MESSAGE);
+						}
 					}
 					if(chckbxKursB.isSelected()){
 						int choice = list.getSelectedIndex();
 						Fragebogen selected = fbList.get(choice);
-						FBDistributionModul.distributeFB(Menu.getSystem(), false, selected, (Creator) Menu.getUser());
+						boolean success = FBDistributionModul.distributeFB(Menu.getSystem(), false, selected, (Creator) Menu.getUser());
+						if(success){
+							JFrame framePop = new JFrame();
+							JOptionPane.showMessageDialog(framePop, "Der Fragebogen wurde erfolgreich an Kurs B verteilt","Glückwunsch",JOptionPane.INFORMATION_MESSAGE);
+						}
 					}
 					
 				}else{
@@ -233,36 +254,51 @@ public class FBManage extends JFrame {
 		JScrollPane scrollPane_1 = new JScrollPane();
 		
 		JButton btnAnzeigen = new JButton("Anzeigen");
+		btnAnzeigen.setToolTipText("Zeig die Auswertung des gew\u00E4hlten Fragebogens an.");
+		btnAnzeigen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		btnAnzeigen.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				//Auswertung anzeigen
+				//FBEvaluate aufrufen:
 				if(auswertungsList.getSelectedIndex()!= -1 && btnAnzeigen.isEnabled()){
 					int selected = auswertungsList.getSelectedIndex();
 					ArrayList<Fragebogenauswertung> fbAs = FBALoaderModul.loadFBA((Creator) Menu.getUser());
 					Fragebogenauswertung selectedAuswertung = fbAs.get(selected);
-					ArrayList<ArrayList<Integer>> allAnswers = selectedAuswertung.getAllAntworten();
-					
-					Iterator<ArrayList<Integer>> outerIt = allAnswers.iterator();
-					int cc = 1;
-					while(outerIt.hasNext()){
-						ArrayList<Integer> now = (ArrayList<Integer>) outerIt.next();
-						System.out.println("Frage: " + cc);
-						Iterator<Integer> innerIt = now.iterator();
-						while(innerIt.hasNext()){
-							int abc = (int) innerIt.next();
-							System.out.println("\t>Inner: " + abc);
-						}
-						cc++;
-					}
-					
+					FBEvaluate.evaluateFB(selectedAuswertung);
+					setVisible(false);
 				}
+				
+				//Auswertung anzeigen
+//				if(auswertungsList.getSelectedIndex()!= -1 && btnAnzeigen.isEnabled()){
+//					int selected = auswertungsList.getSelectedIndex();
+//					ArrayList<Fragebogenauswertung> fbAs = FBALoaderModul.loadFBA((Creator) Menu.getUser());
+//					Fragebogenauswertung selectedAuswertung = fbAs.get(selected);
+//					ArrayList<ArrayList<Integer>> allAnswers = selectedAuswertung.getAllAntworten();
+//					
+//					Iterator<ArrayList<Integer>> outerIt = allAnswers.iterator();
+//					int cc = 1;
+//					while(outerIt.hasNext()){
+//						ArrayList<Integer> now = (ArrayList<Integer>) outerIt.next();
+//						System.out.println("Frage: " + cc);
+//						Iterator<Integer> innerIt = now.iterator();
+//						while(innerIt.hasNext()){
+//							int abc = (int) innerIt.next();
+//							System.out.println("\t>Inner: " + abc);
+//						}
+//						cc++;
+//					}
+//					
+//				}
 				
 			}
 		});
 		btnAnzeigen.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
-		JButton btnAbbrechen_1 = new JButton("Abbrechen");
+		JButton btnAbbrechen_1 = new JButton("Zurück");
+		btnAbbrechen_1.setToolTipText("Zur\u00FCck zum Menu");
 		btnAbbrechen_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -279,8 +315,8 @@ public class FBManage extends JFrame {
 					.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 286, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_Auswertungen.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnAbbrechen_1, GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
-						.addComponent(btnAnzeigen, GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE))
+						.addComponent(btnAnzeigen, GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
+						.addComponent(btnAbbrechen_1, GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_Auswertungen.setVerticalGroup(
@@ -290,7 +326,7 @@ public class FBManage extends JFrame {
 						.addGroup(gl_Auswertungen.createSequentialGroup()
 							.addContainerGap()
 							.addComponent(btnAnzeigen)
-							.addGap(315)
+							.addGap(313)
 							.addComponent(btnAbbrechen_1))
 						.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 408, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(668, Short.MAX_VALUE))
@@ -302,7 +338,7 @@ public class FBManage extends JFrame {
 		Iterator<Fragebogenauswertung> fbAsIt = fbAs.iterator();
 		while(fbAsIt.hasNext()){
 			Fragebogenauswertung fbAShell = fbAsIt.next();
-			model2.addElement(fbAShell.getSourceFragebogen().getTitel());
+			model2.addElement(fbAShell.getSourceFragebogen().getTitel() + " - Kurs: " + fbAShell.getOwnedBy().getKursName());
 		}
 		
 		

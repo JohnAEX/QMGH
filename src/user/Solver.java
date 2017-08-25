@@ -22,18 +22,16 @@ public class Solver extends User{
 		this.activeFrageboegenWithAntwortmoeglichkeit.add(newFragebogenWithAntwortmoeglichkeit);
 	}
 	
-	public void submitFragebogenergebnis(FragebogenWithAntwortmoeglichkeit fragebogenWithAntwortmoeglichkeit, ArrayList<ArrayList<Integer>> answers){
+	public boolean submitFragebogenergebnis(FragebogenWithAntwortmoeglichkeit fragebogenWithAntwortmoeglichkeit, ArrayList<ArrayList<Integer>> answers){
 		if(this.activeFrageboegenWithAntwortmoeglichkeit.contains(fragebogenWithAntwortmoeglichkeit)){
 			fragebogenWithAntwortmoeglichkeit.addAntwort(answers);
+			boolean success = this.activeFrageboegenWithAntwortmoeglichkeit.remove(fragebogenWithAntwortmoeglichkeit);
+			if(success){
+				return true;
+			}
+				
 		}
-	}
-	
-	public String testReturnAllFB(){
-		String returnString = "";
-		Iterator<FragebogenWithAntwortmoeglichkeit> localIt = this.activeFrageboegenWithAntwortmoeglichkeit.iterator();
-		for(int i = 1;localIt.hasNext();i++){
-			returnString += i +": "+ localIt.next().getTitel() + "\n";
-		}
-		return returnString;
+		
+		return false;
 	}
 }
