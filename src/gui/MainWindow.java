@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Color;
 import java.awt.Desktop;
 
@@ -32,12 +34,17 @@ import java.util.ArrayList;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
-
+/**
+ * @author Jonathan Grenda
+ *
+ */
 public class MainWindow {	
 	
 	private JFrame frmQuestionmark;
 	private JTextField textField;
 	private JPasswordField passwordField;
+	private String pfad = "C:\\OOP - Projekt";
+	private String dateiname = "QuestionMarkFile";
 
 	/**
 	 * Launch the application.
@@ -66,10 +73,22 @@ public class MainWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		//Load Gesamtsystem:
-		Gesamtsystem currentSys = PersistenzModul.loadGesamtsystem("C:\\OOP - Projekt", "QuestionMarkFile");
-		//ArrayList<Creator> abc = currentSys.getAllCreators();
-
+		//Gesamtsytem laden basierend auf pfad & dateiname
+		Gesamtsystem currentSys = PersistenzModul.loadGesamtsystem(pfad, dateiname);
+		
+		//Kontrolle ob das System gefunden wurde
+		if(currentSys == null){
+			JFrame framePop = new JFrame();
+			JOptionPane.showMessageDialog(framePop, "Es ist ein Fehler aufgetreten, das benötigte Gesamtsystem konnte nicht gefunden werden.\nStellen Sie sicher, dass das Programm korrekt installiert wurde.\nDas Programm beendet sich nun automatisch!","Error",JOptionPane.ERROR_MESSAGE);
+			System.exit(0);
+		}
+		
+		/**
+		 * Windowbuilder Code
+		 * |
+		 * V
+		 */
+		
 		frmQuestionmark = new JFrame();
 		frmQuestionmark.setResizable(false);
 		frmQuestionmark.setTitle("QuestionMark");
@@ -109,6 +128,7 @@ public class MainWindow {
 		lblUserid.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		textField = new JTextField();
+		textField.setToolTipText("Eingabefeld Benutzername");
 		textField.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		textField.setColumns(15);
 		
@@ -116,10 +136,13 @@ public class MainWindow {
 		lblPasswort.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		passwordField = new JPasswordField();
+		passwordField.setToolTipText("Eingabefeld Passwort");
 		passwordField.setColumns(15);
 		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
+		//Händischer Code
 		JButton btnHelp = new JButton("Help");
+		btnHelp.setToolTipText("Zum Aufrufen der HelpPage dr\u00FCcken");
 		btnHelp.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -128,10 +151,8 @@ public class MainWindow {
 					File helpPage = new File("src/help/helpPage.html");
 					java.awt.Desktop.getDesktop().open(helpPage);;
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					System.out.println("An Error occured");
+					System.out.println("Die HelpPage konnte nicht gefunden werden");
 				}
-				
 				
 			}
 		});
@@ -142,6 +163,7 @@ public class MainWindow {
 		lblTest.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		JButton btnNewButton = new JButton("Login");
+		btnNewButton.setToolTipText("Login");
 		
 		//Händischer Code
 		btnNewButton.addMouseListener(new MouseAdapter() {
@@ -184,7 +206,7 @@ public class MainWindow {
 		});
 		
 		/**
-		 * Generierter Code von WindowBuilder
+		 * Windowbuilder Code
 		 * |
 		 * V
 		 */

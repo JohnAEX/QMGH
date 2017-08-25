@@ -22,10 +22,13 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.LayoutManager;
+
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.JButton;
@@ -42,7 +45,11 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.JScrollPane;
-
+import javax.swing.ScrollPaneConstants;
+/**
+ * @author Jonathan Grenda
+ *
+ */
 public class FBAnswer extends JFrame {
 
 	private JPanel contentPane;
@@ -74,8 +81,13 @@ public class FBAnswer extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	/**
+	 * Windowbuilder Code
+	 * |
+	 * V
+	 */
 	public FBAnswer() {
-		
+		setResizable(false);
 		Border border = BorderFactory.createLineBorder(Color.BLACK);
 		setTitle("QuestionMark");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -92,7 +104,8 @@ public class FBAnswer extends JFrame {
 		introPanel.setBackground(Color.WHITE);
 		tabbedPane.addTab("Beschreibung", null, introPanel, null);
 		
-		JLabel lblFrageMulti = new JLabel("<html>" + "" + "</html>");
+		JTextArea lblFrageMulti = new JTextArea();
+		lblFrageMulti.setLineWrap(true);
 		
 		JLabel lbl_1 = new JLabel("Expose:");
 		lbl_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -116,45 +129,19 @@ public class FBAnswer extends JFrame {
 		border = BorderFactory.createLineBorder(Color.BLACK);
 		lblExpose.setBorder(BorderFactory.createCompoundBorder(border,BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				Iterator outerIt = antwortenSolver.iterator();
-				int cc = 1;
-				while(outerIt.hasNext()){
-					ArrayList<Integer> now = (ArrayList<Integer>) outerIt.next();
-					System.out.println("Frage: " + cc);
-					Iterator innerIt = now.iterator();
-					while(innerIt.hasNext()){
-						int abc = (int) innerIt.next();
-						System.out.println("\t>Inner: " + abc);
-					}
-					cc++;
-				}
-				
-			}
-		});
-
-		
-		//Wrapped by HTML usage -> Dokument explanation
-		
 		
 		GroupLayout gl_introPanel = new GroupLayout(introPanel);
 		gl_introPanel.setHorizontalGroup(
 			gl_introPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_introPanel.createSequentialGroup()
-					.addGroup(gl_introPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_introPanel.createSequentialGroup()
-							.addGap(21)
-							.addGroup(gl_introPanel.createParallelGroup(Alignment.TRAILING)
-								.addComponent(label_1)
-								.addComponent(lbl_1)))
-						.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE))
+					.addGap(21)
+					.addGroup(gl_introPanel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(label_1)
+						.addComponent(lbl_1))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_introPanel.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblTitle, GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
-						.addComponent(lblExpose, GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE))
+						.addComponent(lblExpose, GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_introPanel.setVerticalGroup(
@@ -166,21 +153,24 @@ public class FBAnswer extends JFrame {
 						.addComponent(lblTitle))
 					.addGap(33)
 					.addGroup(gl_introPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_introPanel.createSequentialGroup()
-							.addComponent(lbl_1)
-							.addGap(100)
-							.addComponent(btnNewButton))
+						.addComponent(lbl_1)
 						.addComponent(lblExpose, GroupLayout.PREFERRED_SIZE, 310, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(334, Short.MAX_VALUE))
+					.addContainerGap(335, Short.MAX_VALUE))
 		);
 		introPanel.setLayout(gl_introPanel);
 		
 		JPanel currentQuestion = new JPanel();
 		
+		//Hädischer Code
 		tabbedPane.addTab("Frage " + (fragenZahl + 1), null, currentQuestion, null);
 		
 		currentQuestion.setLayout(new CardLayout(0, 0));
 		
+		/**
+		 * Windowbuilder Code
+		 * |
+		 * V
+		 */
 		JPanel jaNeinPanel = new JPanel();
 		jaNeinPanel.setBackground(Color.WHITE);
 		currentQuestion.add(jaNeinPanel, "jaNeinChoice");
@@ -201,15 +191,25 @@ public class FBAnswer extends JFrame {
 		rdbtnNein.setBackground(Color.WHITE);
 		rdbtnNein.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
+		//Händischer Code
 		ButtonGroup group = new ButtonGroup();
 		group.add(rdbtnNein);
 		group.add(rdbtnJa);
 		
 		JButton btnNext = new JButton("N\u00E4chste Frage");
 
+		/**
+		 * Windowbuilder Code
+		 * |
+		 * V
+		 */
 		btnNext.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
+		JButton btnFragebogenAbgeben = new JButton("Fragebogen abgeben");
+		btnFragebogenAbgeben.setEnabled(false);
+		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		GroupLayout gl_jaNeinPanel = new GroupLayout(jaNeinPanel);
 		gl_jaNeinPanel.setHorizontalGroup(
 			gl_jaNeinPanel.createParallelGroup(Alignment.LEADING)
@@ -251,11 +251,11 @@ public class FBAnswer extends JFrame {
 					.addContainerGap(336, Short.MAX_VALUE))
 		);
 		
-		JLabel lblFrage = new JLabel("<html>" + "" + "</html>");
+		JTextArea lblFrage = new JTextArea();
+		lblFrage.setLineWrap(true);
 		lblFrage.setBackground(Color.WHITE);
 		scrollPane.setViewportView(lblFrage);
 		lblFrage.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblFrage.setVerticalAlignment(SwingConstants.TOP);
 		lblFrage.setBorder(BorderFactory.createCompoundBorder(border,BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		jaNeinPanel.setLayout(gl_jaNeinPanel);
 		
@@ -278,6 +278,7 @@ public class FBAnswer extends JFrame {
 		btnNext2.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		GroupLayout gl_singlePanel = new GroupLayout(singlePanel);
 		gl_singlePanel.setHorizontalGroup(
 			gl_singlePanel.createParallelGroup(Alignment.LEADING)
@@ -311,9 +312,10 @@ public class FBAnswer extends JFrame {
 					.addContainerGap(339, Short.MAX_VALUE))
 		);
 		
-		JLabel lblFrageSingle = new JLabel("<html>" + "" + "</html>");
+		JTextArea lblFrageSingle = new JTextArea();
+		lblFrageSingle.setLineWrap(true);
 		scrollPane_1.setViewportView(lblFrageSingle);
-		lblFrageSingle.setVerticalAlignment(SwingConstants.TOP);
+		//lblFrageSingle.setVerticalAlignment(SwingConstants.TOP);
 		lblFrageSingle.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblFrageSingle.setBorder(BorderFactory.createCompoundBorder(border,BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		singlePanel.setLayout(gl_singlePanel);
@@ -349,7 +351,7 @@ public class FBAnswer extends JFrame {
 		multiAnswer5.setBackground(Color.WHITE);
 		multiAnswer5.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
-			
+		//Händischer Code	
 		fragenList = currentFB.getFragen();
 		String fragenDescr = "";
 		int fragenID = 0;
@@ -361,36 +363,35 @@ public class FBAnswer extends JFrame {
 			fragenID = currentFrage.getFragetyp();
 			fragenDescr = currentFrage.getFragebeschreibung();
 			antwortenList = currentFrage.getAntwortmoeglichkeiten();
-			System.out.println("FragenID: " + fragenID);
 			if(fragenID == 0){
 				//JA/NEIN
 				CardLayout cl = (CardLayout)(currentQuestion.getLayout());
 			    cl.show(currentQuestion, "jaNeinChoice");
-			    lblFrage.setText("<html>" + fragenDescr + "</html>");
+			    lblFrage.setText(fragenDescr);
 			   
 			}else if(fragenID == 1){
 				//Single-Choice
 				CardLayout cl = (CardLayout)(currentQuestion.getLayout());
 			    cl.show(currentQuestion, "singleChoice");
-			    lblFrageSingle.setText("<html>" + fragenDescr + "</html>");
-			    for(int i = antwortenList.size();i>0;i--){
-			    	comboBox.addItem(antwortenList.get(i-1));
+			    lblFrageSingle.setText(fragenDescr);
+			    for(int i = 0; i < antwortenList.size();i++){
+			    	comboBox.addItem(antwortenList.get(i));
 			    }
 			    
 			}else if(fragenID == 2){
 				//Multiple-Choice
 				CardLayout cl = (CardLayout)(currentQuestion.getLayout());
 			    cl.show(currentQuestion, "multiChoice");
-			    lblFrageMulti.setText("<html>" + fragenDescr + "</html>");
+			    lblFrageMulti.setText(fragenDescr);
 			    //System.out.println("-><- " + antwortenList.size());
 			    
 			    if(antwortenList.size()==1){
 			    	
 			    	multiAnswer1.setText(antwortenList.get(0));
-			    	multiAnswer2.setEnabled(false);
-			    	multiAnswer3.setEnabled(false);
-			    	multiAnswer4.setEnabled(false);
-			    	multiAnswer5.setEnabled(false);
+			    	multiAnswer2.setVisible(false);
+			    	multiAnswer3.setVisible(false);
+			    	multiAnswer4.setVisible(false);
+			    	multiAnswer5.setVisible(false);
 			    	
 			    	multiAnswer2.setText("-");
 			    	multiAnswer3.setText("-");
@@ -406,10 +407,12 @@ public class FBAnswer extends JFrame {
 			    }else if(antwortenList.size()==2){
 			    	
 			    	multiAnswer1.setText(antwortenList.get(0));
+			    	multiAnswer1.setVisible(true);
 			    	multiAnswer2.setText(antwortenList.get(1));
-			    	multiAnswer3.setEnabled(false);
-			    	multiAnswer4.setEnabled(false);
-			    	multiAnswer5.setEnabled(false);
+			    	multiAnswer2.setVisible(true);
+			    	multiAnswer3.setVisible(false);
+			    	multiAnswer4.setVisible(false);
+			    	multiAnswer5.setVisible(false);
 			    	
 			    	multiAnswer3.setText("-");
 			    	multiAnswer4.setText("-");
@@ -424,10 +427,13 @@ public class FBAnswer extends JFrame {
 			    }else if(antwortenList.size()==3){
 			    	
 			    	multiAnswer1.setText(antwortenList.get(0));
+			    	multiAnswer1.setVisible(true);
 			    	multiAnswer2.setText(antwortenList.get(1));
+			    	multiAnswer2.setVisible(true);
 			    	multiAnswer3.setText(antwortenList.get(2));
-			    	multiAnswer4.setEnabled(false);
-			    	multiAnswer5.setEnabled(false);
+			    	multiAnswer3.setVisible(true);
+			    	multiAnswer4.setVisible(false);
+			    	multiAnswer5.setVisible(false);
 			    	
 			    	multiAnswer4.setText("-");
 			    	multiAnswer5.setText("-");
@@ -441,10 +447,15 @@ public class FBAnswer extends JFrame {
 			    }else if(antwortenList.size()==4){
 			    	
 			    	multiAnswer1.setText(antwortenList.get(0));
+			    	multiAnswer1.setEnabled(true);
 			    	multiAnswer2.setText(antwortenList.get(1));
+			    	multiAnswer2.setVisible(true);
 			    	multiAnswer3.setText(antwortenList.get(2));
+			    	multiAnswer3.setVisible(true);
 			    	multiAnswer4.setText(antwortenList.get(3));
-			    	multiAnswer5.setEnabled(false);
+			    	multiAnswer4.setVisible(true);
+			    	multiAnswer5.setVisible(false);
+			    	
 			    	
 			    	multiAnswer5.setText("-");
 			    	
@@ -457,10 +468,15 @@ public class FBAnswer extends JFrame {
 			    }else if(antwortenList.size()==5){
 			    	
 			    	multiAnswer1.setText(antwortenList.get(0));
+			    	multiAnswer1.setVisible(true);
 			    	multiAnswer2.setText(antwortenList.get(1));
+			    	multiAnswer2.setVisible(true);
 			    	multiAnswer3.setText(antwortenList.get(2));
+			    	multiAnswer3.setVisible(true);
 			    	multiAnswer4.setText(antwortenList.get(3));
+			    	multiAnswer4.setVisible(true);
 			    	multiAnswer5.setText(antwortenList.get(4));
+			    	multiAnswer5.setVisible(true);
 			    	
 			    	multiAnswer1.setSelected(false);
 			    	multiAnswer2.setSelected(false);
@@ -485,11 +501,11 @@ public class FBAnswer extends JFrame {
 				ArrayList<Integer> innerAntworten = new ArrayList<Integer>();
 				innerAntworten.add((comboBox.getSelectedIndex()+1));
 				antwortenSolver.add(innerAntworten);
-				System.out.println(comboBox.getSelectedIndex());
+				//System.out.println(comboBox.getSelectedIndex());
 				comboBox.removeAllItems();
 				
 				if(fragenList.size()>fragenZahl+1){
-					System.out.println("Next question detected!");
+					//System.out.println("Next question detected!");
 					fragenZahl++;
 					tabbedPane.setTitleAt(tabbedPane.getSelectedIndex(), "Frage " + (fragenZahl+1));
 					
@@ -502,35 +518,35 @@ public class FBAnswer extends JFrame {
 						fragenID = currentFrage.getFragetyp();
 						fragenDescr = currentFrage.getFragebeschreibung();
 						antwortenList = currentFrage.getAntwortmoeglichkeiten();
-						System.out.println("FragenID: " + fragenID);
+
 						if(fragenID == 0){
 							//JA/NEIN
 							CardLayout cl = (CardLayout)(currentQuestion.getLayout());
 						    cl.show(currentQuestion, "jaNeinChoice");
-						    lblFrage.setText("<html>" + fragenDescr + "</html>");
+						    lblFrage.setText(fragenDescr);
 						   
 						}else if(fragenID == 1){
 							//Single-Choice
 							CardLayout cl = (CardLayout)(currentQuestion.getLayout());
 						    cl.show(currentQuestion, "singleChoice");
-						    lblFrageSingle.setText("<html>" + fragenDescr + "</html>");
-						    for(int i = antwortenList.size();i>0;i--){
-						    	comboBox.addItem(antwortenList.get(i-1));
+						    lblFrageSingle.setText(fragenDescr);
+						    for(int i = 0; i < antwortenList.size();i++){
+						    	comboBox.addItem(antwortenList.get(i));
 						    }
 						    
 						}else if(fragenID == 2){
 							//Multiple-Choice
 							CardLayout cl = (CardLayout)(currentQuestion.getLayout());
 						    cl.show(currentQuestion, "multiChoice");
-						    lblFrageMulti.setText("<html>" + fragenDescr + "</html>");
+						    lblFrageMulti.setText(fragenDescr);
 						    
 						    if(antwortenList.size()==1){
 						    	
 						    	multiAnswer1.setText(antwortenList.get(0));
-						    	multiAnswer2.setEnabled(false);
-						    	multiAnswer3.setEnabled(false);
-						    	multiAnswer4.setEnabled(false);
-						    	multiAnswer5.setEnabled(false);
+						    	multiAnswer2.setVisible(false);
+						    	multiAnswer3.setVisible(false);
+						    	multiAnswer4.setVisible(false);
+						    	multiAnswer5.setVisible(false);
 						    	
 						    	multiAnswer2.setText("-");
 						    	multiAnswer3.setText("-");
@@ -546,10 +562,12 @@ public class FBAnswer extends JFrame {
 						    }else if(antwortenList.size()==2){
 						    	
 						    	multiAnswer1.setText(antwortenList.get(0));
+						    	multiAnswer1.setVisible(true);
 						    	multiAnswer2.setText(antwortenList.get(1));
-						    	multiAnswer3.setEnabled(false);
-						    	multiAnswer4.setEnabled(false);
-						    	multiAnswer5.setEnabled(false);
+						    	multiAnswer2.setVisible(true);
+						    	multiAnswer3.setVisible(false);
+						    	multiAnswer4.setVisible(false);
+						    	multiAnswer5.setVisible(false);
 						    	
 						    	multiAnswer3.setText("-");
 						    	multiAnswer4.setText("-");
@@ -564,10 +582,13 @@ public class FBAnswer extends JFrame {
 						    }else if(antwortenList.size()==3){
 						    	
 						    	multiAnswer1.setText(antwortenList.get(0));
+						    	multiAnswer1.setVisible(true);
 						    	multiAnswer2.setText(antwortenList.get(1));
+						    	multiAnswer2.setVisible(true);
 						    	multiAnswer3.setText(antwortenList.get(2));
-						    	multiAnswer4.setEnabled(false);
-						    	multiAnswer5.setEnabled(false);
+						    	multiAnswer3.setVisible(true);
+						    	multiAnswer4.setVisible(false);
+						    	multiAnswer5.setVisible(false);
 						    	
 						    	multiAnswer4.setText("-");
 						    	multiAnswer5.setText("-");
@@ -581,10 +602,15 @@ public class FBAnswer extends JFrame {
 						    }else if(antwortenList.size()==4){
 						    	
 						    	multiAnswer1.setText(antwortenList.get(0));
+						    	multiAnswer1.setEnabled(true);
 						    	multiAnswer2.setText(antwortenList.get(1));
+						    	multiAnswer2.setVisible(true);
 						    	multiAnswer3.setText(antwortenList.get(2));
+						    	multiAnswer3.setVisible(true);
 						    	multiAnswer4.setText(antwortenList.get(3));
-						    	multiAnswer5.setEnabled(false);
+						    	multiAnswer4.setVisible(true);
+						    	multiAnswer5.setVisible(false);
+						    	
 						    	
 						    	multiAnswer5.setText("-");
 						    	
@@ -597,10 +623,15 @@ public class FBAnswer extends JFrame {
 						    }else if(antwortenList.size()==5){
 						    	
 						    	multiAnswer1.setText(antwortenList.get(0));
+						    	multiAnswer1.setVisible(true);
 						    	multiAnswer2.setText(antwortenList.get(1));
+						    	multiAnswer2.setVisible(true);
 						    	multiAnswer3.setText(antwortenList.get(2));
+						    	multiAnswer3.setVisible(true);
 						    	multiAnswer4.setText(antwortenList.get(3));
+						    	multiAnswer4.setVisible(true);
 						    	multiAnswer5.setText(antwortenList.get(4));
+						    	multiAnswer5.setVisible(true);
 						    	
 						    	multiAnswer1.setSelected(false);
 						    	multiAnswer2.setSelected(false);
@@ -609,6 +640,7 @@ public class FBAnswer extends JFrame {
 						    	multiAnswer5.setSelected(false);
 						    	
 						    }else{
+						    //Practically Impossible to reach
 						    	
 						    }
 						    
@@ -620,6 +652,7 @@ public class FBAnswer extends JFrame {
 					}
 				}else{
 					tabbedPane.setSelectedIndex(2);
+					btnFragebogenAbgeben.setEnabled(true);
 				}
 			}
 		});
@@ -629,26 +662,33 @@ public class FBAnswer extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				//next question
+				boolean continueNow  = false;
 				if(rdbtnJa.isSelected()){
 					ArrayList<Integer> innerAntworten = new ArrayList<Integer>();
 					//-> Answered JA
 					innerAntworten.add(1);
 					antwortenSolver.add(innerAntworten);
-					System.out.println(1);
+					continueNow = true;
 				}else if (rdbtnNein.isSelected()){
 					ArrayList<Integer> innerAntworten = new ArrayList<Integer>();
 					//-> Answered NEIN
 					innerAntworten.add(2);
 					antwortenSolver.add(innerAntworten);
-					System.out.println(2);
+					continueNow = true;
 				}else{
+					
 					//No answer selected
 					//Code below can't be run!
+					continueNow = false;
+					JFrame framePop = new JFrame();
+					JOptionPane.showMessageDialog(framePop, "Sie müssen diese Frage beantworten!","Warnung",JOptionPane.WARNING_MESSAGE);
+				
 				}
+				if(continueNow){
 				rdbtnJa.setSelected(false);
 				rdbtnNein.setSelected(false);
 				if(fragenList.size()>fragenZahl+1){
-					System.out.println("Next question detected!");
+				
 					fragenZahl++;
 					tabbedPane.setTitleAt(tabbedPane.getSelectedIndex(), "Frage " + (fragenZahl+1));
 					
@@ -663,36 +703,36 @@ public class FBAnswer extends JFrame {
 						fragenID = currentFrage.getFragetyp();
 						fragenDescr = currentFrage.getFragebeschreibung();
 						antwortenList = currentFrage.getAntwortmoeglichkeiten();
-						System.out.println("FragenID: " + fragenID);
+						
 						if(fragenID == 0){
 							//JA/NEIN
 							CardLayout cl = (CardLayout)(currentQuestion.getLayout());
 						    cl.show(currentQuestion, "jaNeinChoice");
-						    lblFrage.setText("<html>" + fragenDescr + "</html>");
+						    lblFrage.setText(fragenDescr);
 						   
 						}else if(fragenID == 1){
 							//Single-Choice
 							CardLayout cl = (CardLayout)(currentQuestion.getLayout());
 						    cl.show(currentQuestion, "singleChoice");
-						    lblFrageSingle.setText("<html>" + fragenDescr + "</html>");
-						    for(int i = antwortenList.size();i>0;i--){
-						    	comboBox.addItem(antwortenList.get(i-1));
+						    lblFrageSingle.setText(fragenDescr);
+						    for(int i = 0; i < antwortenList.size();i++){
+						    	comboBox.addItem(antwortenList.get(i));
 						    }
 						    
 						}else if(fragenID == 2){
 							//Multiple-Choice
 							CardLayout cl = (CardLayout)(currentQuestion.getLayout());
 						    cl.show(currentQuestion, "multiChoice");
-						    lblFrageMulti.setText("<html>" + fragenDescr + "</html>");
+						    lblFrageMulti.setText(fragenDescr);
 						    //System.out.println("-><- " + antwortenList.size());
 						    
 						    if(antwortenList.size()==1){
 						    	
 						    	multiAnswer1.setText(antwortenList.get(0));
-						    	multiAnswer2.setEnabled(false);
-						    	multiAnswer3.setEnabled(false);
-						    	multiAnswer4.setEnabled(false);
-						    	multiAnswer5.setEnabled(false);
+						    	multiAnswer2.setVisible(false);
+						    	multiAnswer3.setVisible(false);
+						    	multiAnswer4.setVisible(false);
+						    	multiAnswer5.setVisible(false);
 						    	
 						    	multiAnswer2.setText("-");
 						    	multiAnswer3.setText("-");
@@ -708,10 +748,12 @@ public class FBAnswer extends JFrame {
 						    }else if(antwortenList.size()==2){
 						    	
 						    	multiAnswer1.setText(antwortenList.get(0));
+						    	multiAnswer1.setVisible(true);
 						    	multiAnswer2.setText(antwortenList.get(1));
-						    	multiAnswer3.setEnabled(false);
-						    	multiAnswer4.setEnabled(false);
-						    	multiAnswer5.setEnabled(false);
+						    	multiAnswer2.setVisible(true);
+						    	multiAnswer3.setVisible(false);
+						    	multiAnswer4.setVisible(false);
+						    	multiAnswer5.setVisible(false);
 						    	
 						    	multiAnswer3.setText("-");
 						    	multiAnswer4.setText("-");
@@ -726,10 +768,13 @@ public class FBAnswer extends JFrame {
 						    }else if(antwortenList.size()==3){
 						    	
 						    	multiAnswer1.setText(antwortenList.get(0));
+						    	multiAnswer1.setVisible(true);
 						    	multiAnswer2.setText(antwortenList.get(1));
+						    	multiAnswer2.setVisible(true);
 						    	multiAnswer3.setText(antwortenList.get(2));
-						    	multiAnswer4.setEnabled(false);
-						    	multiAnswer5.setEnabled(false);
+						    	multiAnswer3.setVisible(true);
+						    	multiAnswer4.setVisible(false);
+						    	multiAnswer5.setVisible(false);
 						    	
 						    	multiAnswer4.setText("-");
 						    	multiAnswer5.setText("-");
@@ -743,10 +788,15 @@ public class FBAnswer extends JFrame {
 						    }else if(antwortenList.size()==4){
 						    	
 						    	multiAnswer1.setText(antwortenList.get(0));
+						    	multiAnswer1.setEnabled(true);
 						    	multiAnswer2.setText(antwortenList.get(1));
+						    	multiAnswer2.setVisible(true);
 						    	multiAnswer3.setText(antwortenList.get(2));
+						    	multiAnswer3.setVisible(true);
 						    	multiAnswer4.setText(antwortenList.get(3));
-						    	multiAnswer5.setEnabled(false);
+						    	multiAnswer4.setVisible(true);
+						    	multiAnswer5.setVisible(false);
+						    	
 						    	
 						    	multiAnswer5.setText("-");
 						    	
@@ -759,10 +809,15 @@ public class FBAnswer extends JFrame {
 						    }else if(antwortenList.size()==5){
 						    	
 						    	multiAnswer1.setText(antwortenList.get(0));
+						    	multiAnswer1.setVisible(true);
 						    	multiAnswer2.setText(antwortenList.get(1));
+						    	multiAnswer2.setVisible(true);
 						    	multiAnswer3.setText(antwortenList.get(2));
+						    	multiAnswer3.setVisible(true);
 						    	multiAnswer4.setText(antwortenList.get(3));
+						    	multiAnswer4.setVisible(true);
 						    	multiAnswer5.setText(antwortenList.get(4));
+						    	multiAnswer5.setVisible(true);
 						    	
 						    	multiAnswer1.setSelected(false);
 						    	multiAnswer2.setSelected(false);
@@ -771,6 +826,7 @@ public class FBAnswer extends JFrame {
 						    	multiAnswer5.setSelected(false);
 						    	
 						    }else{
+						    //Practically Impossible to reach
 						    	
 						    }
 						    
@@ -782,9 +838,10 @@ public class FBAnswer extends JFrame {
 					}
 				}else{
 					tabbedPane.setSelectedIndex(2);
+					btnFragebogenAbgeben.setEnabled(true);
 				}
 				
-				
+			}
 			}
 		});
 		
@@ -794,23 +851,23 @@ public class FBAnswer extends JFrame {
 			public void mouseClicked(MouseEvent arg0) {
 				//String multiAntwort = "";
 				ArrayList<Integer> innerAntworten = new ArrayList<Integer>();
-				if(multiAnswer1.isSelected() && multiAnswer1.isEnabled()){
+				if(multiAnswer1.isSelected() && multiAnswer1.isVisible()){
 					//multiAntwort = multiAntwort + "0";
 					innerAntworten.add(1);
 				}
-				if(multiAnswer2.isSelected() && multiAnswer2.isEnabled()){
+				if(multiAnswer2.isSelected() && multiAnswer2.isVisible()){
 					//multiAntwort = multiAntwort + "1";
 					innerAntworten.add(2);
 				}
-				if(multiAnswer3.isSelected() && multiAnswer3.isEnabled()){
+				if(multiAnswer3.isSelected() && multiAnswer3.isVisible()){
 					//multiAntwort = multiAntwort + "2";
 					innerAntworten.add(3);
 				}
-				if(multiAnswer4.isSelected() && multiAnswer4.isEnabled()){
+				if(multiAnswer4.isSelected() && multiAnswer4.isVisible()){
 					//multiAntwort = multiAntwort + "3";
 					innerAntworten.add(4);
 				}
-				if(multiAnswer5.isSelected() && multiAnswer5.isEnabled()){
+				if(multiAnswer5.isSelected() && multiAnswer5.isVisible()){
 					//multiAntwort = multiAntwort + "4";
 					innerAntworten.add(5);
 				}
@@ -820,7 +877,7 @@ public class FBAnswer extends JFrame {
 
 				
 				if(fragenList.size()>fragenZahl+1){
-					System.out.println("Next question detected! - change coming");
+					
 					fragenZahl++;
 					tabbedPane.setTitleAt(tabbedPane.getSelectedIndex(), "Frage " + (fragenZahl+1));
 					fragenList = currentFB.getFragen();
@@ -834,18 +891,18 @@ public class FBAnswer extends JFrame {
 						fragenID = currentFrage.getFragetyp();
 						fragenDescr = currentFrage.getFragebeschreibung();
 						antwortenList = currentFrage.getAntwortmoeglichkeiten();
-						System.out.println("FragenID: " + fragenID);
+						
 						if(fragenID == 0){
 							//JA/NEIN
 							CardLayout cl = (CardLayout)(currentQuestion.getLayout());
 						    cl.show(currentQuestion, "jaNeinChoice");
-						    lblFrage.setText("<html>" + fragenDescr + "</html>");
+						    lblFrage.setText(fragenDescr);
 						   
 						}else if(fragenID == 1){
 							//Single-Choice
 							CardLayout cl = (CardLayout)(currentQuestion.getLayout());
 						    cl.show(currentQuestion, "singleChoice");
-						    lblFrageSingle.setText("<html>" + fragenDescr + "</html>");
+						    lblFrageSingle.setText(fragenDescr);
 						    for(int i = 0; i < antwortenList.size();i++){
 						    	comboBox.addItem(antwortenList.get(i));
 						    }
@@ -854,16 +911,16 @@ public class FBAnswer extends JFrame {
 							//Multiple-Choice
 							CardLayout cl = (CardLayout)(currentQuestion.getLayout());
 						    cl.show(currentQuestion, "multiChoice");
-						    lblFrageMulti.setText("<html>" + fragenDescr + "</html>");
+						    lblFrageMulti.setText(fragenDescr);
 						    //System.out.println("-><- " + antwortenList.size());
 						    
 						    if(antwortenList.size()==1){
 						    	
 						    	multiAnswer1.setText(antwortenList.get(0));
-						    	multiAnswer2.setEnabled(false);
-						    	multiAnswer3.setEnabled(false);
-						    	multiAnswer4.setEnabled(false);
-						    	multiAnswer5.setEnabled(false);
+						    	multiAnswer2.setVisible(false);
+						    	multiAnswer3.setVisible(false);
+						    	multiAnswer4.setVisible(false);
+						    	multiAnswer5.setVisible(false);
 						    	
 						    	multiAnswer2.setText("-");
 						    	multiAnswer3.setText("-");
@@ -879,10 +936,12 @@ public class FBAnswer extends JFrame {
 						    }else if(antwortenList.size()==2){
 						    	
 						    	multiAnswer1.setText(antwortenList.get(0));
+						    	multiAnswer1.setVisible(true);
 						    	multiAnswer2.setText(antwortenList.get(1));
-						    	multiAnswer3.setEnabled(false);
-						    	multiAnswer4.setEnabled(false);
-						    	multiAnswer5.setEnabled(false);
+						    	multiAnswer2.setVisible(true);
+						    	multiAnswer3.setVisible(false);
+						    	multiAnswer4.setVisible(false);
+						    	multiAnswer5.setVisible(false);
 						    	
 						    	multiAnswer3.setText("-");
 						    	multiAnswer4.setText("-");
@@ -897,10 +956,13 @@ public class FBAnswer extends JFrame {
 						    }else if(antwortenList.size()==3){
 						    	
 						    	multiAnswer1.setText(antwortenList.get(0));
+						    	multiAnswer1.setVisible(true);
 						    	multiAnswer2.setText(antwortenList.get(1));
+						    	multiAnswer2.setVisible(true);
 						    	multiAnswer3.setText(antwortenList.get(2));
-						    	multiAnswer4.setEnabled(false);
-						    	multiAnswer5.setEnabled(false);
+						    	multiAnswer3.setVisible(true);
+						    	multiAnswer4.setVisible(false);
+						    	multiAnswer5.setVisible(false);
 						    	
 						    	multiAnswer4.setText("-");
 						    	multiAnswer5.setText("-");
@@ -914,10 +976,15 @@ public class FBAnswer extends JFrame {
 						    }else if(antwortenList.size()==4){
 						    	
 						    	multiAnswer1.setText(antwortenList.get(0));
+						    	multiAnswer1.setEnabled(true);
 						    	multiAnswer2.setText(antwortenList.get(1));
+						    	multiAnswer2.setVisible(true);
 						    	multiAnswer3.setText(antwortenList.get(2));
+						    	multiAnswer3.setVisible(true);
 						    	multiAnswer4.setText(antwortenList.get(3));
-						    	multiAnswer5.setEnabled(false);
+						    	multiAnswer4.setVisible(true);
+						    	multiAnswer5.setVisible(false);
+						    	
 						    	
 						    	multiAnswer5.setText("-");
 						    	
@@ -930,10 +997,15 @@ public class FBAnswer extends JFrame {
 						    }else if(antwortenList.size()==5){
 						    	
 						    	multiAnswer1.setText(antwortenList.get(0));
+						    	multiAnswer1.setVisible(true);
 						    	multiAnswer2.setText(antwortenList.get(1));
+						    	multiAnswer2.setVisible(true);
 						    	multiAnswer3.setText(antwortenList.get(2));
+						    	multiAnswer3.setVisible(true);
 						    	multiAnswer4.setText(antwortenList.get(3));
+						    	multiAnswer4.setVisible(true);
 						    	multiAnswer5.setText(antwortenList.get(4));
+						    	multiAnswer5.setVisible(true);
 						    	
 						    	multiAnswer1.setSelected(false);
 						    	multiAnswer2.setSelected(false);
@@ -942,6 +1014,7 @@ public class FBAnswer extends JFrame {
 						    	multiAnswer5.setSelected(false);
 						    	
 						    }else{
+						    //Practically Impossible to reach
 						    	
 						    }
 						    
@@ -954,6 +1027,7 @@ public class FBAnswer extends JFrame {
 					
 				}else{
 					tabbedPane.setSelectedIndex(2);
+					btnFragebogenAbgeben.setEnabled(true);
 				}
 			//Next question
 			//Get selected indexes -> int? - 01234	
@@ -961,10 +1035,16 @@ public class FBAnswer extends JFrame {
 					
 			}
 		});
+		
+		/**
+		 * Windowbuilder Code
+		 * |
+		 * V
+		 */
 		btnNext3.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
-		
+		scrollPane_2.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		
 		
 		
@@ -1017,42 +1097,46 @@ public class FBAnswer extends JFrame {
 		
 		scrollPane_2.setViewportView(lblFrageMulti);
 		lblFrageMulti.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblFrageMulti.setVerticalAlignment(SwingConstants.TOP);
+		//lblFrageMulti.setVerticalAlignment(SwingConstants.TOP);
 		lblFrageMulti.setBorder(BorderFactory.createCompoundBorder(border,BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		multiPanel.setLayout(gl_multiPanel);
 		
 		JPanel panel = new JPanel();
 		tabbedPane.addTab("FB abgeben", null, panel, null);
 		
-		JButton btnFragebogenAbgeben = new JButton("Fragebogen abgeben");
+
 		btnFragebogenAbgeben.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				if(btnFragebogenAbgeben.isEnabled()){
 				boolean success = FBSSubmissionModul.submitFBS((Solver) Menu.getUser(), currentFB, antwortenSolver);
-				System.err.println(success);
 				if(success){
+					JFrame framePop = new JFrame();
+					JOptionPane.showMessageDialog(framePop, "Danke für Ihre Teilnahme","Danke",JOptionPane.INFORMATION_MESSAGE);
 					Menu.launchMenu();
 					setVisible(false);
+				}else{
+					JFrame framePop = new JFrame();
+					JOptionPane.showMessageDialog(framePop, "Es ist ein Fehler aufgetreten, Ihre Antwort konnte nicht gespeichert werden.","Error",JOptionPane.ERROR_MESSAGE);
+				
 				}
+			}
 			}
 		});
 		btnFragebogenAbgeben.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addComponent(btnFragebogenAbgeben, GroupLayout.DEFAULT_SIZE, 463, Short.MAX_VALUE)
+				.addComponent(btnFragebogenAbgeben, GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(btnFragebogenAbgeben, GroupLayout.PREFERRED_SIZE, 375, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(182, Short.MAX_VALUE))
+					.addComponent(btnFragebogenAbgeben, GroupLayout.PREFERRED_SIZE, 406, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(315, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
 	}
 	
-	public static void updateGui(){
-		
-	}
 }

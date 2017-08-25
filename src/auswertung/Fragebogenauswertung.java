@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 import umfrage.Frage;
 import umfrage.Fragebogen;
+import verwaltung.Kurs;
 import auswertung.Fragebogenauswertung;
 
 /**
@@ -31,7 +32,14 @@ public class Fragebogenauswertung implements Serializable{
 	 */
 	private ArrayList<ArrayList<Integer>> allAntworten;
 	
+	private Kurs ownedBy;
+	
+	
 	private int anzahlAntworten;
+	
+	public int getAnzahlAntworten(){
+		return this.anzahlAntworten;
+	}
 	/**
 	 * <b><i>Fragebogenauswertung</i></b><br>
 	 * &nbsp;&nbsp;&nbsp;<CODE>public Fragebogenauswertung(Fragebogen sourceFragebogen)</CODE>
@@ -39,7 +47,8 @@ public class Fragebogenauswertung implements Serializable{
 	 * and an empty {@link java.util.ArrayList ArrayList} containing {@link java.util.ArrayList ArrayList} of answers submitted.
 	 * @param sourceFragebogen - {@link umfrage.Fragebogen Fragebogen} representing and assisting the structure of answers
 	 */
-	public Fragebogenauswertung(Fragebogen sourceFragebogen){
+	public Fragebogenauswertung(Fragebogen sourceFragebogen, Kurs currentKurs){
+		this.ownedBy = currentKurs;
 		this.sourceFragebogen = (Fragebogen) sourceFragebogen.clone();
 		this.allAntworten = new ArrayList<ArrayList<Integer>>();
 		this.anzahlAntworten = 0;
@@ -65,6 +74,10 @@ public class Fragebogenauswertung implements Serializable{
 	public Fragebogen getSourceFragebogen(){
 		return this.sourceFragebogen;
 	}
+	
+	public Kurs getOwnedBy(){
+		return this.ownedBy;
+	}
 	/**
 	 * 
 	 * @return
@@ -78,7 +91,7 @@ public class Fragebogenauswertung implements Serializable{
 	 * @param antwort - {@link java.util.ArrayList ArrayList} to be added to the <CODE>Fragebogenauswertung</CODE>
 	 */
 	public void addAntwort(ArrayList<ArrayList<Integer>> submittedAntworten){
-		System.out.println("submissionSize=="+ submittedAntworten.size());
+		//System.out.println("submissionSize=="+ submittedAntworten.size());
 		//antwort und frage haben exakt dieselbe Struktur!
 		Iterator<ArrayList<Integer>> targetAntwortenIt = this.allAntworten.iterator();
 		Iterator<ArrayList<Integer>> submittedAntwortenIt = submittedAntworten.iterator();

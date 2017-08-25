@@ -77,6 +77,7 @@ public class FBCreate extends JFrame {
 	 * Create the frame.
 	 */
 	public FBCreate() {
+		setResizable(false);
 		setTitle("QuestionMark");
 		setBackground(Color.WHITE);
 		setResizable(false);
@@ -101,6 +102,7 @@ public class FBCreate extends JFrame {
 		lblTitel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		textField = new JTextField();
+		textField.setToolTipText("Geben Sie hier den Titel Ihres Fragebogens an. Sollte zur au\u00DFeinandhaltung m\u00F6glichst eindeutig sein!");
 		textField.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		Border border = BorderFactory.createLineBorder(Color.BLACK);
 		textField.setBorder(BorderFactory.createCompoundBorder(border,BorderFactory.createEmptyBorder(1, 1, 1, 1)));
@@ -140,6 +142,7 @@ public class FBCreate extends JFrame {
 		);
 		
 		JTextArea textArea = new JTextArea();
+		textArea.setToolTipText("Tragen Sie hier eine passende Kurzbeschreibung Ihres Fragebogens ein.");
 		scrollPane_3.setViewportView(textArea);
 		textArea.setLineWrap(true);
 		textArea.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -158,6 +161,7 @@ public class FBCreate extends JFrame {
 		panel_3.setBackground(Color.WHITE);
 		
 		JComboBox<String> comboBox = new JComboBox<String>();
+		comboBox.setToolTipText("W\u00E4hlen Sie hier den Fragetyp aus, welchen Sie erstellen wollen.");
 		
 		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Ja/Nein", "Single-Choice", "Multiple-Choice"}));
@@ -204,12 +208,14 @@ public class FBCreate extends JFrame {
 		lblAntwortmglichkeiten.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		JLabel lblJanein = new JLabel("Ja/Nein");
+		lblJanein.setToolTipText("Die Antwortm\u00F6glichkeiten sind bereits festgesetzt.");
 		lblJanein.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		JScrollPane scrollPane = new JScrollPane();
 		DefaultListModel<String> model = new DefaultListModel<String>();
 		
 		JList<String> listAnswers = new JList<String>(model);
+		listAnswers.setToolTipText("Liste der Antwortm\u00F6glichkeiten");
 		listAnswers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		GroupLayout gl_jaNeinPanel = new GroupLayout(jaNeinPanel);
 		gl_jaNeinPanel.setHorizontalGroup(
@@ -244,6 +250,7 @@ public class FBCreate extends JFrame {
 		);
 		
 		JTextArea jaNeinTitle = new JTextArea();
+		jaNeinTitle.setToolTipText("Tragen Sie hier den Titel Ihrer Frage ein.");
 		scrollPane.setViewportView(jaNeinTitle);
 		jaNeinTitle.setLineWrap(true);
 		jaNeinTitle.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -261,19 +268,21 @@ public class FBCreate extends JFrame {
 		label_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		singleChoiceAnswerField = new JTextField();
+		singleChoiceAnswerField.setToolTipText("Geben Sie eine Antwortm\u00F6glichkeit ein und best\u00E4tigen Sie diese mit dem Knopf \"Hinzuf\u00FCgen\".");
 		singleChoiceAnswerField.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		singleChoiceAnswerField.setColumns(10);
 		
 		JButton btnHinzufgen = new JButton("Hinzuf\u00FCgen");
+		btnHinzufgen.setToolTipText("F\u00FCgen Sie eine Antwort hinzu.");
 		btnHinzufgen.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				//Antwortmöglichkeit Hinzufügen Single Choice
 				if(!singleChoiceAnswerField.getText().equals("")){
 					if(answerCount < 5){
-						System.out.println("Added " + singleChoiceAnswerField.getText() + " to Answers at " + answerCount);
 						model.addElement(singleChoiceAnswerField.getText());
 						answerCount++;	
+						singleChoiceAnswerField.setText("");
 					}
 					
 				}else{
@@ -283,6 +292,7 @@ public class FBCreate extends JFrame {
 		});
 		
 		JButton btnEntfernen = new JButton("Entfernen");
+		btnEntfernen.setToolTipText("W\u00E4hlen Sie ein Element aus der Liste und dr\u00FCcken Sie \"Entfernen\" um dieses Element aus der Liste zu l\u00F6schen.");
 		btnEntfernen.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -347,6 +357,7 @@ public class FBCreate extends JFrame {
 		);
 		
 		JTextArea singleTitle = new JTextArea();
+		singleTitle.setToolTipText("Geben Sie hier den Titel Ihrer Frage ein.");
 		scrollPane_1.setViewportView(singleTitle);
 		singleTitle.setLineWrap(true);
 		singleTitle.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -362,14 +373,16 @@ public class FBCreate extends JFrame {
 		label_2.setBounds(15, 18, 47, 25);
 		multipleChoicePanel.add(label_2);
 		
-		DefaultListModel model2 = new DefaultListModel();
+		DefaultListModel<String> model2 = new DefaultListModel<String>();
 		JButton button = new JButton("Hinzuf\u00FCgen");
+		button.setToolTipText("F\u00FCgen Sie eine Antwort hinzu.");
 		button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if(answerCount2 < 5){
 					model2.addElement(answerFieldMulti.getText());
 					answerCount2++;
+					answerFieldMulti.setText("");
 				}
 			
 			}
@@ -377,7 +390,10 @@ public class FBCreate extends JFrame {
 		button.setBounds(216, 180, 207, 29);
 		multipleChoicePanel.add(button);
 		JList<String> list = new JList<String>(model2);
+		list.setToolTipText("Liste der Antwortm\u00F6glichkeiten");
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JButton button_1 = new JButton("Entfernen");
+		button_1.setToolTipText("W\u00E4hlen Sie ein Element aus der Liste und dr\u00FCcken Sie \"Entfernen\" um dieses Element aus der Liste zu l\u00F6schen.");
 		button_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -393,12 +409,11 @@ public class FBCreate extends JFrame {
 		multipleChoicePanel.add(button_1);
 		
 		answerFieldMulti = new JTextField();
+		answerFieldMulti.setToolTipText("Geben Sie eine Antwortm\u00F6glichkeit ein und best\u00E4tigen Sie diese mit dem Knopf \"Hinzuf\u00FCgen\".");
 		answerFieldMulti.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		answerFieldMulti.setColumns(10);
 		answerFieldMulti.setBounds(15, 180, 192, 31);
 		multipleChoicePanel.add(answerFieldMulti);
-		
-		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setBounds(15, 227, 192, 109);
 		multipleChoicePanel.add(list);
 		
@@ -412,6 +427,7 @@ public class FBCreate extends JFrame {
 		multipleChoicePanel.add(scrollPane_2);
 		
 		JTextArea multiTitle = new JTextArea();
+		multiTitle.setToolTipText("Tragen Sie hier den Titel Ihrer Frage ein.");
 		scrollPane_2.setViewportView(multiTitle);
 		multiTitle.setLineWrap(true);
 		multiTitle.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -454,6 +470,7 @@ public class FBCreate extends JFrame {
 		});
 		tabbedPane.addTab("+ Frage", null, frageAddPanel, null);
 		JButton btnFragebogenAbspeichern = new JButton("Fragebogen abspeichern");
+		btnFragebogenAbspeichern.setToolTipText("Speichern Sie den Fragebogen ab.");
 		btnFragebogenAbspeichern.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
@@ -461,6 +478,7 @@ public class FBCreate extends JFrame {
 		btnFragebogenAbspeichern.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+			if((!jaNeinTitle.getText().equals("") && comboBox.getSelectedIndex() == 0) || (!singleTitle.getText().equals("") && comboBox.getSelectedIndex() == 1 && !model.isEmpty()) || (!multiTitle.getText().equals("") && comboBox.getSelectedIndex() == 2 && !model2.isEmpty())){
 				//-> Daten übergeben; letztes Fragenpacket einsammeln
 				//Handle grabbing info
 				//-> Handle finish (if questionCount == 9)?
@@ -515,19 +533,30 @@ public class FBCreate extends JFrame {
 			
 			//Handle transfer
 			
-			System.err.println(FBCreationModul.createFB((Creator) Menu.getUser(), FBTitel, FBExpose, fragenList));
-			System.err.println(fragenList);
+			boolean success = FBCreationModul.createFB((Creator) Menu.getUser(), FBTitel, FBExpose, fragenList);
+			if(success){
+				JFrame framePop = new JFrame();
+				JOptionPane.showMessageDialog(framePop, "Ihr Fragebogen wurde erfolgreich erstellt","Glückwunsch",JOptionPane.INFORMATION_MESSAGE);
+			
+			}
 			//FBCreationModul.createFB(fbCreator, FBTitel, FBExpose, frageDaten)
 				//-> frageDaten muss 3D sein (ist aktuell 2D)
 			//If boolean = true;
 			setVisible(false);
 			Menu.launchMenu();
+			}else{
+				
+				JFrame framePop = new JFrame();
+				JOptionPane.showMessageDialog(framePop, "Sie haben versucht eine Frage mit leerem Inhalt zu erstellen!","Warnung",JOptionPane.WARNING_MESSAGE);
+			
 			}
+		}
 		});
 		JLabel lblFgenSieEine = new JLabel("F\u00FCgen Sie eine weitere Frage hinzu:");
 		lblFgenSieEine.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		JLabel lbl_count = new JLabel("*5*");
 		JButton btnNeueFrage = new JButton("Neue Frage");
+		btnNeueFrage.setToolTipText("F\u00FCgen Sie eine neue Frage hinzu");
 		btnNeueFrage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
