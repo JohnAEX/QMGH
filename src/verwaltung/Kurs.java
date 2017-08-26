@@ -34,24 +34,27 @@ public class Kurs implements Serializable{
 	 * Konstruktor des Kurses
 	 * <b><i>Kurs</i></b><br>
 	 * &nbsp;&nbsp;&nbsp;<CODE>public Kurs(String kursName, ArrayList<Solver> activeSolvers)</CODE>
-	 * constructs a <CODE>Kurs</CODE> with a display name and an <CODE>ArrayList</CODE> of {@link user.Solver} <i>(pl.)</i>
+	 * constructs a <CODE>Kurs</CODE> with a display name and an <CODE>ArrayList</CODE> of {@link user.Solver Solver} <i>(pl.)</i>
 	 * 
-	 * @param kursName - display name of the <CODE>Kurs</CODE> instance
-	 * @param activeSolvers - <CODE>ArrayList</CODE> of Solvers participating in the <CODE>Kurs</CODE>
+	 * @param kursName - display name of the {@link verwaltung.Kurs} instance
+	 * @param activeSolvers - <CODE>ArrayList</CODE> of {@link user.Solver Solver} <i>(pl.)</i> participating in the {@link verwaltung.Kurs Kurs}
 	 */
 	public Kurs(String kursName, ArrayList<Solver> activeSolvers){
 		this.kursName = kursName;
 		this.activeSolvers = activeSolvers;
 		this.activeFrageboegen = new ArrayList<Fragebogen>();
 	}
-	
+	/**
+	 * Returns a {@link java.lang.String String}
+	 * @return a {@link java.lang.String String} containing the courses' name 
+	 */
 	public String getKursName(){
 		return this.kursName;
 	}	
 	
 	/**
-	 * Relays a <CODE>Fragebogen</CODE> object to all <CODE>Solver</CODE> <i>(pl.)</i> the <CODE>Kurs</CODE> object contains
-	 * @param relayFragebogen - <CODE>Fragebogen</CODE> object to be relayed
+	 * Relays a {@link umfrage.Fragebogen Fragebogen} object to all {@link user.Solver Solver} <i>(pl.)</i> the {@link verwaltung.Kurs Kurs} object contains
+	 * @param antwortDestination - {@link auswertung.Fragebogenauswertung Fragebogenauswertung} object to be be accessible for the {@link user.Solver Solver} <i>(pl.)</i> participating in the {@link verwaltung.Kurs Kurs}
 	 */
 	public void relayFragebogenToAllSolvers(Fragebogenauswertung antwortDestination){
 		//Fügt dem Kurs eine Umfrage hinzu
