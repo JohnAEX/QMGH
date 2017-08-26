@@ -8,7 +8,9 @@ import user.Solver;
 public class FBSSubmissionModul {
 	public static boolean submitFBS(Solver requestingUser, FragebogenWithAntwortmoeglichkeit answeredFB, ArrayList<ArrayList<Integer>> antworten){
 		try{
-			requestingUser.submitFragebogenergebnis(answeredFB, antworten);
+			if(!requestingUser.submitFragebogenergebnis(answeredFB, antworten)){
+				return false;
+			}
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 			//e.printStackTrace();
