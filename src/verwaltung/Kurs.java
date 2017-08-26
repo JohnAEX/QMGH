@@ -9,7 +9,7 @@ import umfrage.Fragebogen;
 import user.Solver;
 
 /**
- * 
+ *  
  * @author Dominik<br><br>
  * 	The <CODE>Kurs</CODE> class contains an <CODE>ArrayList</CODE> of <CODE>Solver</CODE> <i>(pl.)</i>.<br>
  * 	The <CODE>Kurs</CODE> class is one of the <CODE>verwaltung</CODE> <i>(pl.)</i> classes bundling user groups for easier access. 
