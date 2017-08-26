@@ -36,6 +36,7 @@ public class User implements Serializable{
 	private final String nachname;
 	
 	/**
+	 * Konstruktor des Users
 	 * <b><i>User</i></b><br>
 	 * &nbsp;&nbsp;&nbsp;<CODE>protected User(String loginName, String passwort, String vorname, String nachname)</CODE>
 	 * constructs a User with final attributes as user data

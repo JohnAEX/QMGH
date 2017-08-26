@@ -31,6 +31,7 @@ public class Creator extends User{
 	private ArrayList<Fragebogenauswertung> ownedFragebogenauswertungen;
 	
 	/**
+	 * Konstruktor des Creators
 	 * <b><i>Creator</i></b><br>
 	 * &nbsp;&nbsp;&nbsp;<CODE>public Creator(String loginName, String passwort, String vorname, String nachname)</CODE>
 	 * constructs a <CODE>Creator</CODE> as a child of <CODE>{@link user.User}</CODE> with <br>

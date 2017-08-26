@@ -9,16 +9,13 @@ import umfrage.Fragebogen;
 import auswertung.Fragebogenauswertung;
 
 /**
- * 
- * @author Dominik <br>
+ *  @author Dominik <br>
  *	The <CODE>Fragebogenauswertung</CODE> contains a {@link umfrage.Fragebogen Fragebogen} for structural recognition of an {@link umfrage umfrage}.
  *	The <CODE>Fragebogenauswertung</CODE> contains a nested {@link java.util.ArrayList ArrayList} to save all answers submitted to the <CODE>Fragebogenauswertung</CODE> object.
  *	Storage of survey results in the Fragebogen-System is managed by the <CODE>Fragebogenasuwertung</CODE> class.
  */
 public class Fragebogenauswertung implements Serializable{
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	/**
 	 * {@link umfrage.Fragebogen Fragebogen} representing and assisting the structure of answers
@@ -44,14 +41,15 @@ public class Fragebogenauswertung implements Serializable{
 		this.allAntworten = new ArrayList<ArrayList<Integer>>();
 		this.anzahlAntworten = 0;
 		
-		//Bringt thias.allAntworten auf die richtige Größe
+		//Bringt this.allAntworten auf die richtige Größe
 		Iterator<Frage> sourceFragenIt = sourceFragebogen.getFragen().iterator();
 		Frage sourceFrageShell;
 		//Loopt durch die Anzahl der Fragen
+
 		while(sourceFragenIt.hasNext()){
 			this.allAntworten.add(new ArrayList<Integer>());
 			sourceFrageShell = sourceFragenIt.next();
-			//Loopt solange in this.allAntworten weniger antwortmoeglichgkeiten sind als in sourceFragebogen 
+			//Loopt solange in this.allAntworten weniger Antwortmoeglichgkeiten sind als in sourceFragebogen 
 			while(this.allAntworten.get(this.allAntworten.size()-1).size() < sourceFrageShell.getAntwortmoeglichkeiten().size()){
 				this.allAntworten.get(this.allAntworten.size()-1).add(0);
 			}
@@ -67,7 +65,7 @@ public class Fragebogenauswertung implements Serializable{
 	}
 	/**
 	 * 
-	 * @return
+	 * @return alle Antworten
 	 */
 	public ArrayList<ArrayList<Integer>> getAllAntworten(){
 		return this.allAntworten;
@@ -79,7 +77,7 @@ public class Fragebogenauswertung implements Serializable{
 	 */
 	public void addAntwort(ArrayList<ArrayList<Integer>> submittedAntworten){
 		System.out.println("submissionSize=="+ submittedAntworten.size());
-		//antwort und frage haben exakt dieselbe Struktur!
+		//Antwort und Frage haben exakt dieselbe Struktur!
 		Iterator<ArrayList<Integer>> targetAntwortenIt = this.allAntworten.iterator();
 		Iterator<ArrayList<Integer>> submittedAntwortenIt = submittedAntworten.iterator();
 		ArrayList<Integer> targetFrageShell;

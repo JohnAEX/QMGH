@@ -31,6 +31,7 @@ public class Kurs implements Serializable{
 	private ArrayList<Fragebogen> activeFrageboegen;
 	
 	/**
+	 * Konstruktor des Kurses
 	 * <b><i>Kurs</i></b><br>
 	 * &nbsp;&nbsp;&nbsp;<CODE>public Kurs(String kursName, ArrayList<Solver> activeSolvers)</CODE>
 	 * constructs a <CODE>Kurs</CODE> with a display name and an <CODE>ArrayList</CODE> of {@link user.Solver} <i>(pl.)</i>

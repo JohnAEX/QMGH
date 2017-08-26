@@ -6,8 +6,19 @@ import java.io.ObjectInputStream;
 import java.io.FileInputStream;
 
 import upper.containertier.Gesamtsystem;
-
+/**
+ * Modul zum persistenten Speichern
+ * @author marvi
+ *
+ */
 public class PersistenzModul {
+	/**
+	 * Speichert die Datei am gewünschten Speicherort
+	 * @param speicherort
+	 * @param dateiname
+	 * @param gesSysToBeSaved
+	 * @return true bei erfolgreicher Speicherung, false bei Fehler
+	 */
 	public static boolean saveGesamtsystem(String speicherort, String dateiname, Gesamtsystem gesSysToBeSaved){
 		try{
 			FileOutputStream gesSysFileOut = new FileOutputStream(speicherort +"\\"+ dateiname +".wi16");
@@ -22,7 +33,12 @@ public class PersistenzModul {
 		}
 		return true;
 	}
-	
+	/**
+	 * Lädt Dateipfad sowie Dateiname
+	 * @param dateipfad
+	 * @param dateiname
+	 * @return
+	 */
 	public static Gesamtsystem loadGesamtsystem(String dateipfad, String dateiname){
 		try{
 			FileInputStream gesSysFileIn = new FileInputStream(dateipfad +"\\"+ dateiname +".wi16");

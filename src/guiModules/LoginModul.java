@@ -6,11 +6,18 @@ import java.util.Iterator;
 import upper.containertier.Gesamtsystem;
 import user.Creator;
 import user.Solver;
-
+/**
+ * Modul zum Login für Creator und Solver
+ * @author marvi
+ *
+ */
 public class LoginModul {
-	/*
-	 * Gibt Nutzer aus entsprechenden Logindaten zurück
-	 * Gibt null zurück, falls Nutzerdaten nicht gefunden wurden
+	/**
+	 * Anmeldung des Creators
+	 * @param targetSystem
+	 * @param loginname
+	 * @param passwort
+	 * @return Nutzer aus entsprechenden Logindaten, null, falls Nutzerdaten nicht gefunden werden konnten
 	 */
 	public static Creator attemptCreatorLogin(Gesamtsystem targetSystem, String loginname, String passwort){
 		ArrayList<Creator> creatorList = targetSystem.getAllCreators();
@@ -30,6 +37,13 @@ public class LoginModul {
 		return null;
 	}
 	
+	/**
+	 * Anmeldung des Solvers
+	 * @param targetSystem
+	 * @param loginname
+	 * @param passwort
+	 * @return Nutzer aus entsprechenden Logindaten, null, falls Nutzerdaten nicht gefunden werden konnte
+	 */
 	public static Solver attemptSolverLogin(Gesamtsystem targetSystem, String loginname, String passwort){
 		ArrayList<Solver> solverList = targetSystem.getAllSolvers();
 		Iterator<Solver> solverListIt = solverList.iterator();
