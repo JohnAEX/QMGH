@@ -1,8 +1,13 @@
 package setup;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import gui.MainWindow;
 import guiModules.FBDistributionModul;
 import guiModules.PersistenzModul;
 import umfrage.Frage;
@@ -19,9 +24,13 @@ public class Setup {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		Scanner scan = new Scanner(System.in);
-		savePath = scan.nextLine();
-		scan.close();
+		String filePath = new File("").getAbsolutePath();
+		File savedFile = new File(filePath + "\\"+ dateiname + ".wi16");
+		
+		if(!savedFile.exists()){
+			
+			JFrame framePop = new JFrame();
+			JOptionPane.showMessageDialog(framePop, "Keine Gesamtsystemdatei endeckt, neue Datei wird aufgesetzt!","QuestionMark",JOptionPane.INFORMATION_MESSAGE);
 		
 		//Genrierung Solver Accounts -> Kurs A
 		ArrayList<Solver> solverList = new ArrayList<Solver>();
@@ -77,8 +86,10 @@ public class Setup {
 		//Generierung Creator Accounts 
 		ArrayList<Creator> creatorList = new ArrayList<Creator>();	
 			//Reguläre Creator Accounts - 5 Stück
-			creatorList.add(new Creator("cSchmietendorf", "abc", "Andreas", "Schmietendorf", kursList));
-		
+			creatorList.add(new Creator("cSchmietendorf", "HWR_DozeSchm", "Herr", "Schmietendorf", kursList));
+			creatorList.add(new Creator("cRinghand", "HWR_DozeRing", "Herr", "Ringhand", kursList));
+			creatorList.add(new Creator("cPaulsen", "HWR_DozePaul", "Herr", "Paulsen", kursList));
+			
 		//Generierung Gesamt Solver Liste
 		ArrayList<Solver> solverGlobal = new ArrayList<Solver>();
 			//Hinzufügen der zwei Solver Listen
@@ -89,7 +100,14 @@ public class Setup {
 		Gesamtsystem myGesSys = new Gesamtsystem(creatorList, solverGlobal, kursList);
 		
 		//Speichern des Gesamtsystems
-		PersistenzModul.saveGesamtsystem(savePath, dateiname, myGesSys);
+		PersistenzModul.saveGesamtsystem(filePath, dateiname, myGesSys);
+		
+		}else{
+			//File found -> starting
+			
+		}
+		
+		MainWindow.mainRunner();
 		
 	}
 

@@ -43,13 +43,13 @@ public class MainWindow {
 	private JFrame frmQuestionmark;
 	private JTextField textField;
 	private JPasswordField passwordField;
-	private String pfad = "C:\\OOP - Projekt";
+	private String pfad;
 	private String dateiname = "QuestionMarkFile";
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void mainRunner() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -73,6 +73,8 @@ public class MainWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
+		pfad = new File("").getAbsolutePath();
 		//Gesamtsytem laden basierend auf pfad & dateiname
 		Gesamtsystem currentSys = PersistenzModul.loadGesamtsystem(pfad, dateiname);
 		
