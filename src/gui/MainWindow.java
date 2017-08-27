@@ -46,7 +46,6 @@ public class MainWindow {
 	private String pfad;
 	private String dateiname = "QuestionMarkFile";
 	private int logintrys = 0;
-	private int loginMax = 3;
 
 	/**
 	 * Launch the application.
