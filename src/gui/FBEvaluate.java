@@ -390,8 +390,12 @@ public class FBEvaluate extends JFrame {
 			    //System.out.println("-><- " + antwortenList.size());
 			    int alle = currentAuswertung.getAnzahlAntworten();
 			    if(antwortenList.size()==1){
-			    	int erste = innerNumbersIt.next();
-			    	
+			    	int erste;
+			    	if(innerNumbersIt.hasNext()){
+			    		erste = innerNumbersIt.next();
+			    	}else{
+			    		erste = 0;
+			    	}
 			    	multiAnswer1.setText(antwortenList.get(0) + " [" + erste + " / " + alle + "]");
 			    	multiAnswer2.setVisible(false);
 			    	multiAnswer3.setVisible(false);
@@ -410,9 +414,19 @@ public class FBEvaluate extends JFrame {
 			    	multiAnswer5.setSelected(false);
 			    	
 			    }else if(antwortenList.size()==2){
+			    	int erste;
+			    	int zweite;
+			    	if(innerNumbersIt.hasNext()){
+			    		erste = innerNumbersIt.next();
+			    	}else{
+			    		erste = 0;
+			    	}
 			    	
-			    	int erste = innerNumbersIt.next();
-			    	int zweite = innerNumbersIt.next();
+			    	if(innerNumbersIt.hasNext()){
+			    		zweite = innerNumbersIt.next();
+			    	}else{
+			    		zweite = 0;
+			    	}
 			    	multiAnswer1.setText(antwortenList.get(0)+ " [" + erste + " / " + alle + "]");
 			    	multiAnswer1.setVisible(true);
 			    	multiAnswer2.setText(antwortenList.get(1)+ " [" + zweite + " / " + alle + "]");
@@ -433,9 +447,26 @@ public class FBEvaluate extends JFrame {
 			    	
 			    }else if(antwortenList.size()==3){
 			    	
-			    	int erste = innerNumbersIt.next();
-			    	int zweite = innerNumbersIt.next();
-			    	int dritte = innerNumbersIt.next();
+			    	int erste;
+			    	int zweite;
+			    	int dritte;
+			    	if(innerNumbersIt.hasNext()){
+			    		erste = innerNumbersIt.next();
+			    	}else{
+			    		erste = 0;
+			    	}
+			    	
+			    	if(innerNumbersIt.hasNext()){
+			    		zweite = innerNumbersIt.next();
+			    	}else{
+			    		zweite = 0;
+			    	}
+			    	
+			    	if(innerNumbersIt.hasNext()){
+			    		dritte = innerNumbersIt.next();
+			    	}else {
+			    		dritte = 0;
+			    	}
 			    	multiAnswer1.setText(antwortenList.get(0)+ " [" + erste + " / " + alle + "]");
 			    	multiAnswer1.setVisible(true);
 			    	multiAnswer2.setText(antwortenList.get(1)+ " [" + zweite + " / " + alle + "]");
@@ -456,10 +487,33 @@ public class FBEvaluate extends JFrame {
 			    	
 			    }else if(antwortenList.size()==4){
 			    	
-			    	int erste = innerNumbersIt.next();
-			    	int zweite = innerNumbersIt.next();
-			    	int dritte = innerNumbersIt.next();
-			    	int vierte = innerNumbersIt.next();
+			    	int erste;
+			    	int zweite;
+			    	int dritte;
+			    	int vierte;
+			    	if(innerNumbersIt.hasNext()){
+			    		erste = innerNumbersIt.next();
+			    	}else{
+			    		erste = 0;
+			    	}
+			    	
+			    	if(innerNumbersIt.hasNext()){
+			    		zweite = innerNumbersIt.next();
+			    	}else{
+			    		zweite = 0;
+			    	}
+			    	
+			    	if(innerNumbersIt.hasNext()){
+			    		dritte = innerNumbersIt.next();
+			    	}else {
+			    		dritte = 0;
+			    	}
+			    	
+			    	if(innerNumbersIt.hasNext()){
+			    		vierte = innerNumbersIt.next();
+			    	}else{
+			    		vierte = 0;
+			    	}
 			    	multiAnswer1.setText(antwortenList.get(0)+ " [" + erste + " / " + alle + "]");
 			    	multiAnswer1.setEnabled(true);
 			    	multiAnswer2.setText(antwortenList.get(1)+ " [" + zweite + " / " + alle + "]");
@@ -481,11 +535,40 @@ public class FBEvaluate extends JFrame {
 			    	
 			    }else if(antwortenList.size()==5){
 			    	
-			    	int erste = innerNumbersIt.next();
-			    	int zweite = innerNumbersIt.next();
-			    	int dritte = innerNumbersIt.next();
-			    	int vierte = innerNumbersIt.next();
-			    	int fünfte = innerNumbersIt.next();
+			    	int erste;
+			    	int zweite;
+			    	int dritte;
+			    	int vierte;
+			    	int fünfte;
+			    	if(innerNumbersIt.hasNext()){
+			    		erste = innerNumbersIt.next();
+			    	}else{
+			    		erste = 0;
+			    	}
+			    	
+			    	if(innerNumbersIt.hasNext()){
+			    		zweite = innerNumbersIt.next();
+			    	}else{
+			    		zweite = 0;
+			    	}
+			    	
+			    	if(innerNumbersIt.hasNext()){
+			    		dritte = innerNumbersIt.next();
+			    	}else {
+			    		dritte = 0;
+			    	}
+			    	
+			    	if(innerNumbersIt.hasNext()){
+			    		vierte = innerNumbersIt.next();
+			    	}else{
+			    		vierte = 0;
+			    	}
+			    	
+			    	if(innerNumbersIt.hasNext()){
+			    		fünfte = innerNumbersIt.next();
+			    	}else{
+			    		fünfte = 0;
+			    	}
 			    	multiAnswer1.setText(antwortenList.get(0)+ " [" + erste + " / " + alle + "]");
 			    	multiAnswer1.setVisible(true);
 			    	multiAnswer2.setText(antwortenList.get(1)+ " [" + zweite + " / " + alle + "]");

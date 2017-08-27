@@ -45,6 +45,8 @@ public class MainWindow {
 	private JPasswordField passwordField;
 	private String pfad;
 	private String dateiname = "QuestionMarkFile";
+	private int logintrys = 0;
+	private int loginMax = 3;
 
 	/**
 	 * Launch the application.
@@ -92,10 +94,10 @@ public class MainWindow {
 		 */
 		
 		frmQuestionmark = new JFrame();
+		frmQuestionmark.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmQuestionmark.setResizable(false);
 		frmQuestionmark.setTitle("QuestionMark");
 		frmQuestionmark.setBounds(100, 100, 500, 300);
-		frmQuestionmark.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{478, 0};
 		gridBagLayout.rowHeights = new int[]{37, 0, 0};
@@ -186,7 +188,8 @@ public class MainWindow {
 						Menu.launchSolverMenu(currentUser, currentSys);
 						frmQuestionmark.setVisible(false);
 					}else{
-						lblTest.setText("Login fehlerhaft!");
+						lblTest.setText("Login fehlerhaft! Versuch " + (logintrys+1));
+						logintrys++;
 					}
 					
 				}else if(textField.getText().startsWith("c")){
@@ -196,12 +199,20 @@ public class MainWindow {
 						Menu.launchCreatorMenu(currentUser, currentSys);
 						frmQuestionmark.setVisible(false);
 					}else{
-						lblTest.setText("Login fehlerhaft!");
+						lblTest.setText("Login fehlerhaft! Versuch " + (logintrys+1));
+						logintrys++;
 					}
 					
 				}else{
 					//Error
-					lblTest.setText("Login fehlerhaft!");
+					lblTest.setText("Login fehlerhaft! Versuch " + (logintrys+1));
+					logintrys++;
+				}
+				
+				if(logintrys>=3){
+					JFrame framePop = new JFrame();
+					JOptionPane.showMessageDialog(framePop, "Sie haben 3 Fehlversuche ausgereizt.\nDas Programm beendet sich nun automatisch!","Error",JOptionPane.ERROR_MESSAGE);
+					System.exit(0);
 				}
 				
 			}

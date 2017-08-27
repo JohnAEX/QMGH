@@ -19,6 +19,7 @@ import user.User;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.GroupLayout;
@@ -38,7 +39,7 @@ public class Menu extends JFrame {
 	private static boolean userIsCreator = true;
 	private static User currentUser;
 	private static Gesamtsystem currentGesSys;
-	private String pfad = "C:\\OOP - Projekt";
+	private String pfad = "";
 	private String dateiname = "QuestionMarkFile";
 
 	/**
@@ -85,6 +86,7 @@ public class Menu extends JFrame {
 	 * Create the frame.
 	 */
 	public Menu() {
+		pfad = new File("").getAbsolutePath();
 		setVisible(true);
 		setResizable(false);
 		setTitle("QuestionMark");
