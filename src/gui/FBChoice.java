@@ -66,8 +66,8 @@ public class FBChoice extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		DefaultListModel model = new DefaultListModel();
-		JList list = new JList(model);
+		DefaultListModel<String> model = new DefaultListModel<String>();
+		JList<String> list = new JList<String>(model);
 		User currentUser = Menu.getUser();
 		if(!Menu.userIsCreator()){
 			ArrayList<FragebogenWithAntwortmoeglichkeit> fbList = FBSLoaderModul.loadFBS((Solver) currentUser);

@@ -212,9 +212,9 @@ public class FBManage extends JFrame {
 					}
 					
 				}else{
-					int choice = list.getSelectedIndex();
-					Fragebogen selected = fbList.get(choice);
-					System.out.println(selected.getFragen());
+					JFrame framePop = new JFrame();
+					JOptionPane.showMessageDialog(framePop, "Sie müssen einen Kurs auswählen!","Information",JOptionPane.INFORMATION_MESSAGE);
+				
 				}
 				
 				
@@ -270,28 +270,7 @@ public class FBManage extends JFrame {
 					FBEvaluate.evaluateFB(selectedAuswertung);
 					setVisible(false);
 				}
-				
-				//Auswertung anzeigen
-//				if(auswertungsList.getSelectedIndex()!= -1 && btnAnzeigen.isEnabled()){
-//					int selected = auswertungsList.getSelectedIndex();
-//					ArrayList<Fragebogenauswertung> fbAs = FBALoaderModul.loadFBA((Creator) Menu.getUser());
-//					Fragebogenauswertung selectedAuswertung = fbAs.get(selected);
-//					ArrayList<ArrayList<Integer>> allAnswers = selectedAuswertung.getAllAntworten();
-//					
-//					Iterator<ArrayList<Integer>> outerIt = allAnswers.iterator();
-//					int cc = 1;
-//					while(outerIt.hasNext()){
-//						ArrayList<Integer> now = (ArrayList<Integer>) outerIt.next();
-//						System.out.println("Frage: " + cc);
-//						Iterator<Integer> innerIt = now.iterator();
-//						while(innerIt.hasNext()){
-//							int abc = (int) innerIt.next();
-//							System.out.println("\t>Inner: " + abc);
-//						}
-//						cc++;
-//					}
-//					
-//				}
+
 				
 			}
 		});

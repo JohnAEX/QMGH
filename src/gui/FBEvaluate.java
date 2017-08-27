@@ -125,11 +125,7 @@ public class FBEvaluate extends JFrame {
 		//Expose_Set
 		lblExpose.setText("<html>" + currentFB.getExposee() + "</html>");
 		border = BorderFactory.createLineBorder(Color.BLACK);
-		lblExpose.setBorder(BorderFactory.createCompoundBorder(border,BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-
-		
-		//Wrapped by HTML usage -> Dokument explanation
-		
+		lblExpose.setBorder(BorderFactory.createCompoundBorder(border,BorderFactory.createEmptyBorder(5, 5, 5, 5)));		
 		
 		GroupLayout gl_introPanel = new GroupLayout(introPanel);
 		gl_introPanel.setHorizontalGroup(
@@ -333,11 +329,6 @@ public class FBEvaluate extends JFrame {
 		multiAnswer5.setBackground(Color.WHITE);
 		multiAnswer5.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
-		
-		//Reading Questions of FB 
-		//System.out.println(currentFB);
-		//System.out.println(currentFB.getFragen());
-		
 		//Gloable Antowrten Liste - von Solver abgegeben
 		ArrayList<ArrayList<Integer>> allAnswers = currentAuswertung.getAllAntworten();
 		Iterator<ArrayList<Integer>> allAnswersIt = allAnswers.iterator();
@@ -387,7 +378,6 @@ public class FBEvaluate extends JFrame {
 				CardLayout cl = (CardLayout)(currentQuestion.getLayout());
 			    cl.show(currentQuestion, "multiChoice");
 			    lblFrageMulti.setText("<html>" + fragenDescr + "</html>");
-			    //System.out.println("-><- " + antwortenList.size());
 			    int alle = currentAuswertung.getAnzahlAntworten();
 			    if(antwortenList.size()==1){
 			    	int erste;
@@ -807,11 +797,11 @@ public class FBEvaluate extends JFrame {
 					String fragenDescr = "";
 					int fragenID = 0;
 					ArrayList<String> antwortenList = new ArrayList<String>();
-					//System.out.println(fragenList);
+					
 					if(!fragenList.isEmpty()){
 						ArrayList<Integer> innerNumbers = allAnswersIt.next();
 						Iterator<Integer> innerNumbersIt = innerNumbers.iterator();
-						//System.out.println("Fragenlist nicht leer");
+
 						Frage currentFrage = fragenList.get(fragenZahl);
 						fragenID = currentFrage.getFragetyp();
 						fragenDescr = currentFrage.getFragebeschreibung();
@@ -847,7 +837,6 @@ public class FBEvaluate extends JFrame {
 							CardLayout cl = (CardLayout)(currentQuestion.getLayout());
 						    cl.show(currentQuestion, "multiChoice");
 						    lblFrageMulti.setText("<html>" + fragenDescr + "</html>");
-						    //System.out.println("-><- " + antwortenList.size());
 						    int alle = currentAuswertung.getAnzahlAntworten();
 						    if(antwortenList.size()==1){
 						    	int erste = innerNumbersIt.next();
@@ -996,11 +985,10 @@ public class FBEvaluate extends JFrame {
 					String fragenDescr = "";
 					int fragenID = 0;
 					ArrayList<String> antwortenList = new ArrayList<String>();
-					//System.out.println(fragenList);
+
 					if(!fragenList.isEmpty()){
 						ArrayList<Integer> innerNumbers = allAnswersIt.next();
 						Iterator<Integer> innerNumbersIt = innerNumbers.iterator();
-						//System.out.println("Fragenlist nicht leer");
 						Frage currentFrage = fragenList.get(fragenZahl);
 						fragenID = currentFrage.getFragetyp();
 						fragenDescr = currentFrage.getFragebeschreibung();
@@ -1036,7 +1024,6 @@ public class FBEvaluate extends JFrame {
 							CardLayout cl = (CardLayout)(currentQuestion.getLayout());
 						    cl.show(currentQuestion, "multiChoice");
 						    lblFrageMulti.setText("<html>" + fragenDescr + "</html>");
-						    //System.out.println("-><- " + antwortenList.size());
 						    int alle = currentAuswertung.getAnzahlAntworten();
 						    if(antwortenList.size()==1){
 						    	int erste = innerNumbersIt.next();
@@ -1252,7 +1239,4 @@ public class FBEvaluate extends JFrame {
 		panel.setLayout(gl_panel);
 	}
 	
-	public static void updateGui(){
-		
-	}
 }

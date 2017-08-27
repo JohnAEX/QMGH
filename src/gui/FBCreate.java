@@ -539,8 +539,7 @@ public class FBCreate extends JFrame {
 				JOptionPane.showMessageDialog(framePop, "Ihr Fragebogen wurde erfolgreich erstellt","Glückwunsch",JOptionPane.INFORMATION_MESSAGE);
 			
 			}
-			//FBCreationModul.createFB(fbCreator, FBTitel, FBExpose, frageDaten)
-				//-> frageDaten muss 3D sein (ist aktuell 2D)
+
 			//If boolean = true;
 			setVisible(false);
 			Menu.launchMenu();
@@ -573,7 +572,7 @@ public class FBCreate extends JFrame {
 				if(questionCount<9){
 					if(questionCount == 8){
 						btnNeueFrage.setEnabled(false);
-						//btnFragebogenAbspeichern.setEnabled(true);
+
 					}
 				
 				
