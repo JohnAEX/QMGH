@@ -152,10 +152,12 @@ public class MainWindow {
 			public void mouseClicked(MouseEvent arg0) {
 				//Display Help HTML page
 				try {
-					File helpPage = new File("src/help/helpPage.html");
+					File helpPage = new File(pfad + "/src/help/helpPage.html");
 					java.awt.Desktop.getDesktop().open(helpPage);;
 				} catch (Exception e) {
-					System.out.println("Die HelpPage konnte nicht gefunden werden");
+					JFrame framePop = new JFrame();
+					JOptionPane.showMessageDialog(framePop, "Die HelpPage konnte leider nicht geöffnet werden.","Error",JOptionPane.ERROR_MESSAGE);
+					
 				}
 				
 			}
