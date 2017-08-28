@@ -7,8 +7,25 @@ import upper.containertier.Gesamtsystem;
 import user.Creator;
 import verwaltung.Kurs;
 
+/**
+ * Module directly communicating with the user interface classes. Distributes questionnaires.
+ * 
+ * @author Dominik
+ *
+ */
 public class FBDistributionModul {
-	//Hier müssen 2 Kurse (Indize 0, 1) vorhanden sein...
+	//Exactly two courses of index 0 and 1 in the current version of the system --> specific implementation
+	/**
+	 * Distributes a questionnaire to the specified course. 
+	 * 
+	 * @param targetSystem - {@link upper.containertier.Gesamtsystem Gesamtsystem} to be searched for courses
+	 * @param kursA - {@link boolean} value representing the course questionnaires are to be distributed to
+	 * @param fbToBeDistributed - {@link umfrage.Fragebogen Fragebogen} to be distributed to the specified course
+	 * @param requestingUser - {@link user.Creator Creator} requesting distribution of the specified questionnaire to the specified course
+	 * @return a boolean value stating the method's success <br>
+	 * &emsp; true if no runtime-error occurs <br>
+	 * &emsp; false if any runtime-error occurs
+	 */
 	public static boolean distributeFB(Gesamtsystem targetSystem, boolean kursA, Fragebogen fbToBeDistributed, Creator requestingUser){
 		try{
 			ArrayList<Kurs> kursList = targetSystem.getAllKurse();

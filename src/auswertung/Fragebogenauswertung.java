@@ -10,19 +10,17 @@ import verwaltung.Kurs;
 import auswertung.Fragebogenauswertung;
 
 /**
+ * 	Storage of survey results is managed by the {@link auswertung.Fragebogenauswertung Fragebogenauswertung} class in the QuestionMark-System.
+ *	The {@link auswertung.Fragebogenauswertung Fragebogenauswertung} object contains a {@link umfrage.Fragebogen Fragebogen} for structural recognition.
+ *	Also contains a nested list to save all answers submitted to the {@link auswertung.Fragebogenauswertung Fragebogenauswertung} object.
  * 
  * @author Dominik <br>
- *	The <CODE>Fragebogenauswertung</CODE> contains a {@link umfrage.Fragebogen Fragebogen} for structural recognition of an {@link umfrage umfrage}.
- *	The <CODE>Fragebogenauswertung</CODE> contains a nested {@link java.util.ArrayList ArrayList} to save all answers submitted to the <CODE>Fragebogenauswertung</CODE> object.
- *	Storage of survey results in the Fragebogen-System is managed by the <CODE>Fragebogenasuwertung</CODE> class.
+ *
  */
 public class Fragebogenauswertung implements Serializable{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	/**
-	 * {@link umfrage.Fragebogen Fragebogen} representing and assisting the structure of answers
+	 * {@link umfrage.Fragebogen Fragebogen} representation of the questionnaire this {@link auswertung.Fragebogenauswertung Fragebogenauswertung} corresponds to
 	 */
 	private Fragebogen sourceFragebogen;
 	/**
@@ -32,29 +30,41 @@ public class Fragebogenauswertung implements Serializable{
 	 */
 	private ArrayList<ArrayList<Integer>> allAntworten;
 	
+	/**
+	 * {@link verwaltung.Kurs Kurs} representation of the course this {@link auswertung.Fragebogenauswertung Fragebogenauswertung} object has been distributed to
+	 */
 	private Kurs ownedBy;
 	
-	
+	/**
+	 * {@link int} representation of the number of submitted answers to this {@link auswertung.Fragebogenauswertung Fragebogenauswertung} object
+	 */
 	private int anzahlAntworten;
 	
+	/**
+	 * Returns the {@link int} representation for the count of submitted answers.
+	 * @return an {@link int} object containing the number of submitted answers
+	 */
 	public int getAnzahlAntworten(){
 		return this.anzahlAntworten;
 	}
 	/**
 	 * <b><i>Fragebogenauswertung</i></b><br>
 	 * &nbsp;&nbsp;&nbsp;<CODE>public Fragebogenauswertung(Fragebogen sourceFragebogen)</CODE>
-	 * constructs a <CODE>Fragebogenauswertung</CODE> with a source {@link umfrage.Fragebogen Fragebogen} for recognition purposes
-	 * and an empty {@link java.util.ArrayList ArrayList} containing {@link java.util.ArrayList ArrayList} of answers submitted.
-	 * @param sourceFragebogen - {@link umfrage.Fragebogen Fragebogen} representing and assisting the structure of answers
+	 * constructs a {@link auswertung.Fragebogenauswertung Fragebogenauswertung} object with a source {@link umfrage.Fragebogen Fragebogen} object for recognition purposes
+	 * and an empty {@link java.util.ArrayList ArrayList} supposed to contain the answers submitted to this  {@link auswertung.Fragebogenauswertung Fragebogenauswertung} object.
+	 * @param sourceFragebogen - {@link umfrage.Fragebogen Fragebogen} object representing the corresponding questionnaire of this {@link auswertung.Fragebogenauswertung Fragebogenauswertung}
+	 * @param currentKurs - {@link verwaltung.Kurs Kurs} object representing the course this {@link auswertung.Fragebogenauswertung Fragebogenauswertung} object is to be distributed to
 	 */
 	public Fragebogenauswertung(Fragebogen sourceFragebogen, Kurs currentKurs){
+		//Standardbelegung der Variablen
 		this.ownedBy = currentKurs;
 		this.sourceFragebogen = (Fragebogen) sourceFragebogen.clone();
 		this.allAntworten = new ArrayList<ArrayList<Integer>>();
 		this.anzahlAntworten = 0;
 		
-		//Bringt thias.allAntworten auf die richtige Größe
+		//Bringt this.allAntworten auf die richtige Größe und belegt es mit ArrayListen
 		Iterator<Frage> sourceFragenIt = sourceFragebogen.getFragen().iterator();
+		//Platzhalter für die jeweilige Frage
 		Frage sourceFrageShell;
 		//Loopt durch die Anzahl der Fragen
 		while(sourceFragenIt.hasNext()){
@@ -62,41 +72,49 @@ public class Fragebogenauswertung implements Serializable{
 			sourceFrageShell = sourceFragenIt.next();
 			//Loopt solange in this.allAntworten weniger antwortmoeglichgkeiten sind als in sourceFragebogen 
 			while(this.allAntworten.get(this.allAntworten.size()-1).size() < sourceFrageShell.getAntwortmoeglichkeiten().size()){
+				//Belegung des Ausgangswertes mit 0
 				this.allAntworten.get(this.allAntworten.size()-1).add(0);
 			}
 		}
 		
 	}
 	/**
-	 * Returns the object reference of the source {@link umfrage.Fragebogen Fragebogen}.
-	 * @return a {@link umfrage.Fragebogen Fragebogen} object for reading purposes
+	 * Returns the {@link umfrage.Fragebogen Fragebogen} this {@link auswertung.Fragebogenauswertung Fragebogenauswertung} includes.
+	 * @return the {@link umfrage.Fragebogen Fragebogen} object this {@link auswertung.Fragebogenauswertung Fragebogenauswertung} includes for reading purposes
 	 */
 	public Fragebogen getSourceFragebogen(){
 		return this.sourceFragebogen;
 	}
-	
+	/**
+	 * Returns the {@link verwaltung.Kurs Kurs} this {@link auswertung.Fragebogenauswertung Fragebogenauswertung} has been distributed to.
+	 * @return the {@link verwaltung.Kurs Kurs} object this {@link auswertung.Fragebogenauswertung Fragebogenauswertung} has been distributed to
+	 */
 	public Kurs getOwnedBy(){
 		return this.ownedBy;
 	}
 	/**
-	 * 
-	 * @return
+	 * Returns all answers submitted up until the point of invocation of this method. The number of times the option for each question has been chosen is stored in an {@link java.lang.Integer Integer} object.
+	 * @return a nested {@link java.util.ArrayList ArrayList} of two dimensions containing all answers submitted up until the point of invocation of this method
 	 */
 	public ArrayList<ArrayList<Integer>> getAllAntworten(){
 		return this.allAntworten;
 	}
 	
 	/**
-	 * Adds one {@link java.util.ArrayList ArrayList} of {@link java.lang.String String}<CODE>s</CODE> to the {@link java.util.ArrayList ArrayList} of all answers.
-	 * @param antwort - {@link java.util.ArrayList ArrayList} to be added to the <CODE>Fragebogenauswertung</CODE>
+	 * Adds one {@link java.util.ArrayList ArrayList} of {@link java.lang.String String}<CODE>s</CODE> to the {@link java.util.ArrayList ArrayList} of all answers. 
+	 * <br>Also increments the count of submitted answers.
+	 * @param submittedAntworten - {@link java.util.ArrayList ArrayList} of answers to be added to the {@link auswertung.Fragebogenauswertung Fragebogenauswertung} object
+	 */
+	/*
+	 * Indize der zweiten Dimension der ArrayList allAntworten entsprechen den Indize der Antwortmöglichkeiten
+	 * Von den eingesendeten Antworten werden ausgewählten Integer genutzt, um das Element der entsprechenden Stelle der ArrayList allAntworten zu inkrementieren 
 	 */
 	public void addAntwort(ArrayList<ArrayList<Integer>> submittedAntworten){
 		//System.out.println("submissionSize=="+ submittedAntworten.size());
-		//antwort und frage haben exakt dieselbe Struktur!
+		//antwort und frage haben exakt dieselbe Struktur, Operationen können äquivalent vorgenommen werden
 		Iterator<ArrayList<Integer>> targetAntwortenIt = this.allAntworten.iterator();
 		Iterator<ArrayList<Integer>> submittedAntwortenIt = submittedAntworten.iterator();
 		ArrayList<Integer> targetFrageShell;
-		this.anzahlAntworten++;
 		
 		Iterator<Integer> submittedAntwortmoeglichkeitenIt;
 		Integer antwortmoeglichkeitIndex;
@@ -114,6 +132,7 @@ public class Fragebogenauswertung implements Serializable{
 				targetFrageShell.set(antwortmoeglichkeitIndex-1, targetFrageShell.get(antwortmoeglichkeitIndex-1)+1); //Last Argument was +1
 				
 			}
+		++this.anzahlAntworten;
 		}
 		
 	}
