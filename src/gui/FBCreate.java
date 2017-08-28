@@ -102,7 +102,7 @@ public class FBCreate extends JFrame {
 		lblTitel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		textField = new JTextField();
-		textField.setToolTipText("Geben Sie hier den Titel Ihres Fragebogens an. Sollte zur au\u00DFeinandhaltung m\u00F6glichst eindeutig sein!");
+		textField.setToolTipText("Geben Sie hier den Titel Ihres Fragebogens an. Sollte zur Au\u00DFeinandhaltung m\u00F6glichst eindeutig sein.");
 		textField.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		Border border = BorderFactory.createLineBorder(Color.BLACK);
 		textField.setBorder(BorderFactory.createCompoundBorder(border,BorderFactory.createEmptyBorder(1, 1, 1, 1)));
@@ -215,7 +215,7 @@ public class FBCreate extends JFrame {
 		DefaultListModel<String> model = new DefaultListModel<String>();
 		
 		JList<String> listAnswers = new JList<String>(model);
-		listAnswers.setToolTipText("Liste der Antwortm\u00F6glichkeiten");
+		listAnswers.setToolTipText("Liste der Antwortm\u00F6glichkeiten.");
 		listAnswers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		GroupLayout gl_jaNeinPanel = new GroupLayout(jaNeinPanel);
 		gl_jaNeinPanel.setHorizontalGroup(
@@ -390,7 +390,7 @@ public class FBCreate extends JFrame {
 		button.setBounds(216, 180, 207, 29);
 		multipleChoicePanel.add(button);
 		JList<String> list = new JList<String>(model2);
-		list.setToolTipText("Liste der Antwortm\u00F6glichkeiten");
+		list.setToolTipText("Liste der Antwortm\u00F6glichkeiten.");
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JButton button_1 = new JButton("Entfernen");
 		button_1.setToolTipText("W\u00E4hlen Sie ein Element aus der Liste und dr\u00FCcken Sie \"Entfernen\" um dieses Element aus der Liste zu l\u00F6schen.");
@@ -555,7 +555,7 @@ public class FBCreate extends JFrame {
 		lblFgenSieEine.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		JLabel lbl_count = new JLabel("*5*");
 		JButton btnNeueFrage = new JButton("Neue Frage");
-		btnNeueFrage.setToolTipText("F\u00FCgen Sie eine neue Frage hinzu");
+		btnNeueFrage.setToolTipText("F\u00FCgen Sie eine neue Frage hinzu.");
 		btnNeueFrage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}

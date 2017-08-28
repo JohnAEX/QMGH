@@ -131,7 +131,7 @@ public class MainWindow {
 		lblUserid.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		textField = new JTextField();
-		textField.setToolTipText("Eingabefeld Benutzername");
+		textField.setToolTipText("Eingabefeld Benutzerna.me");
 		textField.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		textField.setColumns(15);
 		
@@ -139,13 +139,13 @@ public class MainWindow {
 		lblPasswort.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		passwordField = new JPasswordField();
-		passwordField.setToolTipText("Eingabefeld Passwort");
+		passwordField.setToolTipText("Eingabefeld Passwort.");
 		passwordField.setColumns(15);
 		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		//Händischer Code
 		JButton btnHelp = new JButton("Help");
-		btnHelp.setToolTipText("Zum Aufrufen der HelpPage dr\u00FCcken");
+		btnHelp.setToolTipText("Zum Aufrufen der HelpPage dr\u00FCcken.");
 		btnHelp.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -235,25 +235,23 @@ public class MainWindow {
 							.addGap(7)
 							.addComponent(btnHelp)
 							.addGap(12)
-							.addComponent(btnNewButton))
+							.addComponent(btnNewButton)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblTest, GroupLayout.PREFERRED_SIZE, 311, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panel_1.createSequentialGroup()
 							.addContainerGap()
 							.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
 								.addComponent(lblPasswort)
 								.addComponent(lblUserid))
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-								.addGroup(Alignment.TRAILING, gl_panel_1.createSequentialGroup()
+							.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
+								.addGroup(gl_panel_1.createSequentialGroup()
 									.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 									.addGap(131))
 								.addGroup(gl_panel_1.createSequentialGroup()
 									.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED, 131, Short.MAX_VALUE)))
+									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
 							.addGap(210)))
-					.addGap(398))
-				.addGroup(gl_panel_1.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblTest, GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		gl_panel_1.setVerticalGroup(
@@ -268,11 +266,11 @@ public class MainWindow {
 						.addComponent(lblPasswort))
 					.addGap(5)
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnHelp)
-						.addComponent(btnNewButton))
-					.addGap(3)
-					.addComponent(lblTest, GroupLayout.PREFERRED_SIZE, 94, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
+						.addComponent(lblTest, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING, false)
+							.addComponent(btnHelp, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+					.addGap(113))
 		);
 		panel_1.setLayout(gl_panel_1);
 		

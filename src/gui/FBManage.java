@@ -21,7 +21,6 @@ import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
@@ -114,7 +113,7 @@ public class FBManage extends JFrame {
 		JPanel verteilenPanel = new JPanel();
 		verteilenPanel.setBorder(title);
 		JList<String> list = new JList<String>(model);
-		list.setToolTipText("Liste von erstellten Frageb\u00F6gen");
+		list.setToolTipText("Liste von erstellten Frageb\u00F6gen.");
 
 		JButton btnLschen = new JButton("L\u00F6schen");
 		btnLschen.setToolTipText("Dr\u00FCcken Sie diesen Knopf um einen ausgew\u00E4hlten Fragebogen zu l\u00F6schen.");
@@ -135,7 +134,7 @@ public class FBManage extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		
 		JButton btnAbbrechen = new JButton("Zurück");
-		btnAbbrechen.setToolTipText("Zur\u00FCck zum Menu");
+		btnAbbrechen.setToolTipText("Zur\u00FCck zum Men\u00FC.");
 		btnAbbrechen.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnAbbrechen.addMouseListener(new MouseAdapter() {
 			@Override
@@ -152,25 +151,24 @@ public class FBManage extends JFrame {
 					.addGap(4)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 302, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
-							.addComponent(btnLschen, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(verteilenPanel, GroupLayout.PREFERRED_SIZE, 120, Short.MAX_VALUE))
-						.addComponent(btnAbbrechen, GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE))
-					.addContainerGap())
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(btnAbbrechen, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnLschen, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(verteilenPanel, GroupLayout.PREFERRED_SIZE, 120, Short.MAX_VALUE))
+					.addContainerGap(44, Short.MAX_VALUE))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(verteilenPanel, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnLschen)
-					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addComponent(btnAbbrechen)
-					.addGap(681))
-				.addGroup(gl_panel.createSequentialGroup()
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 408, GroupLayout.PREFERRED_SIZE)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(verteilenPanel, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnLschen)
+							.addGap(158)
+							.addComponent(btnAbbrechen))
+						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 408, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(668, Short.MAX_VALUE))
 		);
 		
@@ -277,7 +275,7 @@ public class FBManage extends JFrame {
 		btnAnzeigen.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		JButton btnAbbrechen_1 = new JButton("Zurück");
-		btnAbbrechen_1.setToolTipText("Zur\u00FCck zum Menu");
+		btnAbbrechen_1.setToolTipText("Zur\u00FCck zum Men\u00FC.");
 		btnAbbrechen_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {

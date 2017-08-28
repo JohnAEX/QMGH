@@ -68,6 +68,7 @@ public class FBChoice extends JFrame {
 		
 		DefaultListModel<String> model = new DefaultListModel<String>();
 		JList<String> list = new JList<String>(model);
+		list.setToolTipText("Dies ist eine Liste der f\u00FCr Sie verf\u00FCgbaren Frageb\u00F6gen.");
 		User currentUser = Menu.getUser();
 		if(!Menu.userIsCreator()){
 			ArrayList<FragebogenWithAntwortmoeglichkeit> fbList = FBSLoaderModul.loadFBS((Solver) currentUser);
@@ -87,6 +88,7 @@ public class FBChoice extends JFrame {
 		border = BorderFactory.createLineBorder(Color.BLACK);
 		
 		JButton btnChoose = new JButton("Ausw\u00E4hlen");
+		btnChoose.setToolTipText("W\u00E4hlen Sie einen Fragebogen aus der Liste und beginnen Sie diesen auszuf\u00FCllen.");
 		btnChoose.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnChoose.addMouseListener(new MouseAdapter() {
 			@Override
@@ -102,6 +104,7 @@ public class FBChoice extends JFrame {
 		});
 		
 		JButton btnAbbrechen = new JButton("Abbrechen");
+		btnAbbrechen.setToolTipText("Hiermit gelangen Sie zur\u00FCck zum Men\u00FC.");
 		btnAbbrechen.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnAbbrechen.addMouseListener(new MouseAdapter() {
 			@Override
@@ -112,14 +115,6 @@ public class FBChoice extends JFrame {
 			}
 		});
 		
-		JLabel lblId = new JLabel("ID: ");
-		lblId.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		
-		JLabel label = new JLabel("<ID>");
-		label.setForeground(Color.BLUE);
-		label.setText(currentUser.getVorname());
-		label.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		
 		JScrollPane scrollPane = new JScrollPane();
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
@@ -128,35 +123,25 @@ public class FBChoice extends JFrame {
 					.addContainerGap()
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 298, GroupLayout.PREFERRED_SIZE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-							.addGroup(gl_contentPane.createSequentialGroup()
-								.addGap(15)
-								.addComponent(btnChoose))
-							.addGroup(gl_contentPane.createSequentialGroup()
-								.addGap(18)
-								.addComponent(lblId)
-								.addGap(1)
-								.addComponent(label)))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(15)
+							.addComponent(btnChoose))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(18)
 							.addComponent(btnAbbrechen)))
-					.addGap(140))
+					.addGap(26))
 		);
 		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
-						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(btnChoose)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblId)
-								.addComponent(label))
-							.addPreferredGap(ComponentPlacement.RELATED, 302, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 							.addComponent(btnAbbrechen))
 						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 402, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap())
+					.addContainerGap(32, Short.MAX_VALUE))
 		);
 		
 		scrollPane.setViewportView(list);

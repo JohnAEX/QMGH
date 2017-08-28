@@ -197,6 +197,7 @@ public class FBAnswer extends JFrame {
 		group.add(rdbtnJa);
 		
 		JButton btnNext = new JButton("N\u00E4chste Frage");
+		btnNext.setToolTipText("Mit diesem Knopf gelangen Sie zur n\u00E4chsten Frage.");
 
 		/**
 		 * Windowbuilder Code
@@ -274,6 +275,7 @@ public class FBAnswer extends JFrame {
 		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		JButton btnNext2 = new JButton("N\u00E4chste Frage");
+		btnNext2.setToolTipText("Mit diesem Knopf gelangen Sie zur n\u00E4chsten Frage.");
 		
 		btnNext2.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
@@ -839,6 +841,7 @@ public class FBAnswer extends JFrame {
 		});
 		
 		JButton btnNext3 = new JButton("N\u00E4chste Frage");
+		btnNext3.setToolTipText("Mit diesem Knopf gelangen Sie zur n\u00E4chsten Frage.");
 		btnNext3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {

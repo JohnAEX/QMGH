@@ -1213,9 +1213,10 @@ public class FBEvaluate extends JFrame {
 		multiPanel.setLayout(gl_multiPanel);
 		
 		JPanel panel = new JPanel();
+		panel.setToolTipText("Hiermit gelangen Sie zur\u00FCck zum Men\u00FC.");
 		tabbedPane.addTab("Schließen", null, panel, null);
 		
-		JButton btnFragebogenAbgeben = new JButton("Zurück zum Menu");
+		JButton btnFragebogenAbgeben = new JButton("Zur\u00FCck zum Men\u00FC");
 		btnFragebogenAbgeben.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {

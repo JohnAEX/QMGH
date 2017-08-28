@@ -122,7 +122,7 @@ public class Menu extends JFrame {
 		label_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		JButton btnFragebogenErstellen = new JButton("Fragebogen erstellen");
-		btnFragebogenErstellen.setToolTipText("Zum Erstellen eines Fragebogens dr\u00FCcken. Nur verf\u00FCgbar f\u00FCr Creator!");
+		btnFragebogenErstellen.setToolTipText("Zum Erstellen eines Fragebogens dr\u00FCcken. Nur verf\u00FCgbar f\u00FCr Creator.");
 		if(!userIsCreator){
 			btnFragebogenErstellen.setEnabled(false);
 		}else{
@@ -144,7 +144,7 @@ public class Menu extends JFrame {
 		label_2.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		JButton btnFragebogenVerwalten = new JButton("Fragebogen verwalten");
-		btnFragebogenVerwalten.setToolTipText("Zum Verwalten von Frageb\u00F6gen dr\u00FCcken. Nur verf\u00FCgbar f\u00FCr Creator!");
+		btnFragebogenVerwalten.setToolTipText("Zum Verwalten von Frageb\u00F6gen dr\u00FCcken. Nur verf\u00FCgbar f\u00FCr Creator.");
 		if(!userIsCreator){
 			btnFragebogenVerwalten.setEnabled(false);
 		}else{
@@ -166,7 +166,7 @@ public class Menu extends JFrame {
 		label_3.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		JButton btnFragebogenAusfllen = new JButton("Fragebogen ausf\u00FCllen");
-		btnFragebogenAusfllen.setToolTipText("Zum Auf\u00FCllen eines Fragebogens dr\u00FCcken. Nur verf\u00FCgbar f\u00FCr Solver!");
+		btnFragebogenAusfllen.setToolTipText("Zum Auf\u00FCllen eines Fragebogens dr\u00FCcken. Nur verf\u00FCgbar f\u00FCr Solver.");
 		
 		//Decide UI Btn Ausfüllen
 		if(userIsCreator){
@@ -187,7 +187,7 @@ public class Menu extends JFrame {
 		label_4.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		JButton btnProgrammBeenden = new JButton("Programm beenden");
-		btnProgrammBeenden.setToolTipText("Zum Beenden und Speichern des Programms dr\u00FCcken");
+		btnProgrammBeenden.setToolTipText("Zum Beenden und Speichern des Programms dr\u00FCcken.");
 		btnProgrammBeenden.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {

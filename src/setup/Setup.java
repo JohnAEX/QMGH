@@ -30,7 +30,7 @@ public class Setup {
 		if(!savedFile.exists()){
 			
 			JFrame framePop = new JFrame();
-			JOptionPane.showMessageDialog(framePop, "Keine Gesamtsystemdatei endeckt, neue Datei wird aufgesetzt!","QuestionMark",JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(framePop, "Keine Gesamtsystemdatei entdeckt, neue Datei wird aufgesetzt!","QuestionMark",JOptionPane.INFORMATION_MESSAGE);
 		
 		//Genrierung Solver Accounts -> Kurs A
 		ArrayList<Solver> solverList = new ArrayList<Solver>();

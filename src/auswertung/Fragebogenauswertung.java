@@ -91,7 +91,6 @@ public class Fragebogenauswertung implements Serializable{
 	 * @param antwort - {@link java.util.ArrayList ArrayList} to be added to the <CODE>Fragebogenauswertung</CODE>
 	 */
 	public void addAntwort(ArrayList<ArrayList<Integer>> submittedAntworten){
-		//System.out.println("submissionSize=="+ submittedAntworten.size());
 		//antwort und frage haben exakt dieselbe Struktur!
 		Iterator<ArrayList<Integer>> targetAntwortenIt = this.allAntworten.iterator();
 		Iterator<ArrayList<Integer>> submittedAntwortenIt = submittedAntworten.iterator();
