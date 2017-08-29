@@ -14,6 +14,7 @@ import upper.containertier.Gesamtsystem;
  *
  */
 public class PersistenzModul {
+	private static final String dateityp = ".wi16";
 	/**
 	 * Saves a QuestionMark-System to the specified location under the specified name. 
 	 * 
@@ -26,7 +27,7 @@ public class PersistenzModul {
 	 */
 	public static boolean saveGesamtsystem(String speicherort, String dateiname, Gesamtsystem gesSysToBeSaved){
 		try{
-			FileOutputStream gesSysFileOut = new FileOutputStream(speicherort +"\\"+ dateiname +".wi16");
+			FileOutputStream gesSysFileOut = new FileOutputStream(speicherort +"\\"+ dateiname + dateityp);
 			ObjectOutputStream gesSysObjectOut = new ObjectOutputStream(gesSysFileOut);
 			
 			gesSysObjectOut.writeObject(gesSysToBeSaved);
@@ -50,7 +51,7 @@ public class PersistenzModul {
 	 */
 	public static Gesamtsystem loadGesamtsystem(String dateipfad, String dateiname){
 		try{
-			FileInputStream gesSysFileIn = new FileInputStream(dateipfad +"\\"+ dateiname +".wi16");
+			FileInputStream gesSysFileIn = new FileInputStream(dateipfad +"\\"+ dateiname + dateityp);
 			ObjectInputStream gesSysObjectIn = new ObjectInputStream(gesSysFileIn);
 			return (Gesamtsystem) gesSysObjectIn.readObject();
 
