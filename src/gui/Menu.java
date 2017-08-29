@@ -102,7 +102,7 @@ public class Menu extends JFrame {
 		panel.setBackground(Color.WHITE);
 		contentPane.add(panel, BorderLayout.NORTH);
 		
-		JLabel lblMainmenu = new JLabel("Mainmenu");
+		JLabel lblMainmenu = new JLabel("Hauptmen\u00FC");
 		lblMainmenu.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		panel.add(lblMainmenu);
 		
@@ -110,7 +110,7 @@ public class Menu extends JFrame {
 		panel_1.setBackground(Color.WHITE);
 		contentPane.add(panel_1, BorderLayout.CENTER);
 		
-		JLabel lblUserid = new JLabel("UserID:");
+		JLabel lblUserid = new JLabel("Benutzer:");
 		lblUserid.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		JLabel lblNewLabel = new JLabel("<ID>");

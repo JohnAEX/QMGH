@@ -127,11 +127,11 @@ public class MainWindow {
 		gbc_panel_1.gridy = 1;
 		frmQuestionmark.getContentPane().add(panel_1, gbc_panel_1);
 		
-		JLabel lblUserid = new JLabel("UserID:");
+		JLabel lblUserid = new JLabel("Benutzer:");
 		lblUserid.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		textField = new JTextField();
-		textField.setToolTipText("Eingabefeld Benutzerna.me");
+		textField.setToolTipText("Eingabefeld Benutzername.");
 		textField.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		textField.setColumns(15);
 		
@@ -144,15 +144,15 @@ public class MainWindow {
 		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		//Händischer Code
-		JButton btnHelp = new JButton("Help");
+		JButton btnHelp = new JButton("Hilfe");
 		btnHelp.setToolTipText("Zum Aufrufen der HelpPage dr\u00FCcken.");
 		btnHelp.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				//Display Help HTML page
 				try {
-					File helpPage = new File(pfad + "/src/help/helpPage.html");
-					java.awt.Desktop.getDesktop().open(helpPage);;
+					File helpPage = new File(pfad + "\\HelpPage\\helpPage.html");
+					java.awt.Desktop.getDesktop().open(helpPage);
 				} catch (Exception e) {
 					JFrame framePop = new JFrame();
 					JOptionPane.showMessageDialog(framePop, "Die HelpPage konnte leider nicht geöffnet werden.","Error",JOptionPane.ERROR_MESSAGE);

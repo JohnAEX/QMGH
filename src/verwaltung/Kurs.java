@@ -60,7 +60,7 @@ public class Kurs implements Serializable{
 		Iterator<Solver> activeSolverIt = this.activeSolvers.iterator();
 		while(activeSolverIt.hasNext()){
 			//Gibt den Solver Objekten Zugriff auf den Fragebogen aus dem Kurs weiter und fügt die Auswertungsreferenz hinzu
-			activeSolverIt.next().addActiveFragebogenWithAntwortmoeglichkeit(this.activeFrageboegen.get(this.activeFrageboegen.size()-1).castToFragebogenWithAntwortmoeglichkeit(antwortDestination));
+			activeSolverIt.next().addActiveFragebogenWithAntwortmoeglichkeit(antwortDestination.castToFragebogenWithAntwortmoeglichkeit());
 		}
 	}
 

@@ -82,7 +82,7 @@ public class FBManage extends JFrame {
 		contentPane.add(tabbedPane, BorderLayout.NORTH);
 		
 		JPanel panel = new JPanel();
-		tabbedPane.addTab("List", null, panel, null);
+		tabbedPane.addTab("Liste", null, panel, null);
 		
 		DefaultListModel<String> model = new DefaultListModel<String>();
 		Border border = BorderFactory.createLineBorder(Color.BLACK);

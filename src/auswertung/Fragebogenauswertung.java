@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 import umfrage.Frage;
 import umfrage.Fragebogen;
+import umfrage.FragebogenWithAntwortmoeglichkeit;
 import verwaltung.Kurs;
 import auswertung.Fragebogenauswertung;
 
@@ -114,6 +115,8 @@ public class Fragebogenauswertung implements Serializable{
 		Iterator<ArrayList<Integer>> submittedAntwortenIt = submittedAntworten.iterator();
 		ArrayList<Integer> targetFrageShell;
 		
+		this.anzahlAntworten++;
+		
 		Iterator<Integer> submittedAntwortmoeglichkeitenIt;
 		Integer antwortmoeglichkeitIndex;
 		
@@ -130,9 +133,19 @@ public class Fragebogenauswertung implements Serializable{
 				targetFrageShell.set(antwortmoeglichkeitIndex-1, targetFrageShell.get(antwortmoeglichkeitIndex-1)+1); //Last Argument was +1
 				
 			}
-		++this.anzahlAntworten;
+		
 		}
 		
+		
+	}
+	
+	/**
+	 * Returns a {@link umfrage.FragebogenWithAntwortmoeglichkeit FragebogenWithAntwortmoeglichkeit} upon specification of a {@link auswertung.Fragebogenauswertung Fragebogenauswertung} as destination for submission of answers.
+	 * @param antwortDestination - {@link auswertung.Fragebogenauswertung Fragebogenauswertung} object representing the destination for answers to be submitted to this {@link umfrage.Fragebogen Fragebogen} object
+	 * @return a {@link umfrage.FragebogenWithAntwortmoeglichkeit FragebogenWithAntwortmoeglichkeit} object linked to the specified {@link auswertung.Fragebogenauswertung Fragebogenauswertung} for submission
+	 */
+	public FragebogenWithAntwortmoeglichkeit castToFragebogenWithAntwortmoeglichkeit(){
+		return (new FragebogenWithAntwortmoeglichkeit(this.getSourceFragebogen().getTitel(), this.getSourceFragebogen().getExposee(), this.getSourceFragebogen().getFragen(), this));
 	}
 }
 
