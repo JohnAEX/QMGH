@@ -140,9 +140,8 @@ public class Fragebogenauswertung implements Serializable{
 	}
 	
 	/**
-	 * Returns a {@link umfrage.FragebogenWithAntwortmoeglichkeit FragebogenWithAntwortmoeglichkeit} upon specification of a {@link auswertung.Fragebogenauswertung Fragebogenauswertung} as destination for submission of answers.
-	 * @param antwortDestination - {@link auswertung.Fragebogenauswertung Fragebogenauswertung} object representing the destination for answers to be submitted to this {@link umfrage.Fragebogen Fragebogen} object
-	 * @return a {@link umfrage.FragebogenWithAntwortmoeglichkeit FragebogenWithAntwortmoeglichkeit} object linked to the specified {@link auswertung.Fragebogenauswertung Fragebogenauswertung} for submission
+	 * Returns a {@link umfrage.FragebogenWithAntwortmoeglichkeit FragebogenWithAntwortmoeglichkeit} with the local {@link auswertung.Fragebogenauswertung Fragebogenauswertung} as destination for submission of answers.
+	 * @return a {@link umfrage.FragebogenWithAntwortmoeglichkeit FragebogenWithAntwortmoeglichkeit} object linked to the local {@link auswertung.Fragebogenauswertung Fragebogenauswertung} for submission
 	 */
 	public FragebogenWithAntwortmoeglichkeit castToFragebogenWithAntwortmoeglichkeit(){
 		return (new FragebogenWithAntwortmoeglichkeit(this.getSourceFragebogen().getTitel(), this.getSourceFragebogen().getExposee(), this.getSourceFragebogen().getFragen(), this));
