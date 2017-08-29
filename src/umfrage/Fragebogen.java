@@ -3,8 +3,6 @@ package umfrage;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import auswertung.Fragebogenauswertung;
-
 /**
  * Representation of questionnaires is managed by the {@link umfrage.Fragebogen Fragebogen} class in the QuestionMark-System. <br>
  * {@link umfrage.Fragebogen Fragebogen} is parent to {@link umfrage.FragebogenWithAntwortmoeglichkeit FragebogenWithAntwortmoeglichkeit}. 
