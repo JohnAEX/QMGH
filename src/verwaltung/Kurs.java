@@ -17,6 +17,8 @@ import user.Solver;
  *
  */
 public class Kurs implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * display name of the <CODE>Kurs</CODE> object
 	 */
