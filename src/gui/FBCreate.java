@@ -215,7 +215,7 @@ public class FBCreate extends JFrame {
 		DefaultListModel<String> model = new DefaultListModel<String>();
 		
 		JList<String> listAnswers = new JList<String>(model);
-		listAnswers.setToolTipText("Liste der Antwortm\u00F6glichkeiten.");
+		listAnswers.setToolTipText("Liste der Antwortm\u00F6glichkeiten. Mindestens 1, Maximal 5.");
 		listAnswers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		GroupLayout gl_jaNeinPanel = new GroupLayout(jaNeinPanel);
 		gl_jaNeinPanel.setHorizontalGroup(
@@ -390,7 +390,7 @@ public class FBCreate extends JFrame {
 		button.setBounds(216, 180, 207, 29);
 		multipleChoicePanel.add(button);
 		JList<String> list = new JList<String>(model2);
-		list.setToolTipText("Liste der Antwortm\u00F6glichkeiten.");
+		list.setToolTipText("Liste der Antwortm\u00F6glichkeiten. Mindestens 1, Maximal 5.");
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JButton button_1 = new JButton("Entfernen");
 		button_1.setToolTipText("W\u00E4hlen Sie ein Element aus der Liste und dr\u00FCcken Sie \"Entfernen\" um dieses Element aus der Liste zu l\u00F6schen.");
