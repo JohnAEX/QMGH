@@ -62,9 +62,9 @@ public class Fragebogenauswertung implements Serializable{
 		this.allAntworten = new ArrayList<ArrayList<Integer>>();
 		this.anzahlAntworten = 0;
 		
-		//Bringt this.allAntworten auf die richtige Größe und belegt es mit ArrayListen
+		//Bringt this.allAntworten auf die richtige GrÃ¶ÃŸe und belegt es mit ArrayListen
 		Iterator<Frage> sourceFragenIt = sourceFragebogen.getFragen().iterator();
-		//Platzhalter für die jeweilige Frage
+		//Platzhalter fÃ¼r die jeweilige Frage
 		Frage sourceFrageShell;
 		//Loopt durch die Anzahl der Fragen
 		while(sourceFragenIt.hasNext()){
@@ -106,12 +106,10 @@ public class Fragebogenauswertung implements Serializable{
 	 * @param submittedAntworten - {@link java.util.ArrayList ArrayList} of answers to be added to the {@link auswertung.Fragebogenauswertung Fragebogenauswertung} object
 	 */
 	/*
-	 * Indize der zweiten Dimension der ArrayList allAntworten entsprechen den Indize der Antwortmöglichkeiten
-	 * Von den eingesendeten Antworten werden ausgewählten Integer genutzt, um das Element der entsprechenden Stelle der ArrayList allAntworten zu inkrementieren 
+	 * Indize der zweiten Dimension der ArrayList allAntworten entsprechen den Indize der AntwortmÃ¶glichkeiten
+	 * Von den eingesendeten Antworten werden ausgewÃ¤hlten Integer genutzt, um das Element der entsprechenden Stelle der ArrayList allAntworten zu inkrementieren 
 	 */
 	public void addAntwort(ArrayList<ArrayList<Integer>> submittedAntworten){
-		//System.out.println("submissionSize=="+ submittedAntworten.size());
-		//antwort und frage haben exakt dieselbe Struktur, Operationen können äquivalent vorgenommen werden
 		Iterator<ArrayList<Integer>> targetAntwortenIt = this.allAntworten.iterator();
 		Iterator<ArrayList<Integer>> submittedAntwortenIt = submittedAntworten.iterator();
 		ArrayList<Integer> targetFrageShell;
@@ -120,13 +118,13 @@ public class Fragebogenauswertung implements Serializable{
 		Integer antwortmoeglichkeitIndex;
 		
 		while(targetAntwortenIt.hasNext()){
-			//Platzhalter für die Zieladresse der Frage
+			//Platzhalter fÃ¼r die Zieladresse der Frage
 			targetFrageShell = targetAntwortenIt.next();
-			//Platzhalter für Iterator der Antwortmoeglichkeiten
+			//Platzhalter fÃ¼r Iterator der Antwortmoeglichkeiten
 			submittedAntwortmoeglichkeitenIt = submittedAntwortenIt.next().iterator();
-			//Loopt durch alle möglichen Antwortmoeglichkeiten
+			//Loopt durch alle mÃ¶glichen Antwortmoeglichkeiten
 			while(submittedAntwortmoeglichkeitenIt.hasNext()){
-				//Platzhalter für die zu inkrementierende Antwortmoeglichkeit
+				//Platzhalter fÃ¼r die zu inkrementierende Antwortmoeglichkeit
 				antwortmoeglichkeitIndex = submittedAntwortmoeglichkeitenIt.next();
 				//Inkrementierung
 				targetFrageShell.set(antwortmoeglichkeitIndex-1, targetFrageShell.get(antwortmoeglichkeitIndex-1)+1); //Last Argument was +1

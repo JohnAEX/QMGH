@@ -197,6 +197,7 @@ public class FBAnswer extends JFrame {
 		group.add(rdbtnJa);
 		
 		JButton btnNext = new JButton("N\u00E4chste Frage");
+		btnNext.setToolTipText("Mit diesem Knopf gelangen Sie zur n\u00E4chsten Frage.");
 
 		/**
 		 * Windowbuilder Code
@@ -274,6 +275,7 @@ public class FBAnswer extends JFrame {
 		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		JButton btnNext2 = new JButton("N\u00E4chste Frage");
+		btnNext2.setToolTipText("Mit diesem Knopf gelangen Sie zur n\u00E4chsten Frage.");
 		
 		btnNext2.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
@@ -356,9 +358,8 @@ public class FBAnswer extends JFrame {
 		String fragenDescr = "";
 		int fragenID = 0;
 		ArrayList<String> antwortenList = new ArrayList<String>();
-		//System.out.println(fragenList);
+		
 		if(!fragenList.isEmpty()){
-			//System.out.println("Fragenlist nicht leer");
 			Frage currentFrage = fragenList.get(fragenZahl);
 			fragenID = currentFrage.getFragetyp();
 			fragenDescr = currentFrage.getFragebeschreibung();
@@ -383,8 +384,7 @@ public class FBAnswer extends JFrame {
 				CardLayout cl = (CardLayout)(currentQuestion.getLayout());
 			    cl.show(currentQuestion, "multiChoice");
 			    lblFrageMulti.setText(fragenDescr);
-			    //System.out.println("-><- " + antwortenList.size());
-			    
+
 			    if(antwortenList.size()==1){
 			    	
 			    	multiAnswer1.setText(antwortenList.get(0));
@@ -501,11 +501,9 @@ public class FBAnswer extends JFrame {
 				ArrayList<Integer> innerAntworten = new ArrayList<Integer>();
 				innerAntworten.add((comboBox.getSelectedIndex()+1));
 				antwortenSolver.add(innerAntworten);
-				//System.out.println(comboBox.getSelectedIndex());
 				comboBox.removeAllItems();
 				
 				if(fragenList.size()>fragenZahl+1){
-					//System.out.println("Next question detected!");
 					fragenZahl++;
 					tabbedPane.setTitleAt(tabbedPane.getSelectedIndex(), "Frage " + (fragenZahl+1));
 					
@@ -696,9 +694,7 @@ public class FBAnswer extends JFrame {
 					String fragenDescr = "";
 					int fragenID = 0;
 					ArrayList<String> antwortenList = new ArrayList<String>();
-					//System.out.println(fragenList);
 					if(!fragenList.isEmpty()){
-						//System.out.println("Fragenlist nicht leer");
 						Frage currentFrage = fragenList.get(fragenZahl);
 						fragenID = currentFrage.getFragetyp();
 						fragenDescr = currentFrage.getFragebeschreibung();
@@ -724,7 +720,6 @@ public class FBAnswer extends JFrame {
 							CardLayout cl = (CardLayout)(currentQuestion.getLayout());
 						    cl.show(currentQuestion, "multiChoice");
 						    lblFrageMulti.setText(fragenDescr);
-						    //System.out.println("-><- " + antwortenList.size());
 						    
 						    if(antwortenList.size()==1){
 						    	
@@ -846,36 +841,28 @@ public class FBAnswer extends JFrame {
 		});
 		
 		JButton btnNext3 = new JButton("N\u00E4chste Frage");
+		btnNext3.setToolTipText("Mit diesem Knopf gelangen Sie zur n\u00E4chsten Frage.");
 		btnNext3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				//String multiAntwort = "";
 				ArrayList<Integer> innerAntworten = new ArrayList<Integer>();
 				if(multiAnswer1.isSelected() && multiAnswer1.isVisible()){
-					//multiAntwort = multiAntwort + "0";
 					innerAntworten.add(1);
 				}
 				if(multiAnswer2.isSelected() && multiAnswer2.isVisible()){
-					//multiAntwort = multiAntwort + "1";
 					innerAntworten.add(2);
 				}
 				if(multiAnswer3.isSelected() && multiAnswer3.isVisible()){
-					//multiAntwort = multiAntwort + "2";
 					innerAntworten.add(3);
 				}
 				if(multiAnswer4.isSelected() && multiAnswer4.isVisible()){
-					//multiAntwort = multiAntwort + "3";
 					innerAntworten.add(4);
 				}
 				if(multiAnswer5.isSelected() && multiAnswer5.isVisible()){
-					//multiAntwort = multiAntwort + "4";
 					innerAntworten.add(5);
 				}
-
-
 					antwortenSolver.add(innerAntworten);
 
-				
 				if(fragenList.size()>fragenZahl+1){
 					
 					fragenZahl++;
@@ -884,9 +871,8 @@ public class FBAnswer extends JFrame {
 					String fragenDescr = "";
 					int fragenID = 0;
 					ArrayList<String> antwortenList = new ArrayList<String>();
-					//System.out.println(fragenList);
+					
 					if(!fragenList.isEmpty()){
-						//System.out.println("Fragenlist nicht leer");
 						Frage currentFrage = fragenList.get(fragenZahl);
 						fragenID = currentFrage.getFragetyp();
 						fragenDescr = currentFrage.getFragebeschreibung();
@@ -912,7 +898,6 @@ public class FBAnswer extends JFrame {
 							CardLayout cl = (CardLayout)(currentQuestion.getLayout());
 						    cl.show(currentQuestion, "multiChoice");
 						    lblFrageMulti.setText(fragenDescr);
-						    //System.out.println("-><- " + antwortenList.size());
 						    
 						    if(antwortenList.size()==1){
 						    	
@@ -1097,7 +1082,6 @@ public class FBAnswer extends JFrame {
 		
 		scrollPane_2.setViewportView(lblFrageMulti);
 		lblFrageMulti.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		//lblFrageMulti.setVerticalAlignment(SwingConstants.TOP);
 		lblFrageMulti.setBorder(BorderFactory.createCompoundBorder(border,BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		multiPanel.setLayout(gl_multiPanel);
 		

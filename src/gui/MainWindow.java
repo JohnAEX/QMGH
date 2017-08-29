@@ -45,6 +45,7 @@ public class MainWindow {
 	private JPasswordField passwordField;
 	private String pfad;
 	private String dateiname = "QuestionMarkFile";
+	private int logintrys = 0;
 
 	/**
 	 * Launch the application.
@@ -92,10 +93,10 @@ public class MainWindow {
 		 */
 		
 		frmQuestionmark = new JFrame();
+		frmQuestionmark.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmQuestionmark.setResizable(false);
 		frmQuestionmark.setTitle("QuestionMark");
 		frmQuestionmark.setBounds(100, 100, 500, 300);
-		frmQuestionmark.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{478, 0};
 		gridBagLayout.rowHeights = new int[]{37, 0, 0};
@@ -130,7 +131,7 @@ public class MainWindow {
 		lblUserid.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		textField = new JTextField();
-		textField.setToolTipText("Eingabefeld Benutzername");
+		textField.setToolTipText("Eingabefeld Benutzerna.me");
 		textField.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		textField.setColumns(15);
 		
@@ -138,22 +139,24 @@ public class MainWindow {
 		lblPasswort.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		passwordField = new JPasswordField();
-		passwordField.setToolTipText("Eingabefeld Passwort");
+		passwordField.setToolTipText("Eingabefeld Passwort.");
 		passwordField.setColumns(15);
 		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		//Händischer Code
 		JButton btnHelp = new JButton("Help");
-		btnHelp.setToolTipText("Zum Aufrufen der HelpPage dr\u00FCcken");
+		btnHelp.setToolTipText("Zum Aufrufen der HelpPage dr\u00FCcken.");
 		btnHelp.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				//Display Help HTML page
 				try {
-					File helpPage = new File("src/help/helpPage.html");
+					File helpPage = new File(pfad + "/src/help/helpPage.html");
 					java.awt.Desktop.getDesktop().open(helpPage);;
 				} catch (Exception e) {
-					System.out.println("Die HelpPage konnte nicht gefunden werden");
+					JFrame framePop = new JFrame();
+					JOptionPane.showMessageDialog(framePop, "Die HelpPage konnte leider nicht geöffnet werden.","Error",JOptionPane.ERROR_MESSAGE);
+					
 				}
 				
 			}
@@ -186,7 +189,8 @@ public class MainWindow {
 						Menu.launchSolverMenu(currentUser, currentSys);
 						frmQuestionmark.setVisible(false);
 					}else{
-						lblTest.setText("Login fehlerhaft!");
+						lblTest.setText("Login fehlerhaft! Versuch " + (logintrys+1));
+						logintrys++;
 					}
 					
 				}else if(textField.getText().startsWith("c")){
@@ -196,12 +200,20 @@ public class MainWindow {
 						Menu.launchCreatorMenu(currentUser, currentSys);
 						frmQuestionmark.setVisible(false);
 					}else{
-						lblTest.setText("Login fehlerhaft!");
+						lblTest.setText("Login fehlerhaft! Versuch " + (logintrys+1));
+						logintrys++;
 					}
 					
 				}else{
 					//Error
-					lblTest.setText("Login fehlerhaft!");
+					lblTest.setText("Login fehlerhaft! Versuch " + (logintrys+1));
+					logintrys++;
+				}
+				
+				if(logintrys>=3){
+					JFrame framePop = new JFrame();
+					JOptionPane.showMessageDialog(framePop, "Sie haben 3 Fehlversuche ausgereizt.\nDas Programm beendet sich nun automatisch!","Error",JOptionPane.ERROR_MESSAGE);
+					System.exit(0);
 				}
 				
 			}
@@ -223,25 +235,23 @@ public class MainWindow {
 							.addGap(7)
 							.addComponent(btnHelp)
 							.addGap(12)
-							.addComponent(btnNewButton))
+							.addComponent(btnNewButton)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblTest, GroupLayout.PREFERRED_SIZE, 311, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panel_1.createSequentialGroup()
 							.addContainerGap()
 							.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
 								.addComponent(lblPasswort)
 								.addComponent(lblUserid))
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-								.addGroup(Alignment.TRAILING, gl_panel_1.createSequentialGroup()
+							.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
+								.addGroup(gl_panel_1.createSequentialGroup()
 									.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 									.addGap(131))
 								.addGroup(gl_panel_1.createSequentialGroup()
 									.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED, 131, Short.MAX_VALUE)))
+									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
 							.addGap(210)))
-					.addGap(398))
-				.addGroup(gl_panel_1.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblTest, GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		gl_panel_1.setVerticalGroup(
@@ -256,11 +266,11 @@ public class MainWindow {
 						.addComponent(lblPasswort))
 					.addGap(5)
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnHelp)
-						.addComponent(btnNewButton))
-					.addGap(3)
-					.addComponent(lblTest, GroupLayout.PREFERRED_SIZE, 94, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
+						.addComponent(lblTest, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING, false)
+							.addComponent(btnHelp, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+					.addGap(113))
 		);
 		panel_1.setLayout(gl_panel_1);
 		
