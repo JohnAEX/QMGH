@@ -46,12 +46,18 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 /**
  * @author Jonathan Grenda
  *
  */
 public class FBAnswer extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private static FragebogenWithAntwortmoeglichkeit currentFB;
 	static ArrayList<Frage> fragenList = new ArrayList<Frage>();
@@ -87,10 +93,20 @@ public class FBAnswer extends JFrame {
 	 * V
 	 */
 	public FBAnswer() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				String ObjButtons[] = {"Ja", "Nein"};
+				int PromptResult = JOptionPane.showOptionDialog(null, "Sind Sie sich sicher, dass Sie das Programm beenden wollen?\nEs findet keine Speicherung statt.\nUm zu speichern, schließen Sie das Programm über den Menü Punkt 'Programm beenden'!", "Warnung", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
+				if(PromptResult==JOptionPane.YES_OPTION){
+					System.exit(0);
+				}
+			}
+		});
 		setResizable(false);
 		Border border = BorderFactory.createLineBorder(Color.BLACK);
 		setTitle("QuestionMark");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 500, 500);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

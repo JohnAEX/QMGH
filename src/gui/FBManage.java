@@ -29,6 +29,8 @@ import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -47,6 +49,10 @@ import java.awt.event.ActionEvent;
  */
 public class FBManage extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	
 	/**
@@ -69,9 +75,19 @@ public class FBManage extends JFrame {
 	 * Create the frame.
 	 */
 	public FBManage() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				String ObjButtons[] = {"Ja", "Nein"};
+				int PromptResult = JOptionPane.showOptionDialog(null, "Sind Sie sich sicher, dass Sie das Programm beenden wollen?\nEs findet keine Speicherung statt.\nUm zu speichern, schließen Sie das Programm über den Menü Punkt 'Programm beenden'!", "Warnung", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
+				if(PromptResult==JOptionPane.YES_OPTION){
+					System.exit(0);
+				}
+			}
+		});
 		setResizable(false);
 		setTitle("QuestionMark");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 500, 500);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -211,7 +227,7 @@ public class FBManage extends JFrame {
 					
 				}else{
 					JFrame framePop = new JFrame();
-					JOptionPane.showMessageDialog(framePop, "Sie müssen einen Kurs auswählen!","Information",JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(framePop, "Sie müssen mindestens einen Kurs und einen Fragebogen auswählen!","Information",JOptionPane.INFORMATION_MESSAGE);
 				
 				}
 				

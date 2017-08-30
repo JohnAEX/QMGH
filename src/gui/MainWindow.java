@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.ToolTipManager;
 /**
  * @author Jonathan Grenda
  *
@@ -103,6 +104,8 @@ public class MainWindow {
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		frmQuestionmark.getContentPane().setLayout(gridBagLayout);
+		
+		ToolTipManager.sharedInstance().setInitialDelay(500);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));

@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.border.LineBorder;
@@ -19,6 +21,8 @@ import user.User;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -86,11 +90,21 @@ public class Menu extends JFrame {
 	 * Create the frame.
 	 */
 	public Menu() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				String ObjButtons[] = {"Ja", "Nein"};
+				int PromptResult = JOptionPane.showOptionDialog(null, "Sind Sie sich sicher, dass Sie das Programm beenden wollen?\nEs findet keine Speicherung statt.\nUm zu speichern, schließen Sie das Programm über den Menü Punkt 'Programm beenden'!", "Warnung", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
+				if(PromptResult==JOptionPane.YES_OPTION){
+					System.exit(0);
+				}
+			}
+		});
 		pfad = new File("").getAbsolutePath();
 		setVisible(true);
 		setResizable(false);
 		setTitle("QuestionMark");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 500, 500);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
